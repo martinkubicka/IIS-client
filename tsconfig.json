@@ -5,6 +5,12 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@mui/material": ["./node_modules/@mui/joy"],
+      "@src/*": ["./src/*"],
+      "@root/*": ["./*"]
+    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -18,11 +24,8 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "paths": {
-      "@mui/material": ["./node_modules/@mui/joy"]
-    }
+    "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src/**/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
