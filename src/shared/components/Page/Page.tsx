@@ -1,6 +1,7 @@
 import { Stack } from "@mui/joy";
 import style from "./Page.module.css";
-import { Navbar } from "@src/shared/components/Navbar";
+import NavBar from "@src/shared/components/Navbar/NavBar";
+import Header from "@src/shared/components/Navbar/Header"
 interface PageProps {
   children?: React.ReactNode;
   backgroundColor?: string;
@@ -10,7 +11,6 @@ interface PageProps {
 export const Page = ({
   children,
   backgroundColor,
-  showNav = true,
 }: PageProps) => {
   return (
     <Stack
@@ -18,7 +18,8 @@ export const Page = ({
       className={style.page}
       direction={"row"}
     >
-      {showNav && <Navbar />}
+      <Header /> 
+      <NavBar />
       <div
         style={{
           backgroundColor: backgroundColor,

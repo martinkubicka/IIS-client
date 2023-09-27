@@ -114,7 +114,7 @@ const NavBar: React.FC = () => {
             </ListItem>
         </List>
         <Divider/>
-        <Link to="/me"> 
+        <Link to="/profile"> 
             <Avatar variant="outlined" size="sm" src="/static/images/avatar/3.jpg" 
             sx={{
                 marginTop: "16px",
