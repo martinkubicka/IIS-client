@@ -10,12 +10,11 @@ import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import Logo from "./Logo";
-import Link from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Box from '@mui/joy/Box';
-import closeSidebar from './Utils';
+import { closeSidebar } from './Utils';
 
-const NavBar: React.FC = () => {
-
+export const NavBar: React.FC = () => {
     return (
         <React.Fragment>
         <Box
