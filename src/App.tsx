@@ -1,7 +1,12 @@
-import { Page } from "@src/shared/components/Page/Page";
+import { BrowserRouter } from "react-router-dom";
+import { Routes } from "@src/routes";
 
 function App() {
-  return <Page></Page>;
+  return (
+    <BrowserRouter>
+      <Routes />
+    </BrowserRouter>
+  );
 }
 
 export default App;
