@@ -1,6 +1,6 @@
 import GlobalStyles from "@mui/joy/GlobalStyles";
 import Sheet from "@mui/joy/Sheet";
-import IconButton from "@mui/joy/IconButton";
+import { IconButton } from "@mui/joy/";
 import MenuIcon from "@mui/icons-material/Menu";
 import { toggleSidebar } from "./Utils";
 

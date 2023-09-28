@@ -1,9 +1,7 @@
 import React from 'react';
 import Avatar from '@mui/joy/Avatar';
 import Divider from '@mui/joy/Divider';
-import List from '@mui/joy/List';
-import ListItem from '@mui/joy/ListItem';
-import ListItemButton from '@mui/joy/ListItemButton';
+import { List, ListItem, ListItemButton} from '@mui/joy';
 import Sheet from '@mui/joy/Sheet';
 import GlobalStyles from "@mui/joy/GlobalStyles";
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
