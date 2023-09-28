@@ -1,7 +1,8 @@
 import { Stack } from "@mui/joy";
 import style from "./Page.module.css";
 import NavBar from "@src/shared/components/NavBar/NavBar";
-import Header from "@src/shared/components/Navbar/Header"
+import Header from "@src/shared/components/NavBar/Header"
+
 interface PageProps {
   children?: React.ReactNode;
   backgroundColor?: string;

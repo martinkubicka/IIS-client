@@ -1,4 +1,4 @@
-import { Dashboard, Search, Profile } from "@src/views";
+import { Dashboard, Search, Profile, Group, NotFound } from "@src/views";
 import { useRoutes } from "react-router-dom";
 
 export const Routes = () => {
@@ -6,6 +6,8 @@ export const Routes = () => {
     { path: "/", element: <Dashboard /> },
     { path: "/search", element: <Search /> },
     { path: "/me", element: <Profile /> },
+    { path: "/group/:handle", element: <Group /> },
+    { path: "/notfound", element: <NotFound /> },
   ]);
 
   return element;
