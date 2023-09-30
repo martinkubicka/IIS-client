@@ -16,7 +16,16 @@ export const groupService = {
     }
   },
 
-  async updateGroup(data: GroupModel) {
+  async getGroupPolicy(handle?: string) {
+    try {
+      const response = await instance.get(`/Group/policy/${handle}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async updateGroup(data?: GroupModel) {
     try {
       const response = await instance.put(`/Group/update`, data);
       return response.data;
@@ -25,9 +34,18 @@ export const groupService = {
     }
   },
 
-  async updateGroupPolicy(data: GroupModel) {
+  async deleteGroup(handle?: string) {
     try {
-      const response = await instance.put(`/Group/updatePolicy`, data);
+      const response = await instance.delete(`/Group/remove/${handle}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async updateGroupPolicy(data?: GroupModel) {
+    try {
+      const response = await instance.put(`/Group/updatePolicy?handle=${data?.handle}`, data);
       return response.data;
     } catch (error) {
       throw error;

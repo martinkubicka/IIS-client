@@ -16,13 +16,28 @@ export const Group = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        groupService.getGroup(handle)
-        .then((data: GroupModel) => {
-            setGroupData(data);
-        })
-        .catch(() => {
-            navigate('/notfound');
-        });
+        const fetchData = async () => {
+            try {
+                const groupDataResponse = await groupService.getGroup(handle);
+                setGroupData(groupDataResponse);
+    
+                const groupPolicyData = await groupService.getGroupPolicy(handle);
+    
+                if (groupDataResponse) {
+                    const updatedGroupData = {
+                        ...groupDataResponse,
+                        visibilityGuest: groupPolicyData.visibilityGuest,
+                        visibilityMember: groupPolicyData.visibilityMember,
+                    };
+    
+                    setGroupData(updatedGroupData);
+                }
+            } catch (error) {
+                navigate('/notfound');
+            }
+        };
+    
+        fetchData();
     }, []);
 
     return (
@@ -34,7 +49,7 @@ export const Group = () => {
                         marginTop: "16px",
                         marginBottom: "16px"
                     }}/>
-                    <PageHeader text={handle} />
+                    <PageHeader text={groupData?.name} />
                 </div>
 
                 <Typography className="groupDescription" variant="subtitle1" color="textSecondary">

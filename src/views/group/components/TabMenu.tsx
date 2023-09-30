@@ -8,7 +8,7 @@ import { GroupModel } from '@src/shared/models/GroupModel';
 
 interface TabMenuProps {
     groupData?: GroupModel;
-  }
+}
 
 export const TabMenu: React.FC<TabMenuProps> = ({ groupData })=> {
     return (
@@ -26,7 +26,7 @@ export const TabMenu: React.FC<TabMenuProps> = ({ groupData })=> {
             <b>TODO USER COMPONENT</b>
         </TabPanel>
         <TabPanel value={2}>
-            <GroupSettings />
+            <GroupSettings groupData={groupData} />
         </TabPanel>
 
         </Tabs>
