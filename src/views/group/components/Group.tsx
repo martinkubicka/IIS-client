@@ -5,10 +5,11 @@ import { TabMenu } from "./TabMenu";
 import { useEffect, useState } from 'react';
 import { groupService } from '@src/services/groupService';
 import { GroupModel } from '@src/shared/models/GroupModel';
-import { Typography } from '@mui/material'; 
+import { Typography } from '@mui/joy'; 
 import Avatar from '@mui/joy/Avatar';
 import './Group.css';
 import { StyledEngineProvider } from '@mui/material/styles';
+import { Icon } from "@src/shared/components/Icon/Icon";
 
 export const Group = () => {
     const { handle } = useParams<{ handle: string}>();
@@ -44,11 +45,9 @@ export const Group = () => {
         <Page>
             <StyledEngineProvider injectFirst>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <Avatar variant="outlined" size="sm" src="/static/images/avatar/3.jpg" 
-                    sx={{
-                        marginTop: "16px",
-                        marginBottom: "16px"
-                    }}/>
+                <Avatar>
+                    <Icon iconName={groupData?.icon ? groupData?.icon : "doughnut"} />
+                </Avatar>
                     <PageHeader text={groupData?.name} />
                 </div>
 

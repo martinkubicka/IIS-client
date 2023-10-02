@@ -5,6 +5,10 @@ import { FormControl, FormHelperText, Box, Checkbox, Button, Input, Textarea } f
 import Dialog from "../../../shared/components/Dialog/Dialog";
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
+import { Avatar } from "@mui/joy";
+import { ClickAwayListener, Popper } from "@mui/material";
+import { Icon } from "@src/shared/components/Icon/Icon";
+import { IconPicker } from "@src/shared/components/IconPicker/IconPicker";
 
 interface GroupSettingsProps {
   groupData?: GroupModel;
@@ -13,7 +17,7 @@ interface GroupSettingsProps {
 export const GroupSettings: React.FC<GroupSettingsProps> = ({ groupData }) => {
   const [name, setName] = useState(groupData?.name);
   const [description, setDescription] = useState(groupData?.description);
-  const [icon, setIcon] = useState(groupData?.icon);
+  const [icon, setIconName] = useState(groupData?.icon);
   const [privacyMember, setPrivacyMember] = useState(groupData?.visibilityMember);
   const [privacyGuest, setPrivacyGuest] = useState(groupData?.visibilityGuest);
   const [valuesChanged, setValuesChanged] = useState<boolean>(true);
@@ -22,6 +26,21 @@ export const GroupSettings: React.FC<GroupSettingsProps> = ({ groupData }) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+  const [open, setOpen] = React.useState(false);
+  const ref = React.useRef(null);
+
+  const handleIconSelect = (code: string) => {
+    setOpen(false);
+    setIconName(code);
+  };
+
+  const handleClick = () => {
+    setOpen((prev) => !prev);
+  };
+
+  const handleClickAway = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     handleFieldChange();
@@ -131,7 +150,16 @@ export const GroupSettings: React.FC<GroupSettingsProps> = ({ groupData }) => {
     return (
         <React.Fragment>
             <h3>Icon</h3>
-            <p>Icon component</p>
+            <Avatar ref={ref} onClick={handleClick}>
+                <Icon iconName={icon ? icon : "doughnut"} />
+            </Avatar>
+            <Popper anchorEl={ref.current} placement="left-start" open={open}>
+                <ClickAwayListener onClickAway={handleClickAway}>
+                <Box width={"300px"} height={"300px"}>
+                    <IconPicker onSelect={handleIconSelect} />
+                </Box>
+                </ClickAwayListener>
+            </Popper>
 
             <h3>Name</h3>
             <FormControl error={!validName}>

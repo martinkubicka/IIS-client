@@ -18,7 +18,6 @@ import { useState } from "react";
 import { threadService } from "@src/services/threadService";
 import { enqueueSnackbar } from "notistack";
 import AddEditThread from "@src/views/group/components/AddEditThread";
-import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 
 interface ThreadProps {
   thread?: ThreadModel;
