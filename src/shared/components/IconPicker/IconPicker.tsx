@@ -4,6 +4,7 @@ import { SearchOffRounded, SearchRounded } from "@mui/icons-material";
 import { IconWrapper } from "./IconWrapper";
 import { allEmojis, emojisMap } from "@src/assets/emojis";
 import React from "react";
+import { iconPickerStyle } from "./style";
 
 interface IconPickerProps {
   /* Allow searching icons inside iconPicker */
@@ -27,9 +28,15 @@ export const IconPicker = ({
   };
 
   return (
-    <Stack height={"100%"} width={"100%"} direction={"column"}>
+    <Stack
+      sx={iconPickerStyle}
+      height={"100%"}
+      width={"100%"}
+      direction={"column"}
+    >
       {showSearch && (
         <Input
+          autoFocus
           placeholder="Search for an emoji"
           onChange={(event) => handleSearch(event.target.value)}
           startDecorator={<SearchRounded />}
