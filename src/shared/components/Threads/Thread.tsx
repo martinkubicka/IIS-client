@@ -121,7 +121,7 @@ const handleSubmitUpdate = async (formData: { name: string; description: string 
             </AspectRatio>
           </div>
           <CardContent>
-            <Link to={`/thread/${thread?.id}`} style={{ textDecoration: 'none'}} 
+            <Link to={`/thread/${thread?.id}`} style={{ textDecoration: 'none', textDecorationColor: 'black'}} 
               onMouseEnter={(e) => {
                 e.currentTarget.style.textDecoration = 'underline';
               }}

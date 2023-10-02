@@ -7,18 +7,40 @@ const instance = axios.create({
 });
 
 export const threadService = {
-  async getGroupThreads(handle?: string, currentPage?: number, itemsPerPage?: number) {
+  async getGroupThreads(handle?: string, currentPage?: number, itemsPerPage?: number, filterName?: string | null, filterFromDate?: string | null, filterToDate? : string | null) {
+    var params = `/Thread/GetThreads?handle=${handle}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`;
+    if (filterName && filterName !== '') {
+      params += `&filterName=${filterName}`;
+    }
+    if (filterFromDate) {
+      params += `&filterFromDate=${filterFromDate}`;
+    }
+    if (filterToDate) {
+      params += `&filterToDate=${filterToDate}`;
+    }
+
     try {
-      const response = await instance.get(`/Thread/GetThreads?handle=${handle}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`);
+      const response = await instance.get(params);
       return response.data;
     } catch (error) {
       throw error;
     }
   },
 
-  async getGroupThreadsCount(handle?: string) {
+  async getGroupThreadsCount(handle?: string, filterName?: string | null, filterFromDate?: string | null, filterToDate? : string | null) {
+    var params = `/Thread/GetThreadsCount?handle=${handle}`;
+    if (filterName) {
+      params += `&filterName=${filterName}`;
+    }
+    if (filterFromDate) {
+      params += `&filterFromDate=${filterFromDate}`;
+    }
+    if (filterToDate) {
+      params += `&filterToDate=${filterToDate}`;
+    }
+
     try {
-      const response = await instance.get(`/Thread/GetThreadsCount?handle=${handle}`);
+      const response = await instance.get(params);
       return response.data;
     } catch (error) {
       throw error;

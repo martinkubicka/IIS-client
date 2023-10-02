@@ -8,6 +8,7 @@ import Add from '@mui/icons-material/Add';
 import { enqueueSnackbar } from "notistack";
 import AddEditThread from "./AddEditThread";
 import PaginationComponent from "@src/shared/components/Pagination/PaginationComponent";
+import ThreadFilter from "@src/shared/components/ThreadFilter/ThreadFilter";
 
 interface GroupThreadsProps {
     groupData?: GroupModel;
@@ -26,15 +27,14 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData }) => {
         setThreads(threadsResponse);
     };
 
-
     useEffect(() => {
         if (groupData?.handle) {
           const fetchData = async () => {
                 try {
-                    const threadsCount = await threadService.getGroupThreadsCount(groupData?.handle);
+                    const threadsCount = await threadService.getGroupThreadsCount(groupData?.handle, null, null, null);
                     setTotalPages(Math.floor(threadsCount / itemsPerPage) + 1);
 
-                    const threadsResponse = await threadService.getGroupThreads(groupData?.handle, currentPage, itemsPerPage);
+                    const threadsResponse = await threadService.getGroupThreads(groupData?.handle, currentPage, itemsPerPage, null, null, null);
                     setThreads(threadsResponse);
                 } catch {}
           };
@@ -87,6 +87,22 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData }) => {
 
         setOpenCreate(false);
     };
+
+    const [filters, setFilters] = useState({ name: '', fromDate: '', toDate: '' });
+
+    const handleFilterChange = async (newFilters : { name: string, fromDate: string, toDate: string,}) => {
+        setFilters(newFilters);
+
+        setCurrentPage(1);
+
+        const threadsCount = await threadService.getGroupThreadsCount(groupData?.handle, newFilters.name, newFilters.fromDate, newFilters.toDate);
+        setTotalPages(Math.floor(threadsCount / itemsPerPage) + 1);
+
+        const threadsResponse = await threadService.getGroupThreads(groupData?.handle, 1, itemsPerPage, newFilters.name, newFilters.fromDate, newFilters.toDate);
+        setThreads(threadsResponse);
+
+        console.log("here")
+    };
     
     return (
         <div>
@@ -101,6 +117,8 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData }) => {
                 New thread
             </Button>
             </div>
+
+            <ThreadFilter onFilterChange={handleFilterChange} />
 
             {threads === null ? (
             "Loading threads..."
@@ -121,7 +139,3 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData }) => {
             <AddEditThread open={openCreate} onClose={handleCloseCreate} onSubmit={handleSubmitCreate} createUpdateText="Create" header="Create new thread" thread={null}/>        </div>
     );
   };
-
-// todo thread
-    // pagination
-    // filtre
