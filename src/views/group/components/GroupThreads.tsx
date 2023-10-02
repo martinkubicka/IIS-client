@@ -7,6 +7,7 @@ import { Button } from '@mui/joy';
 import Add from '@mui/icons-material/Add';
 import { enqueueSnackbar } from "notistack";
 import AddEditThread from "./AddEditThread";
+import PaginationComponent from "@src/shared/components/Pagination/PaginationComponent";
 
 interface GroupThreadsProps {
     groupData?: GroupModel;
@@ -15,12 +16,27 @@ interface GroupThreadsProps {
 export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData }) => {
     const [threads, setThreads] = useState<ThreadModel[] | null>(null);
     const [openCreate, setOpenCreate] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+    const itemsPerPage = 5;
+
+    const handlePageChange = async (page: number) => {
+        setCurrentPage(page);
+        const threadsResponse = await threadService.getGroupThreads(groupData?.handle, page, itemsPerPage);
+        setThreads(threadsResponse);
+    };
+
 
     useEffect(() => {
         if (groupData?.handle) {
           const fetchData = async () => {
-              const threadsResponse = await threadService.getGroupThreads(groupData?.handle);
-              setThreads(threadsResponse);
+                try {
+                    const threadsCount = await threadService.getGroupThreadsCount(groupData?.handle);
+                    setTotalPages(Math.floor(threadsCount / itemsPerPage) + 1);
+
+                    const threadsResponse = await threadService.getGroupThreads(groupData?.handle, currentPage, itemsPerPage);
+                    setThreads(threadsResponse);
+                } catch {}
           };
     
           fetchData();
@@ -96,6 +112,12 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData }) => {
             ))
             )}
 
+            <PaginationComponent
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+                totalPages={totalPages}
+            />
+
             <AddEditThread open={openCreate} onClose={handleCloseCreate} onSubmit={handleSubmitCreate} createUpdateText="Create" header="Create new thread" thread={null}/>        </div>
     );
   };
@@ -103,4 +125,3 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData }) => {
 // todo thread
     // pagination
     // filtre
-//// todo add icon module (settings + group main) + navbar

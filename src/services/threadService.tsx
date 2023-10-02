@@ -7,9 +7,18 @@ const instance = axios.create({
 });
 
 export const threadService = {
-  async getGroupThreads(handle?: string) {
+  async getGroupThreads(handle?: string, currentPage?: number, itemsPerPage?: number) {
     try {
-      const response = await instance.get(`/Thread/GetThreads/${handle}`);
+      const response = await instance.get(`/Thread/GetThreads?handle=${handle}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async getGroupThreadsCount(handle?: string) {
+    try {
+      const response = await instance.get(`/Thread/GetThreadsCount?handle=${handle}`);
       return response.data;
     } catch (error) {
       throw error;
