@@ -10,6 +10,7 @@ import Logo from "./Logo";
 import { Link } from 'react-router-dom';
 import Box from '@mui/joy/Box';
 import { closeSidebar } from './Utils';
+import { Icon } from "@src/shared/components/Icon/Icon";
 
 export const NavBar: React.FC = () => {
     return (
@@ -110,12 +111,10 @@ export const NavBar: React.FC = () => {
             </ListItem>
         </List>
         <Divider/>
-        <Link to="/profile"> 
-            <Avatar variant="outlined" size="sm" src="/static/images/avatar/3.jpg" 
-            sx={{
-                marginTop: "16px",
-                marginBottom: "16px"
-            }}/>
+        <Link to="/profile" style={{textDecoration: 'none'}}> 
+            <Avatar>
+                <Icon iconName="doughnut" />
+            </Avatar>
         </Link>
         </Sheet>
         </React.Fragment>
