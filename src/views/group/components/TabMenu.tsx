@@ -5,6 +5,8 @@ import TabPanel from '@mui/joy/TabPanel';
 import { Thread } from '@src/shared/components/Threads';
 import { GroupSettings } from './GroupSettings';
 import { GroupModel } from '@src/shared/models/GroupModel';
+import { GroupThreads } from './GroupThreads';
+import { GroupMembers } from './GroupMembers';
 
 interface TabMenuProps {
     groupData?: GroupModel;
@@ -20,10 +22,10 @@ export const TabMenu: React.FC<TabMenuProps> = ({ groupData })=> {
         </TabList>
         
         <TabPanel value={0}>
-            <Thread />
+            <GroupThreads groupData={groupData}/>
         </TabPanel>
         <TabPanel value={1}>
-            <b>TODO USER COMPONENT</b>
+            <GroupMembers groupData={groupData}/>
         </TabPanel>
         <TabPanel value={2}>
             <GroupSettings groupData={groupData} />

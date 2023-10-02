@@ -50,7 +50,7 @@ export const GroupSettings: React.FC<GroupSettingsProps> = ({ groupData }) => {
       window.location.reload();
     } catch (error) {
         enqueueSnackbar("Error occured while updating the group.", {
-            variant: 'success',
+            variant: 'error',
             anchorOrigin: {
             vertical: 'bottom',
             horizontal: 'center',
@@ -77,7 +77,7 @@ export const GroupSettings: React.FC<GroupSettingsProps> = ({ groupData }) => {
               navigate('/');
         } catch (error) {
             enqueueSnackbar("Error occured while deleting the group.", {
-                variant: 'success',
+                variant: 'error',
                 anchorOrigin: {
                 vertical: 'bottom',
                 horizontal: 'center',
@@ -172,19 +172,3 @@ export const GroupSettings: React.FC<GroupSettingsProps> = ({ groupData }) => {
         </React.Fragment>
     );
 };
-
-// todo thread
-    // todo add description to db (change aj inserts)
-    // thread component implementation (name, description, username+handle, date)
-    // add button + add page
-    // todo edit - name a description
-    // delete thread
-    // pagination
-    // filtre
-
-// todo mobile
-// todo add icon module (settings + group main)
-// todo add user component to tabs (asi ja members??)
-    // delete member from group
-    // change role in group
-// todo login page
