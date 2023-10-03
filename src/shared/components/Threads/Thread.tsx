@@ -96,7 +96,7 @@ const handleSubmitUpdate = async (formData: { name: string; description: string 
             fontFamily: 'Arial',
           }));
         
-          navigate(`/group/${thread?.handle}`);
+          window.location.reload();
     } catch (error) {
         enqueueSnackbar("Error occured while deleting the thread.", {
             variant: 'error',
