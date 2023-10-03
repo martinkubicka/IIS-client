@@ -10,9 +10,10 @@ import { GroupMembers } from './GroupMembers';
 
 interface TabMenuProps {
     groupData?: GroupModel;
+    onSettingsSaved: () => void;
 }
 
-export const TabMenu: React.FC<TabMenuProps> = ({ groupData })=> {
+export const TabMenu: React.FC<TabMenuProps> = ({ groupData, onSettingsSaved })=> {
     return (
         <Tabs orientation="horizontal" size="lg" defaultValue={0}>
         <TabList>
@@ -28,7 +29,7 @@ export const TabMenu: React.FC<TabMenuProps> = ({ groupData })=> {
             <GroupMembers groupData={groupData}/>
         </TabPanel>
         <TabPanel value={2}>
-            <GroupSettings groupData={groupData} />
+            <GroupSettings groupData={groupData} onSettingsSaved={onSettingsSaved}/>
         </TabPanel>
 
         </Tabs>

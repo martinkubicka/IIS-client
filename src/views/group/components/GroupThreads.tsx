@@ -27,6 +27,14 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData }) => {
         setThreads(threadsResponse);
     };
 
+    const onDelete = async () => {
+        const threadsCount = await threadService.getGroupThreadsCount(groupData?.handle, null, null, null);
+        setTotalPages(Math.floor(threadsCount / itemsPerPage) + 1);
+
+        const threadsResponse = await threadService.getGroupThreads(groupData?.handle, currentPage, itemsPerPage, null, null, null);
+        setThreads(threadsResponse);
+    };
+
     useEffect(() => {
         if (groupData?.handle) {
           const fetchData = async () => {
@@ -60,18 +68,34 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData }) => {
           };
 
         try {
-            await threadService.createThread(newThread);
+            enqueueSnackbar("Loading..", {
+                variant: 'info',
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                autoHideDuration: 2000,
+                style: {
+                    fontFamily: 'Arial',
+                },
+            });
 
-            localStorage.setItem('snackbarData', JSON.stringify({
-            message: "Thread created successfully.",
-            variant: 'success',
-            duration: 2000,
-            fontFamily: 'Arial',
-            }));
+            await threadService.createThread(newThread);
+            await onDelete();
+
+            enqueueSnackbar("Thread created successfully.", {
+                variant: 'success',
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                autoHideDuration: 2000,
+                style: {
+                    fontFamily: 'Arial',
+                },
+            });
     
-            window.location.reload();
         } catch (error) {
-            console.log(error);
             enqueueSnackbar("Error occured while adding the thread.", {
                 variant: 'error',
                 anchorOrigin: {
@@ -126,7 +150,7 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData }) => {
             "No threads found"
             ) : (
             threads.map((thread) => (
-                <Thread thread={thread} />
+                <Thread thread={thread} onDelete={onDelete}/>
             ))
             )}
 

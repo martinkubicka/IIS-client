@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Button, Divider, DialogTitle, DialogContent, DialogActions, Modal, ModalDialog} from '@mui/joy';
+import {Button, Divider, DialogTitle, DialogContent, DialogActions, Modal, ModalDialog, Input, FormHelperText} from '@mui/joy';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 
 interface DialogProps {
@@ -8,6 +8,7 @@ interface DialogProps {
   title: string;
   content: string;
   onConfirm: () => void;
+  textConfirm?: string;
 }
 
 const Dialog: React.FC<DialogProps> = ({
@@ -16,7 +17,12 @@ const Dialog: React.FC<DialogProps> = ({
   title,
   content,
   onConfirm,
+  textConfirm = ''
 }) => {
+
+  
+
+  const [confirmValue, setConfirmValue] = React.useState('');
   return (
     <Modal open={open} onClose={onClose}>
       <ModalDialog variant="outlined" role="alertdialog">
@@ -26,8 +32,9 @@ const Dialog: React.FC<DialogProps> = ({
         </DialogTitle>
         <Divider />
         <DialogContent>{content}</DialogContent>
+        {textConfirm && <><Input onChange={(event) => setConfirmValue(event.target.value)} value={confirmValue}/><FormHelperText>Insert group name to confirm deletion</FormHelperText></>}
         <DialogActions>
-          <Button variant="solid" color="danger" onClick={onConfirm}>
+          <Button disabled={textConfirm != '' && confirmValue !== textConfirm} variant="solid" color="danger" onClick={onConfirm}>
             Confirm
           </Button>
           <Button variant="plain" color="neutral" onClick={onClose}>

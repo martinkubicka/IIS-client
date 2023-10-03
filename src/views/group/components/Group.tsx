@@ -16,6 +16,18 @@ export const Group = () => {
     const [groupData, setGroupData] = useState<GroupModel | null>(null);
     const navigate = useNavigate();
 
+    const onSettingsSaved = async () => {
+        const groupDataResponse = await groupService.getGroup(handle);
+        const groupPolicyData = await groupService.getGroupPolicy(handle);
+        const updatedGroupData = {
+            ...groupDataResponse,
+            visibilityGuest: groupPolicyData.visibilityGuest,
+            visibilityMember: groupPolicyData.visibilityMember,
+        };
+
+        setGroupData(updatedGroupData);
+    }
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -54,7 +66,7 @@ export const Group = () => {
                 <Typography className="groupDescription" variant="subtitle1" color="textSecondary">
                     {groupData?.description}
                 </Typography>
-                <TabMenu groupData={groupData}/>
+                <TabMenu groupData={groupData} onSettingsSaved={onSettingsSaved}/>
             </StyledEngineProvider>
         </Page>
     );

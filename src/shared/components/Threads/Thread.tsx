@@ -21,9 +21,10 @@ import AddEditThread from "@src/views/group/components/AddEditThread";
 
 interface ThreadProps {
   thread?: ThreadModel;
+  onDelete: () => void;
 }
 
-export const Thread: React.FC<ThreadProps> = ({ thread }) => {
+export const Thread: React.FC<ThreadProps> = ({ thread, onDelete }) => {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [openUpdate, setOpenUpdate] = useState(false);
@@ -58,16 +59,32 @@ const handleSubmitUpdate = async (formData: { name: string; description: string 
       };
 
     try {
+        enqueueSnackbar("Loading..", {
+            variant: 'info',
+            anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'center',
+            },
+            autoHideDuration: 2000,
+            style: {
+                fontFamily: 'Arial',
+            },
+        });
+
         await threadService.updateThread(thread?.id, newThread);
-
-        localStorage.setItem('snackbarData', JSON.stringify({
-        message: "Thread updated successfully.",
-        variant: 'success',
-        duration: 2000,
-        fontFamily: 'Arial',
-        }));
-
-        window.location.reload();
+        await onDelete();
+        
+        enqueueSnackbar("Thread updated successfully.", {
+          variant: 'success',
+          anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'center',
+          },
+          autoHideDuration: 2000,
+          style: {
+              fontFamily: 'Arial',
+          },
+      });
     } catch (error) {
         enqueueSnackbar("Error occured while updating the thread.", {
             variant: 'error',
@@ -87,16 +104,32 @@ const handleSubmitUpdate = async (formData: { name: string; description: string 
 
   const deleteThread = async () => {
     try {
+          enqueueSnackbar("Loading..", {
+            variant: 'info',
+            anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'center',
+            },
+            autoHideDuration: 2000,
+            style: {
+                fontFamily: 'Arial',
+            },
+        });
+
         await threadService.deleteThread(thread?.id);
+        await onDelete();
         
-        localStorage.setItem('snackbarData', JSON.stringify({
-            message: "Thread deleted successfully.",
-            variant: 'success',
-            duration: 2000,
-            fontFamily: 'Arial',
-          }));
-        
-          window.location.reload();
+        enqueueSnackbar("Thread deleted successfully.", {
+          variant: 'success',
+          anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'center',
+          },
+          autoHideDuration: 2000,
+          style: {
+              fontFamily: 'Arial',
+          },
+      });
     } catch (error) {
         enqueueSnackbar("Error occured while deleting the thread.", {
             variant: 'error',

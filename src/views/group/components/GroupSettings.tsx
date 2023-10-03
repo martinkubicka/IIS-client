@@ -12,9 +12,10 @@ import { IconPicker } from "@src/shared/components/IconPicker/IconPicker";
 
 interface GroupSettingsProps {
   groupData?: GroupModel;
+  onSettingsSaved: () => void;
 }
 
-export const GroupSettings: React.FC<GroupSettingsProps> = ({ groupData }) => {
+export const GroupSettings: React.FC<GroupSettingsProps> = ({ groupData, onSettingsSaved }) => {
   const [name, setName] = useState(groupData?.name);
   const [description, setDescription] = useState(groupData?.description);
   const [icon, setIconName] = useState(groupData?.icon);
@@ -56,17 +57,33 @@ export const GroupSettings: React.FC<GroupSettingsProps> = ({ groupData }) => {
     }
 
     try {
+        enqueueSnackbar("Loading..", {
+            variant: 'info',
+            anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'center',
+            },
+            autoHideDuration: 2000,
+            style: {
+                fontFamily: 'Arial',
+            },
+        });
+
       await groupService.updateGroup(groupData);
       await groupService.updateGroupPolicy(groupData);
+      await onSettingsSaved();
 
-      localStorage.setItem('snackbarData', JSON.stringify({
-        message: "Group updated successfully.",
+      enqueueSnackbar("Group settings updated successfully.", {
         variant: 'success',
-        duration: 2000,
-        fontFamily: 'Arial',
-      }));
-
-      window.location.reload();
+        anchorOrigin: {
+        vertical: 'bottom',
+        horizontal: 'center',
+        },
+        autoHideDuration: 2000,
+        style: {
+            fontFamily: 'Arial',
+        },
+    });
     } catch (error) {
         enqueueSnackbar("Error occured while updating the group.", {
             variant: 'error',
@@ -196,6 +213,7 @@ export const GroupSettings: React.FC<GroupSettingsProps> = ({ groupData }) => {
                 title="Confirmation"
                 content="Are you sure you want to delete this group?"
                 onConfirm={handleConfirm}
+                textConfirm={groupData?.name}
             />
         </React.Fragment>
     );
