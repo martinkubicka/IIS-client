@@ -1,7 +1,6 @@
-import { Button, Grid, Input, Stack, Tooltip } from "@mui/joy";
-import { Box } from "@mui/material";
-import { SearchOffRounded, SearchRounded } from "@mui/icons-material";
-import { IconWrapper } from "./IconWrapper";
+import { Button, CircularProgress, Grid, Input, Stack } from "@mui/joy";
+
+import { SearchRounded } from "@mui/icons-material";
 import { allEmojis, emojisMap } from "@src/assets/emojis";
 import React from "react";
 import { iconPickerStyle } from "./style";
@@ -17,7 +16,13 @@ export const IconPicker = ({
   showSearch = true,
   onSelect,
 }: IconPickerProps) => {
-  const [currentEmojis, setCurrentEmojis] = React.useState(allEmojis);
+  const [currentEmojis, setCurrentEmojis] = React.useState<string[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    setCurrentEmojis(allEmojis);
+    setLoading(false);
+  }, []);
 
   const handleSearch = (value: string) => {
     if (value == "") {
@@ -33,24 +38,30 @@ export const IconPicker = ({
       height={"100%"}
       width={"100%"}
       direction={"column"}
+      alignItems={"center"}
     >
       {showSearch && (
         <Input
           autoFocus
+          fullWidth
           placeholder="Search for an emoji"
           onChange={(event) => handleSearch(event.target.value)}
           startDecorator={<SearchRounded />}
         />
       )}
-      <Grid overflow={"scroll"} height={"100%"} width={"100%"} container>
-        <Grid xs={12}>
-          {currentEmojis.map((code: string) => (
-            <Button onClick={() => onSelect(code)} variant="plain" key={code}>
-              {emojisMap.get(code)}
-            </Button>
-          ))}
+      {loading ? (
+        <CircularProgress variant="plain" />
+      ) : (
+        <Grid overflow={"scroll"} height={"100%"} width={"100%"} container>
+          <Grid xs={12}>
+            {currentEmojis.map((code: string) => (
+              <Button onClick={() => onSelect(code)} variant="plain" key={code}>
+                {emojisMap.get(code)}
+              </Button>
+            ))}
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </Stack>
   );
 };
