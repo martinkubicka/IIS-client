@@ -7,12 +7,63 @@ import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import Logo from "./Logo";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Box from '@mui/joy/Box';
 import { closeSidebar } from './Utils';
 import { Icon } from "@src/shared/components/Icon/Icon";
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { enqueueSnackbar } from 'notistack';
+import { loginService } from '@src/services/loginService';
 
 export const NavBar: React.FC = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+            enqueueSnackbar("Loading..", {
+                variant: 'info',
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                autoHideDuration: 2000,
+                style: {
+                    fontFamily: 'Arial',
+                },
+            });
+    
+            await loginService.logout();
+            document.cookie = `jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+            window.userRole = null;
+        
+            localStorage.setItem('snackbarData', JSON.stringify({
+                message: "Logout successfull.",
+                variant: 'success',
+                duration: 2000,
+                fontFamily: 'Arial',
+              }));
+              
+              if (window.location.pathname === '/') {
+                window.location.reload();
+              } else {
+                navigate("/");
+              }
+        } catch (error) {
+            enqueueSnackbar("Logout unsuccessful.", {
+                variant: 'error',
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                autoHideDuration: 2000,
+                style: {
+                    fontFamily: 'Arial',
+                },
+            });
+        }   
+    }
+
     return (
         <React.Fragment>
         <Box
@@ -111,11 +162,21 @@ export const NavBar: React.FC = () => {
             </ListItem>
         </List>
         <Divider/>
-        <Link to="/profile" style={{textDecoration: 'none'}}> 
-            <Avatar>
-                <Icon iconName="doughnut" />
-            </Avatar>
-        </Link>
+        { window.userRole == null ? 
+            <Link to="/login" style={{textDecoration: 'none'}}> 
+                <LoginIcon />
+            </Link>
+            :
+            <div>
+            <Link to="/profile" style={{textDecoration: 'none'}}> 
+                <Avatar sx={{marginBottom: "20px"}}>
+                    <Icon iconName="doughnut" />
+                </Avatar>
+            </Link>
+            <span onClick={handleLogout} style={{ cursor: 'pointer', paddingLeft: "10px"}}>
+                <LogoutIcon />
+            </span>
+            </div>}
         </Sheet>
         </React.Fragment>
     );
