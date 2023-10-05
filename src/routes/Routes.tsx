@@ -5,7 +5,7 @@ export const Routes = () => {
   const element = useRoutes([
     { path: "/", element: <Dashboard /> },
     { path: "/search", element: <Search /> },
-    { path: "/me", element: <Profile /> },
+    { path: "/profile", element: <Profile /> },
     { path: "/group/:handle", element: <Group /> },
     { path: "/notfound", element: <NotFound /> },
     { path: "/login", element: <Login/> },
