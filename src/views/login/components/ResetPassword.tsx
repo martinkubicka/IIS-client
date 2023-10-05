@@ -17,6 +17,7 @@ import { loginService } from '@src/services/loginService';
 import { enqueueSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 import { NewPasswordModel } from "@src/shared/models/NewPasswordModel";
+import style from "@src/shared/components/PageHeader/PageHeader.module.css";
 
 const materialTheme = materialExtendTheme();
 
@@ -113,7 +114,7 @@ export const ResetPassword = () => {
                 >
             <div
                 style={{
-                width: '50%',   
+                width: '25%',   
                 }}
             >
 
@@ -121,29 +122,31 @@ export const ResetPassword = () => {
         <MaterialCssVarsProvider theme={{ [MATERIAL_THEME_ID]: materialTheme }}>
             <JoyCssVarsProvider>
            
-            <h2>Reset password</h2>
-            <h4>New password</h4>
+            <h2 className={style.PageHeaderNoPadding}>Reset password</h2>
+            <h4 className={style.PageHeaderNoPadding}>New password</h4>
+           
+        <FormControl>
            <Input
-          error={!validForm}
-          type={showPassword ? 'text' : 'password'}
-          value={password}
-          onChange={(e) => {
-            handlePasswordChange(e.target.value);
-          }}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="Toggle password visibility"
-                onClick={handlePasswordVisibilityToggle}
-                edge="end"
-              >
-                {showPassword ? <Visibility /> : <VisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          }
-        />
+            type={showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={(e) => {
+                handlePasswordChange(e.target.value);
+            }}
+            endAdornment={
+                <InputAdornment position="end">
+                <IconButton
+                    aria-label="Toggle password visibility"
+                    onClick={handlePasswordVisibilityToggle}
+                    edge="end"
+                >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+                </InputAdornment>
+            }
+            />
+        </FormControl>
 
-            <h4>Confirm password</h4>
+            <h4 className={style.PageHeaderNoPadding}>Confirm password</h4>
       <FormControl error={!validForm}>
         <Input
           error={!validForm}

@@ -1,4 +1,4 @@
-import { Dashboard, Search, Profile, Group, NotFound, Login, Register, ResetPassword } from "@src/views";
+import { Dashboard, Search, Profile, Group, NotFound, Login, ResetPassword } from "@src/views";
 import { useRoutes } from "react-router-dom";
 
 export const Routes = () => {
