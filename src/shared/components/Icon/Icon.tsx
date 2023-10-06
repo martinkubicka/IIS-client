@@ -11,7 +11,7 @@ export const Icon = ({ iconName, size = 18 }: IconProps) => {
     <Typography fontSize={size}>
       {!iconName || iconName === ""
         ? nameMap.get(iconName)
-        : nameMap.get("doughnut")}
+        : nameMap.get("rocket")}
     </Typography>
   );
 };
