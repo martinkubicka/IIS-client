@@ -15,6 +15,32 @@ export const groupService = {
       throw error;
     }
   },
+
+  async joinGroup(handle?: string, userEmail?: string) {
+    const memberData = {
+      handle: handle,
+      email: userEmail,
+      role: 1,
+    };
+    try {
+      const response = await instance.post("/Member/add", memberData);
+      console.log(response.data);
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async leaveGroup(handle?: string, userEmail?: string) {
+    try {
+      const response = await instance.delete(
+        `/Member/delete?email=${userEmail}&handle=${handle}`
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   async getGroup(handle?: string) {
     try {
       const response = await instance.get(`/Group/${handle}`);
