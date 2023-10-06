@@ -12,15 +12,14 @@ export const Dashboard = () => {
   const [userGroups, setUserGroups] = useState<GroupModel[]>([]);
   const [recommendedGroups, setRecommendedGroups] = useState<GroupModel[]>([]);
   const [threads, setThreads] = useState<ThreadModel[] | null>(null);
+  // todo: Replace 'userEmail' with the actual user's email address
+  const userEmail = "user1@example.com";
 
   const onDelete = async () => {
     setThreads(null);
   };
 
   useEffect(() => {
-    // todo: Replace 'userEmail' with the actual user's email address
-    const userEmail = "user1@example.com";
-
     const fetchUserGroupsAndThreads = async () => {
       try {
         // Fetch user's joined groups
@@ -57,6 +56,7 @@ export const Dashboard = () => {
         {userGroups.map((group, index) => (
           <GroupComponent
             key={index}
+            UserEmail={userEmail}
             handle={group.handle}
             title={group.name ?? ""}
             description={group.description ?? ""}
@@ -77,6 +77,7 @@ export const Dashboard = () => {
         {recommendedGroups.map((group, index) => (
           <GroupComponent
             key={index}
+            UserEmail={userEmail}
             handle={group.handle}
             title={group.name ?? ""}
             description={group.description ?? ""}

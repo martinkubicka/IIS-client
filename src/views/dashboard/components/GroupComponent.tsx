@@ -11,9 +11,11 @@ import {
 } from "@mui/joy";
 import { Icon } from "@src/shared/components/Icon/Icon";
 import { Link } from "react-router-dom";
+import { groupService } from "@src/services/groupService";
 
 interface CardProps {
   handle: string;
+  UserEmail: string;
   imageSrc: string;
   avatarSrcList: string[];
   title: string;
@@ -24,6 +26,7 @@ interface CardProps {
 
 const GroupComponent: React.FC<CardProps> = ({
   handle,
+  UserEmail,
   imageSrc,
   avatarSrcList,
   title,
@@ -31,6 +34,20 @@ const GroupComponent: React.FC<CardProps> = ({
   buttonText,
   showButtonJoin,
 }) => {
+  const handleClick = () => {
+    if (buttonText === "Join") {
+      //todo should I add async?
+      console.log("Joining group");
+      console.log(handle);
+      console.log(UserEmail);
+      groupService.joinGroup(handle, UserEmail);
+    } else {
+      console.log("Leaving group");
+      console.log(handle);
+      console.log(UserEmail);
+      groupService.leaveGroup(handle, UserEmail);
+    }
+  };
   return (
     <Card variant="outlined" sx={{ width: 280 }}>
       <Box
@@ -60,11 +77,9 @@ const GroupComponent: React.FC<CardProps> = ({
             View
           </Button>
         </Link>
-        {showButtonJoin && ( // Conditionally render the Button
-          <Button variant="solid" color="primary">
-            {buttonText}
-          </Button>
-        )}
+        <Button onClick={handleClick} variant="solid" color="primary">
+          {buttonText}
+        </Button>
       </CardActions>
     </Card>
   );
