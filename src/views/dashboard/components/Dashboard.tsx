@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Page } from "@src/shared/components/Page";
 import GroupComponent from "./GroupComponent";
-import { Divider, Typography } from "@mui/joy";
+import { Divider, Typography, Button } from "@mui/joy"; // Import Button from @mui/joy
+import Add from "@mui/icons-material/Add";
 import { groupService } from "@src/services/groupService";
 import { GroupModel } from "@src/shared/models/GroupModel";
 import { Thread } from "@src/shared/components/Threads";
@@ -47,11 +48,30 @@ export const Dashboard = () => {
     fetchUserGroupsAndThreads();
   }, []);
 
+  const handleNewGroupButtonClick = () => {};
+
   return (
     <Page>
-      <Typography level="h1" fontSize="x2" sx={{ mb: 0.5 }}>
-        My Groups
-      </Typography>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Typography level="h1" fontSize="x2" sx={{ mb: 0.5 }}>
+          My Groups
+        </Typography>
+        <Button
+          variant="outlined"
+          color="neutral"
+          startDecorator={<Add />}
+          sx={{ marginBottom: "20px" }}
+          onClick={handleNewGroupButtonClick}
+        >
+          New Group
+        </Button>
+      </div>
       <div style={{ display: "flex", gap: "16px" }}>
         {userGroups.map((group, index) => (
           <GroupComponent
@@ -62,7 +82,7 @@ export const Dashboard = () => {
             description={group.description ?? ""}
             buttonText="Leave"
             showButtonJoin={true}
-            imageSrc={group?.icon ?? ""}
+            imageSrc={""}
             avatarSrcList={[]}
           />
         ))}
