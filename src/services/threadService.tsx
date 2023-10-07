@@ -1,15 +1,22 @@
-import axios from 'axios';
-import API_BASE_URL from '@src/apiConfig';
-import { ThreadModel } from '@src/shared/models/ThreadModel';
+import axios from "axios";
+import API_BASE_URL from "@src/apiConfig";
+import { ThreadModel } from "@src/shared/models/ThreadModel";
 
 const instance = axios.create({
   baseURL: API_BASE_URL,
 });
 
 export const threadService = {
-  async getGroupThreads(handle?: string, currentPage?: number, itemsPerPage?: number, filterName?: string | null, filterFromDate?: string | null, filterToDate? : string | null) {
+  async getGroupThreads(
+    handle?: string,
+    currentPage?: number,
+    itemsPerPage?: number,
+    filterName?: string | null,
+    filterFromDate?: string | null,
+    filterToDate?: string | null
+  ) {
     var params = `/Thread/GetThreads?handle=${handle}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`;
-    if (filterName && filterName !== '') {
+    if (filterName && filterName !== "") {
       params += `&filterName=${filterName}`;
     }
     if (filterFromDate) {
@@ -27,7 +34,24 @@ export const threadService = {
     }
   },
 
-  async getGroupThreadsCount(handle?: string, filterName?: string | null, filterFromDate?: string | null, filterToDate? : string | null) {
+  async getAllThreadsUserIsIn(handle?: string) {
+    console.log(handle);
+    try {
+      const response = await instance.get(
+        `/Thread/GetAllThreadsUserIsIn/${handle}`
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async getGroupThreadsCount(
+    handle?: string,
+    filterName?: string | null,
+    filterFromDate?: string | null,
+    filterToDate?: string | null
+  ) {
     var params = `/Thread/GetThreadsCount?handle=${handle}`;
     if (filterName) {
       params += `&filterName=${filterName}`;
@@ -53,7 +77,7 @@ export const threadService = {
       const response = await instance.post(`/Thread/create`, data);
       return response.data;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw error;
     }
   },
