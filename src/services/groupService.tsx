@@ -41,6 +41,15 @@ export const groupService = {
     }
   },
 
+  async createGroup(data?: GroupModel) {
+    try {
+      const response = await instance.post("/Group/create", data);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   async getGroup(handle?: string) {
     try {
       const response = await instance.get(`/Group/${handle}`);
