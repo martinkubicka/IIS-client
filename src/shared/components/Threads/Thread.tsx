@@ -147,47 +147,49 @@ const handleSubmitUpdate = async (formData: { name: string; description: string 
 
   return (
     <div>
+      
+
       <Card variant="soft" orientation="horizontal" sx={{ marginBottom: "20px", display: "flex", justifyContent: "space-between" }}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <AspectRatio ratio="1" sx={{ width: 35, marginRight: "10px" }}>
-              <AccountTreeRoundedIcon />
-            </AspectRatio>
-          </div>
-          <CardContent>
-            <Link to={`/thread/${thread?.id}`} style={{ textDecoration: 'none', textDecorationColor: 'black'}} 
-              onMouseEnter={(e) => {
-                e.currentTarget.style.textDecoration = 'underline';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.textDecoration = 'none';
-              }}>
-              <Typography level="title-md">
-                {thread?.name}
-                </Typography>
-              </Link>
+  <div style={{ display: 'flex', alignItems: 'center' }}>
+    <AspectRatio ratio="1" sx={{ width: 35, marginRight: "10px" }}>
+      <AccountTreeRoundedIcon />
+    </AspectRatio>
+  </div>
+  <CardContent>
+    <Link to={`/thread/${thread?.id}`} style={{ textDecoration: 'none', textDecorationColor: 'black'}} 
+      onMouseEnter={(e) => {
+        e.currentTarget.style.textDecoration = 'underline';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.textDecoration = 'none';
+      }}>
+      <Typography level="title-md">
+        {thread?.name}
+      </Typography>
+    </Link>
 
-            <Typography>
-              {thread?.description}
-            </Typography>
-          </CardContent>
+    <Typography sx={{ wordBreak: "break-word" }}>
+      {thread?.description}
+    </Typography>
+  </CardContent>
 
-        <Dropdown>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <AspectRatio ratio="1" sx={{ width: 35 }}>
-              <MenuButton slots={{ root: IconButton }}>
-                <MoreVert />
-              </MenuButton>
-            </AspectRatio>
-          </div>
-          <Menu>
-            <Link to={`/thread/${thread?.id}`} style={{ textDecoration: 'none' }}>
-              <MenuItem>Detail</MenuItem>
-            </Link>
-            <MenuItem onClick={handleOpenUpdate}>Edit</MenuItem>
-            <MenuItem onClick={handleOpenModal}>Delete</MenuItem>
-          </Menu>
-        </Dropdown>
-      </Card>
+  <Dropdown>
+    <div style={{ display: "flex", alignItems: "center" }}>
+      <AspectRatio ratio="1" sx={{ width: 35 }}>
+        <MenuButton slots={{ root: IconButton }}>
+          <MoreVert />
+        </MenuButton>
+      </AspectRatio>
+    </div>
+    <Menu>
+      <Link to={`/thread/${thread?.id}`} style={{ textDecoration: 'none' }}>
+        <MenuItem>Detail</MenuItem>
+      </Link>
+      <MenuItem onClick={handleOpenUpdate}>Edit</MenuItem>
+      <MenuItem onClick={handleOpenModal}>Delete</MenuItem>
+    </Menu>
+  </Dropdown>
+</Card>
 
       <Dialog
         open={modalOpen}

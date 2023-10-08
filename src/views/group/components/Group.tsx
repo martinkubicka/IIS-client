@@ -55,6 +55,7 @@ export const Group = () => {
 
     return (
         <Page>
+            <div className="contentPadding">
             <StyledEngineProvider injectFirst>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Avatar>
@@ -63,11 +64,17 @@ export const Group = () => {
                     <PageHeader text={groupData?.name} />
                 </div>
 
-                <Typography className="groupDescription" variant="subtitle1" color="textSecondary">
+                <Typography className="groupDescription" variant="subtitle1" color="textSecondary" style={{
+                    whiteSpace: 'normal',
+                    overflowWrap: 'break-word', 
+                    wordWrap: 'break-word',     
+                    maxWidth: '100%',
+                }}>
                     {groupData?.description}
                 </Typography>
                 <TabMenu groupData={groupData} onSettingsSaved={onSettingsSaved}/>
             </StyledEngineProvider>
+            </div>
         </Page>
     );
 };

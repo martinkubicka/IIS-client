@@ -162,7 +162,7 @@ export const NavBar: React.FC = () => {
             </ListItem>
         </List>
         <Divider/>
-        { window.userRole == null ? 
+        { loginService.getCookie('userEmail') == null ? 
             <Link to="/login" style={{textDecoration: 'none'}}> 
                 <LoginIcon />
             </Link>

@@ -23,15 +23,15 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData }) => {
 
     const handlePageChange = async (page: number) => {
         setCurrentPage(page);
-        const threadsResponse = await threadService.getGroupThreads(groupData?.handle, page, itemsPerPage);
+        const threadsResponse = await threadService.getGroupThreads(groupData?.handle, page, itemsPerPage, filters.name, filters.fromDate, filters.toDate);
         setThreads(threadsResponse);
     };
 
     const onDelete = async () => {
-        const threadsCount = await threadService.getGroupThreadsCount(groupData?.handle, null, null, null);
-        setTotalPages(Math.floor(threadsCount / itemsPerPage) + 1);
+        const threadsCount = await threadService.getGroupThreadsCount(groupData?.handle, filters.name, filters.fromDate, filters.toDate);
+        setTotalPages(Math.floor(threadsCount / itemsPerPage) + (threadsCount % itemsPerPage == 0 ? 0 : + 1));
 
-        const threadsResponse = await threadService.getGroupThreads(groupData?.handle, currentPage, itemsPerPage, null, null, null);
+        const threadsResponse = await threadService.getGroupThreads(groupData?.handle, currentPage, itemsPerPage, filters.name, filters.fromDate, filters.toDate);
         setThreads(threadsResponse);
     };
 
@@ -40,7 +40,7 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData }) => {
           const fetchData = async () => {
                 try {
                     const threadsCount = await threadService.getGroupThreadsCount(groupData?.handle, null, null, null);
-                    setTotalPages(Math.floor(threadsCount / itemsPerPage) + 1);
+                    setTotalPages(Math.floor(threadsCount / itemsPerPage) + (threadsCount % itemsPerPage == 0 ? 0 : + 1));
 
                     const threadsResponse = await threadService.getGroupThreads(groupData?.handle, currentPage, itemsPerPage, null, null, null);
                     setThreads(threadsResponse);
@@ -117,15 +117,30 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData }) => {
     const handleFilterChange = async (newFilters : { name: string, fromDate: string, toDate: string,}) => {
         setFilters(newFilters);
 
+        if (newFilters.toDate != undefined) {
+            newFilters.toDate += "T23:59:59";
+        } else if (newFilters.toDate != null){
+            newFilters.toDate = filters.toDate;
+        }
+
+        if (newFilters.name == undefined && newFilters.name != null) {
+            newFilters.name = filters.name;
+        }
+
+        if (newFilters.fromDate == undefined && newFilters.fromDate != null) {
+            newFilters.fromDate = filters.fromDate;
+        }
+
         setCurrentPage(1);
 
         const threadsCount = await threadService.getGroupThreadsCount(groupData?.handle, newFilters.name, newFilters.fromDate, newFilters.toDate);
-        setTotalPages(Math.floor(threadsCount / itemsPerPage) + 1);
+        setTotalPages(Math.floor(threadsCount / itemsPerPage) + (threadsCount % itemsPerPage == 0 ? 0 : + 1));
 
         const threadsResponse = await threadService.getGroupThreads(groupData?.handle, 1, itemsPerPage, newFilters.name, newFilters.fromDate, newFilters.toDate);
+        
+        console.log(threadsResponse);
+        
         setThreads(threadsResponse);
-
-        console.log("here")
     };
     
     return (
