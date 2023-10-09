@@ -45,9 +45,7 @@ export const Group = () => {
     
                     setGroupData(updatedGroupData);
                 }
-            } catch (error) {
-                navigate('/notfound');
-            }
+            } catch (error) {}
         };
     
         fetchData();
