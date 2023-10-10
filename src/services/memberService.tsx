@@ -27,5 +27,27 @@ export const memberService = {
           throw error;
         }
     },
+
+    async deleteMember(email?: string, handle?: string) {
+      var params = `/Member/delete?email=${email}&handle=${handle}`;
+
+      try {
+        const response = await instance.delete(params);
+        return response.data;
+      } catch (error) {
+        throw error;
+      }
+    },
+
+    async updateMemberRole(email?: string, role?: number, handle?: string) {
+      var params = `/Member/updateRole?email=${email}&role=${role}&handle=${handle}`;
+
+      try {
+        const response = await instance.put(params);
+        return response.data;
+      } catch (error) {
+        throw error;
+      }
+    },
 };
 

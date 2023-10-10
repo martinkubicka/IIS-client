@@ -34,8 +34,6 @@ export const NavBar: React.FC = () => {
             });
     
             await loginService.logout();
-            document.cookie = `jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-            window.userRole = null;
         
             localStorage.setItem('snackbarData', JSON.stringify({
                 message: "Logout successfull.",

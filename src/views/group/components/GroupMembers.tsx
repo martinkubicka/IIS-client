@@ -13,7 +13,7 @@ export const GroupMembers: React.FC<GroupMembersProps> = ({ groupData }) => {
     const [members, setMembers] = useState<MemberModel[] | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
-    const itemsPerPage = 5;
+    const itemsPerPage = 6;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -45,15 +45,21 @@ export const GroupMembers: React.FC<GroupMembersProps> = ({ groupData }) => {
 
     return (
       <div>
-          {members === null ? (
-            "Loading members..."
-            ) : members.length === 0 ? (
-            "No members found"
-            ) : (
-            members.map((member) => (
-                <Member member={member} onDelete={onDelete}/>
-            ))
-            )}
+            <div style={{ display: "flex", flexWrap: "wrap", maxWidth: "100%" }}>
+                {members === null ? (
+                "Loading members..."
+                ) : members.length === 0 ? (
+                "No members found"
+                ) : (
+                members.map((member) => (
+                    <Member
+                    member={member}
+                    onDelete={onDelete}
+                    handle={groupData?.handle}
+                    />
+                ))
+                )}
+            </div>
 
             <PaginationComponent
                 currentPage={currentPage}
