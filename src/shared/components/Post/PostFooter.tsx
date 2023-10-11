@@ -1,17 +1,27 @@
-import { Box } from "@mui/joy";
+import { Box, Stack } from "@mui/joy";
 import React from "react";
 import { footerStyle } from "./style";
 import { Rating } from "./Rating";
+import { Timestamp } from "../Timestamp/Timestamp";
 
 interface PostFooterProps {
   initialRating: number;
-  onRatingChange: (positive: boolean) => void;
+  onRatingChange: (direction: number) => void;
 }
 
-export const PostFooter = (/* {initialRating,rating}: PostFooterProps */) => {
+export const PostFooter = ({
+  initialRating,
+  onRatingChange,
+}: PostFooterProps) => {
   return (
     <Box sx={footerStyle}>
-      <Rating />
+      <Stack
+        justifyContent={"space-between"}
+        direction={"row"}
+        alignItems={"center"}
+      >
+        <Rating onRatingChange={onRatingChange} rating={initialRating} />
+      </Stack>
     </Box>
   );
 };

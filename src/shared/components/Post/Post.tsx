@@ -1,4 +1,12 @@
-import { Avatar, Box, Card, CardContent, Divider, Stack } from "@mui/joy";
+import {
+  Avatar,
+  Box,
+  Card,
+  CardContent,
+  Divider,
+  Stack,
+  Typography,
+} from "@mui/joy";
 import { PostUser } from "./PostUser";
 import { PostHeader } from "./PostHeader";
 import { PostContent } from "./PostContent";
@@ -9,6 +17,7 @@ import { PostModel } from "@src/shared/models/PostModel";
 import { userService } from "@src/services/userService";
 import React from "react";
 import { UserProfileModel } from "@src/shared/models/UserProfileModel";
+import { postService } from "@src/services/postService";
 
 interface PostProps extends PostModel {
   lastPost?: boolean;
@@ -23,6 +32,7 @@ export const Post = ({
   lastPost = false,
 }: PostProps) => {
   const [user, setUser] = React.useState<UserProfileModel>();
+  const [rating, setRating] = React.useState(0);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -33,6 +43,12 @@ export const Post = ({
       } catch (error) {
         console.log(error);
       }
+      try {
+        const data = await postService.calculateRating(id as string);
+        setRating(data);
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     fetchData();
@@ -40,7 +56,7 @@ export const Post = ({
 
   return (
     <Stack
-      paddingTop={"20px"}
+      paddingTop={"30px"}
       direction={"row"}
       width={"95%"}
 
@@ -53,15 +69,23 @@ export const Post = ({
         <Box flexGrow={"1"}>
           {!lastPost && (
             <Divider
-              sx={{ height: "calc(100% + 20px)", width: "1px" }}
+              sx={{ height: "calc(100% + 30px)", width: "1px" }}
               orientation={"vertical"}
             />
           )}
         </Box>
       </Stack>
       <Stack width={"100%"} spacing={1}>
-        <PostHeader icon={user?.icon} handle={user?.handle} name={user?.name} />
-        <Box>{text}</Box>
+        <PostHeader
+          timestamp={date}
+          icon={user?.icon}
+          handle={user?.handle}
+          name={user?.name}
+        />
+        <Box>
+          <Typography level={"body-md"}>{text}</Typography>
+        </Box>
+        <PostFooter onRatingChange={() => {}} initialRating={rating} />
       </Stack>
     </Stack>
   );

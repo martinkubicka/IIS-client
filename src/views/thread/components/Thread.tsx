@@ -18,9 +18,11 @@ export const Thread = () => {
     undefined
   );
   const [posts, setPosts] = React.useState<PostModel[]>([]);
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const data = await postService.getPostsByThread(threadId as string);
         setPosts(data);
@@ -34,6 +36,7 @@ export const Thread = () => {
       } catch (error) {
         console.log(error);
       }
+      setLoading(false);
     };
 
     fetchData();
@@ -46,7 +49,7 @@ export const Thread = () => {
           name={thread?.name as string}
           description={thread?.description as string}
         />
-        <Posts posts={posts} />
+        <Posts loading={loading} posts={posts} />
         <NewPost />
       </Stack>
     </Page>
