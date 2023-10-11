@@ -14,7 +14,7 @@ export const Dashboard = () => {
   const [recommendedGroups, setRecommendedGroups] = useState<GroupModel[]>([]);
   const [threads, setThreads] = useState<ThreadModel[] | null>(null);
   // todo: Replace 'userEmail' with the actual user's email address
-  const userEmail = "user1@example.com";
+  const userEmail = "john.doe@example.com";
 
   const onDelete = async () => {
     setThreads(null);

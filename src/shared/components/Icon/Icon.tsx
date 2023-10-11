@@ -10,8 +10,8 @@ export const Icon = ({ iconName, size = 18 }: IconProps) => {
   return (
     <Typography fontSize={size}>
       {!iconName || iconName === ""
-        ? nameMap.get(iconName)
-        : nameMap.get("rocket")}
+        ? nameMap.get("rocket")
+        : nameMap.get(iconName)}
     </Typography>
   );
 };

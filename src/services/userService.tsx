@@ -2,6 +2,7 @@ import axios from "axios";
 import API_BASE_URL from "@src/apiConfig";
 import { UserDetailModel } from "@src/shared/models/UserDetailModel";
 import { UserPrivacySettingsModel } from "@src/shared/models/UserPrivacySettingsModel";
+import { UserProfileModel } from "@src/shared/models/UserProfileModel";
 
 const instance = axios.create({
   baseURL: API_BASE_URL,
@@ -16,7 +17,7 @@ export const userService = {
   async getUser(handle?: string) {
     try {
       const response = await instance.get(`/User/profile?handle=${handle}`);
-      return response.data;
+      return response.data as UserProfileModel;
     } catch (error) {
       throw error;
     }
