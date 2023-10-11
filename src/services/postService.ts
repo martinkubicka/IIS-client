@@ -15,4 +15,13 @@ export const postService = {
       throw error;
     }
   },
+
+  async calculateRating(postId: string) {
+    try {
+      const response = await instance.get(`/Post/calculateRating/${postId}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

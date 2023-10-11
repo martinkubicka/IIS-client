@@ -33,7 +33,7 @@ export const PostUser = ({
 
       <Stack spacing={-0.5} direction={"column"}>
         <Typography level="title-sm">{username}</Typography>
-        <Link>{`@${handle}`}</Link>
+        <Link fontSize={14}>{`@${handle}`}</Link>
       </Stack>
     </Stack>
   );

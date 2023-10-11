@@ -12,4 +12,5 @@ export const threadStyle: SxProps = {
 export const footerStyle: SxProps = {
   width: "100%",
   height: "30px",
+  alignItems: "center",
 };
