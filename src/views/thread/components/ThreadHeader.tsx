@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/joy";
+import { Box, Divider, Typography } from "@mui/joy";
 import React from "react";
 import { threadHeaderStyle } from "./styles/style";
 
@@ -14,6 +14,7 @@ export const ThreadHeader = ({ name, description = "" }: ThreadHeaderProps) => {
         <Typography level="h1">{`#${name}`}</Typography>
         <Typography level="body-lg">{description}</Typography>
       </Box>
+      <Divider />
     </Box>
   );
 };

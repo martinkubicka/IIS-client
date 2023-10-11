@@ -10,7 +10,11 @@ export const NewPostTextArea = () => {
       sx={newPostTextAreaStyle}
       endDecorator={
         <Stack width={"100%"} height={"30px"} justifyContent={"flex-end"}>
-          <Button startDecorator={<SendRounded />} sx={{ ml: "auto" }}>
+          <Button
+            variant="plain"
+            startDecorator={<SendRounded />}
+            sx={{ ml: "auto" }}
+          >
             Send
           </Button>
         </Stack>

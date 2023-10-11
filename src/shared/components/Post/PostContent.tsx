@@ -7,7 +7,7 @@ interface PostContentProps {
 
 export const PostContent = ({ children }: PostContentProps) => {
   return (
-    <Box>
+    <Box height={"300px"}>
       <Typography level={"body-md"}>{children}</Typography>
     </Box>
   );

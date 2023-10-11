@@ -31,8 +31,8 @@ export const PostUser = ({
         </Avatar>
       )}
 
-      <Stack direction={"column"}>
-        <Typography level="title-md">{username}</Typography>
+      <Stack spacing={-0.5} direction={"column"}>
+        <Typography level="title-sm">{username}</Typography>
         <Link>{`@${handle}`}</Link>
       </Stack>
     </Stack>

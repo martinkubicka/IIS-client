@@ -1,6 +1,7 @@
 import { Box } from "@mui/joy";
 import React from "react";
 import { footerStyle } from "./style";
+import { Rating } from "./Rating";
 
 interface PostFooterProps {
   initialRating: number;
@@ -8,5 +9,9 @@ interface PostFooterProps {
 }
 
 export const PostFooter = (/* {initialRating,rating}: PostFooterProps */) => {
-  return <Box sx={footerStyle}></Box>;
+  return (
+    <Box sx={footerStyle}>
+      <Rating />
+    </Box>
+  );
 };

@@ -19,7 +19,7 @@ export const DropdownMenu = () => {
       >
         <MoreVert />
       </MenuButton>
-      <Menu placement="bottom-end">
+      <Menu variant="plain" placement="bottom-end">
         <MenuItem>
           <ListItemDecorator>
             <Edit />

@@ -3,7 +3,8 @@ import { SxProps } from "@mui/joy/styles/types";
 export const threadStyle: SxProps = {
   width: { md: "90%", xs: "100%" },
   borderRadius: "5px",
-  height: "400px",
+  height: "800px",
+  maxHeight: "100vh",
 };
 
 export const newPostStyle: SxProps = {
@@ -22,7 +23,7 @@ export const threadHeaderStyle: SxProps = {
 };
 
 export const postsStyle: SxProps = {
-  width: "100%",
-  height: "600px",
+  minWidth: "100%",
+  height: "1800px",
   overflow: "scroll",
 };

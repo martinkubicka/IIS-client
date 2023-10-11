@@ -2,8 +2,7 @@ import { SxProps } from "@mui/joy/styles/types";
 
 export const postStyle: SxProps = {
   width: "100%",
-  minHeight: "50px",
-  padding: 0,
+  minHeight: "100px",
 };
 
 export const threadStyle: SxProps = {

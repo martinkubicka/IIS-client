@@ -82,7 +82,7 @@ export const Dashboard = () => {
             description={group.description ?? ""}
             buttonText="Leave"
             showButtonJoin={true}
-            imageSrc={""}
+            imageSrc={group.icon as string}
             avatarSrcList={[]}
           />
         ))}
@@ -103,7 +103,7 @@ export const Dashboard = () => {
             description={group.description ?? ""}
             buttonText="Join"
             showButtonJoin={true}
-            imageSrc={""}
+            imageSrc={group.icon as string}
             avatarSrcList={[]}
           />
         ))}
