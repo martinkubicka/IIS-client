@@ -1,3 +1,13 @@
 .groupDescription {
     padding-bottom: 20px;
 }
+
+.contentPadding {
+    padding-right: 0px;
+}
+
+@media (max-width: 899px) {
+    .contentPadding {
+        padding-right: 0px;
+    }
+}
