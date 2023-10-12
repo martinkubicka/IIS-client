@@ -30,7 +30,6 @@ export default function BasicModalDialog() {
   const [description, setDescription] = useState<string>("");
   const [validName, setValidName] = useState<boolean>(true);
   const [validDescription, setValidDescription] = useState<boolean>(true);
-
   const handleClick = () => {
     setOpenIcons((prev) => !prev);
   };
@@ -78,8 +77,8 @@ export default function BasicModalDialog() {
       email: "john.doe@example.com", //todo remove specific email
     });
 
-    // join the group
-    memberService.addMember(name, "john.doe@example.com"); //todo remove specific email
+    // join the group as a admin
+    memberService.addMember(name, "john.doe@example.com", 0, name, icon); //todo remove specific email
 
     // restore value of name and description
     setName("");
