@@ -16,34 +16,9 @@ export const groupService = {
     }
   },
 
-  async joinGroup(handle?: string, userEmail?: string) {
-    const memberData = {
-      handle: handle,
-      email: userEmail,
-      role: 1,
-    };
+  async addGroup(data?: GroupModel) {
     try {
-      const response = await instance.post("/Member/add", memberData);
-      console.log(response.data);
-    } catch (error) {
-      throw error;
-    }
-  },
-
-  async leaveGroup(handle?: string, userEmail?: string) {
-    try {
-      const response = await instance.delete(
-        `/Member/delete?email=${userEmail}&handle=${handle}`
-      );
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  },
-
-  async createGroup(data?: GroupModel) {
-    try {
-      const response = await instance.post("/Group/create", data);
+      const response = await instance.post("/Group/add", data);
       return response.data;
     } catch (error) {
       throw error;

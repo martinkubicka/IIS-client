@@ -11,7 +11,7 @@ import {
 } from "@mui/joy";
 import { Icon } from "@src/shared/components/Icon/Icon";
 import { Link } from "react-router-dom";
-import { groupService } from "@src/services/groupService";
+import { memberService } from "@src/services/memberService";
 
 interface CardProps {
   handle: string;
@@ -22,6 +22,7 @@ interface CardProps {
   description: string;
   buttonText: string;
   showButtonJoin: boolean;
+  name: string;
 }
 
 const GroupComponent: React.FC<CardProps> = ({
@@ -33,19 +34,21 @@ const GroupComponent: React.FC<CardProps> = ({
   description,
   buttonText,
   showButtonJoin,
+  name,
 }) => {
   const handleClick = () => {
     if (buttonText === "Join") {
-      //todo should I add async?
+      //TODO should I add async?
       console.log("Joining group");
       console.log(handle);
       console.log(UserEmail);
-      groupService.joinGroup(handle, UserEmail);
+      console.log(name);
+      memberService.addMember(handle, UserEmail, 1, name);
     } else {
       console.log("Leaving group");
       console.log(handle);
       console.log(UserEmail);
-      groupService.leaveGroup(handle, UserEmail);
+      memberService.deleteMember(UserEmail, handle);
     }
   };
   return (
