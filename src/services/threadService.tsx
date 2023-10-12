@@ -7,6 +7,15 @@ const instance = axios.create({
 });
 
 export const threadService = {
+  async getThread(threadId: string) {
+    try {
+      const response = await instance.get(`/Thread/get/${threadId}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   async getGroupThreads(
     handle?: string,
     currentPage?: number,

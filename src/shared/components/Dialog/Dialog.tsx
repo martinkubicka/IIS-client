@@ -9,6 +9,7 @@ interface DialogProps {
   content: string;
   onConfirm: () => void;
   textConfirm?: string;
+  textUnderConfirm?: string;
 }
 
 const Dialog: React.FC<DialogProps> = ({
@@ -17,7 +18,8 @@ const Dialog: React.FC<DialogProps> = ({
   title,
   content,
   onConfirm,
-  textConfirm = ''
+  textConfirm = '',
+  textUnderConfirm = 'Insert group name to confirm deletion'
 }) => {
 
   
@@ -32,7 +34,7 @@ const Dialog: React.FC<DialogProps> = ({
         </DialogTitle>
         <Divider />
         <DialogContent>{content}</DialogContent>
-        {textConfirm && <><Input onChange={(event) => setConfirmValue(event.target.value)} value={confirmValue}/><FormHelperText>Insert group name to confirm deletion</FormHelperText></>}
+        {textConfirm && <><Input onChange={(event) => setConfirmValue(event.target.value)} value={confirmValue}/><FormHelperText>{textUnderConfirm}</FormHelperText></>}
         <DialogActions>
           <Button disabled={textConfirm != '' && confirmValue !== textConfirm} variant="solid" color="danger" onClick={onConfirm}>
             Confirm
