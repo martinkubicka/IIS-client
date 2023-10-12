@@ -8,13 +8,15 @@ import { GroupModel } from "@src/shared/models/GroupModel";
 import { Thread } from "@src/shared/components/Threads";
 import { ThreadModel } from "@src/shared/models/ThreadModel";
 import { threadService } from "@src/services/threadService";
+import CreateGroupButton from "./CreateButton";
 
 export const Dashboard = () => {
   const [userGroups, setUserGroups] = useState<GroupModel[]>([]);
   const [recommendedGroups, setRecommendedGroups] = useState<GroupModel[]>([]);
   const [threads, setThreads] = useState<ThreadModel[] | null>(null);
-  // todo: Replace 'userEmail' with the actual user's email address
+  // TODO: Replace 'userEmail' with the actual user's email address
   const userEmail = "john.doe@example.com";
+  const name = "John Doe";
 
   const onDelete = async () => {
     setThreads(null);
@@ -48,8 +50,6 @@ export const Dashboard = () => {
     fetchUserGroupsAndThreads();
   }, []);
 
-  const handleNewGroupButtonClick = () => {};
-
   return (
     <Page>
       <div
@@ -62,15 +62,7 @@ export const Dashboard = () => {
         <Typography level="h1" fontSize="x2" sx={{ mb: 0.5 }}>
           My Groups
         </Typography>
-        <Button
-          variant="outlined"
-          color="neutral"
-          startDecorator={<Add />}
-          sx={{ marginBottom: "20px" }}
-          onClick={handleNewGroupButtonClick}
-        >
-          New Group
-        </Button>
+        <CreateGroupButton />
       </div>
       <div style={{ display: "flex", gap: "16px" }}>
         {userGroups.map((group, index) => (
@@ -84,6 +76,7 @@ export const Dashboard = () => {
             showButtonJoin={true}
             imageSrc={group.icon as string}
             avatarSrcList={[]}
+            name=""
           />
         ))}
       </div>
@@ -105,6 +98,7 @@ export const Dashboard = () => {
             showButtonJoin={true}
             imageSrc={group.icon as string}
             avatarSrcList={[]}
+            name={name}
           />
         ))}
       </div>
