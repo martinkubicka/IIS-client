@@ -49,9 +49,11 @@ export const loginService = {
           const claims = jwt(response.data);
           const role = claims['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
           const email = claims['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
+          const handle = claims['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
 
           this.setCookie('userRole', role, 30);
           this.setCookie('userEmail', email, 30);
+          this.setCookie('userHandle', handle, 30);
 
           return response.data;
         } catch (error) {
@@ -68,6 +70,8 @@ export const loginService = {
             
             document.cookie = "userEmail=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             document.cookie = "userRole=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "userHandle=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
             return response.data;
           } catch (error) {
