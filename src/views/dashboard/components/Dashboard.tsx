@@ -4,6 +4,7 @@ import GroupComponent from "./GroupComponent";
 import { Divider, Typography, Button } from "@mui/joy"; // Import Button from @mui/joy
 import Add from "@mui/icons-material/Add";
 import { groupService } from "@src/services/groupService";
+import { loginService } from "@src/services/loginService";
 import { GroupModel } from "@src/shared/models/GroupModel";
 import { Thread } from "@src/shared/components/Threads";
 import { ThreadModel } from "@src/shared/models/ThreadModel";
@@ -14,9 +15,8 @@ export const Dashboard = () => {
   const [userGroups, setUserGroups] = useState<GroupModel[]>([]);
   const [recommendedGroups, setRecommendedGroups] = useState<GroupModel[]>([]);
   const [threads, setThreads] = useState<ThreadModel[] | null>(null);
-  // TODO: Replace 'userEmail' with the actual user's email address
-  const userEmail = "john.doe@example.com";
-  const name = "John Doe";
+  const userEmail = loginService.getCookie("userEmail") ?? "";
+  const name = loginService.getCookie("userHandle") ?? "";
 
   const onDelete = async () => {
     setThreads(null);

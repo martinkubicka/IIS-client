@@ -64,11 +64,6 @@ const GroupComponent: React.FC<CardProps> = ({
           {" "}
           <Icon iconName={imageSrc} />
         </Avatar>
-        {/* <AvatarGroup size="sm" sx={{ "--Avatar-size": "28px" }}>
-          {avatarSrcList.map((src, index) => (
-            <Avatar key={index} src={src} />
-          ))}
-        </AvatarGroup> */}
       </Box>
       <CardContent>
         <Typography level="title-lg">{title}</Typography>

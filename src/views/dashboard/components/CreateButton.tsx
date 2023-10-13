@@ -20,6 +20,7 @@ import { ClickAwayListener, Popper } from "@mui/material";
 import { IconPicker } from "@src/shared/components/IconPicker/IconPicker";
 import { memberService } from "@src/services/memberService";
 import { groupService } from "@src/services/groupService";
+import { loginService } from "@src/services/loginService";
 
 export default function BasicModalDialog() {
   const [open, setOpen] = React.useState<boolean>(false);
@@ -30,6 +31,8 @@ export default function BasicModalDialog() {
   const [description, setDescription] = useState<string>("");
   const [validName, setValidName] = useState<boolean>(true);
   const [validDescription, setValidDescription] = useState<boolean>(true);
+  const userEmail = loginService.getCookie("userEmail") ?? "";
+
   const handleClick = () => {
     setOpenIcons((prev) => !prev);
   };
@@ -74,11 +77,11 @@ export default function BasicModalDialog() {
       name: name,
       description: description,
       icon: icon,
-      email: "john.doe@example.com", //todo remove specific email
+      email: userEmail,
     });
 
     // join the group as a admin
-    memberService.addMember(name, "john.doe@example.com", 0, name, icon); //todo remove specific email
+    memberService.addMember(name, userEmail, 0, name, icon); //todo remove specific email
 
     // restore value of name and description
     setName("");
