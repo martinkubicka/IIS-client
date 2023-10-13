@@ -12,45 +12,41 @@ import {
 import { Icon } from "@src/shared/components/Icon/Icon";
 import { Link } from "react-router-dom";
 import { memberService } from "@src/services/memberService";
-
 interface CardProps {
   handle: string;
   UserEmail: string;
   imageSrc: string;
-  avatarSrcList: string[];
   title: string;
   description: string;
   buttonText: string;
-  showButtonJoin: boolean;
   name: string;
+  onAction: () => void; // Add the onAction prop
 }
 
 const GroupComponent: React.FC<CardProps> = ({
   handle,
   UserEmail,
   imageSrc,
-  avatarSrcList,
   title,
   description,
   buttonText,
-  showButtonJoin,
   name,
+  onAction, // Destructure the onAction prop
 }) => {
   const handleClick = () => {
     if (buttonText === "Join") {
-      //TODO should I add async?
-      console.log("Joining group");
-      console.log(handle);
-      console.log(UserEmail);
-      console.log(name);
-      memberService.addMember(handle, UserEmail, 1, name);
+      // Join action
+      memberService.addMember(handle, UserEmail, 1, name).then(() => {
+        onAction(); // Notify the parent component that an action has been taken
+      });
     } else {
-      console.log("Leaving group");
-      console.log(handle);
-      console.log(UserEmail);
-      memberService.deleteMember(UserEmail, handle);
+      // Leave action
+      memberService.deleteMember(UserEmail, handle).then(() => {
+        onAction(); // Notify the parent component that an action has been taken
+      });
     }
   };
+
   return (
     <Card variant="outlined" sx={{ width: 280 }}>
       <Box

@@ -21,8 +21,15 @@ import { IconPicker } from "@src/shared/components/IconPicker/IconPicker";
 import { memberService } from "@src/services/memberService";
 import { groupService } from "@src/services/groupService";
 import { loginService } from "@src/services/loginService";
+import { useSnackbar } from "notistack";
 
-export default function BasicModalDialog() {
+interface BasicModalDialogProps {
+  onGroupCreated?: () => void;
+}
+
+const BasicModalDialog: React.FC<BasicModalDialogProps> = ({
+  onGroupCreated,
+}) => {
   const [open, setOpen] = React.useState<boolean>(false);
   const [icon, setIconName] = useState("doughnut");
   const ref = React.useRef(null);
@@ -32,6 +39,7 @@ export default function BasicModalDialog() {
   const [validName, setValidName] = useState<boolean>(true);
   const [validDescription, setValidDescription] = useState<boolean>(true);
   const userEmail = loginService.getCookie("userEmail") ?? "";
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleClick = () => {
     setOpenIcons((prev) => !prev);
@@ -45,13 +53,6 @@ export default function BasicModalDialog() {
     setOpenIcons(false);
     setIconName(code);
   };
-
-  // useEffect(() => {
-  //   if (thread !== undefined && thread !== null) {
-  //     setDescription(thread.description);
-  //     setName(thread.name);
-  //   }
-  // }, [thread]);
 
   useEffect(() => {
     handleFieldChange();
@@ -72,21 +73,61 @@ export default function BasicModalDialog() {
   };
 
   const SubmitClicked = () => {
-    groupService.addGroup({
-      handle: name,
-      name: name,
-      description: description,
-      icon: icon,
-      email: userEmail,
-    });
+    try {
+      enqueueSnackbar("Creating New Group..", {
+        variant: "info",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "center",
+        },
+        autoHideDuration: 2000,
+        style: {
+          fontFamily: "Arial",
+        },
+      });
 
-    // join the group as a admin
-    memberService.addMember(name, userEmail, 0, name, icon); //todo remove specific email
+      groupService.addGroup({
+        handle: name,
+        name: name,
+        description: description,
+        icon: icon,
+        email: userEmail,
+      });
 
-    // restore value of name and description
-    setName("");
-    setDescription("");
-    setOpen(false);
+      // restore value of name and description
+      setName("");
+      setDescription("");
+      setOpen(false);
+
+      // Trigger a callback function to indicate that a new group has been created
+      if (onGroupCreated) {
+        onGroupCreated();
+      }
+
+      enqueueSnackbar("Group created successfully.", {
+        variant: "success",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "center",
+        },
+        autoHideDuration: 2000,
+        style: {
+          fontFamily: "Arial",
+        },
+      });
+    } catch (error) {
+      enqueueSnackbar("Error occured while creating new group.", {
+        variant: "error",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "center",
+        },
+        autoHideDuration: 2000,
+        style: {
+          fontFamily: "Arial",
+        },
+      });
+    }
   };
 
   return (
@@ -166,4 +207,6 @@ export default function BasicModalDialog() {
       </Modal>
     </React.Fragment>
   );
-}
+};
+
+export default BasicModalDialog;

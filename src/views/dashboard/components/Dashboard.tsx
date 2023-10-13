@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Page } from "@src/shared/components/Page";
 import GroupComponent from "./GroupComponent";
-import { Divider, Typography, Button } from "@mui/joy"; // Import Button from @mui/joy
+import { Divider, Typography, Button } from "@mui/joy";
 import Add from "@mui/icons-material/Add";
 import { groupService } from "@src/services/groupService";
 import { loginService } from "@src/services/loginService";
@@ -23,32 +23,41 @@ export const Dashboard = () => {
   };
 
   useEffect(() => {
-    const fetchUserGroupsAndThreads = async () => {
-      try {
-        // Fetch user's joined groups
-        const joinedGroups = await groupService.getGroupsUserIsIn(
-          userEmail,
-          true
-        );
-        setUserGroups(joinedGroups.slice(0, 5)); // Only get the first 5 joined groups
-
-        // Fetch recommended groups (groups where the user is not joined)
-        const recommendedGroups = await groupService.getGroupsUserIsIn(
-          userEmail,
-          false
-        );
-        setRecommendedGroups(recommendedGroups.slice(0, 5)); // Only get the first 5 recommended groups
-
-        // Fetch all threads the user is in
-        const allThreads = await threadService.getAllThreadsUserIsIn(userEmail);
-        setThreads(allThreads); // Set the threads in the state
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
     fetchUserGroupsAndThreads();
-  }, []);
+  }, [userEmail, name,]);
+
+  // Define the onAction callback function to update groups
+  const onAction = () => {
+    fetchUserGroupsAndThreads(); // Update userGroups and recommendedGroups
+  };
+
+  const fetchUserGroupsAndThreads = async () => {
+    try {
+      // Fetch user's joined groups
+      const joinedGroups = await groupService.getGroupsUserIsIn(
+        userEmail,
+        true
+      );
+      setUserGroups(joinedGroups.slice(0, 5)); // Only get the first 5 joined groups
+
+      // Fetch recommended groups (groups where the user is not joined)
+      const recommendedGroups = await groupService.getGroupsUserIsIn(
+        userEmail,
+        false
+      );
+      setRecommendedGroups(recommendedGroups.slice(0, 5)); // Only get the first 5 recommended groups
+
+      // Fetch all threads the user is in
+      const allThreads = await threadService.getAllThreadsUserIsIn(userEmail);
+      setThreads(allThreads); // Set the threads in the state
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const onGroupCreated = async () => {
+    fetchUserGroupsAndThreads();
+  };
 
   return (
     <Page>
@@ -62,7 +71,7 @@ export const Dashboard = () => {
         <Typography level="h1" fontSize="x2" sx={{ mb: 0.5 }}>
           My Groups
         </Typography>
-        <CreateGroupButton />
+        <CreateGroupButton onGroupCreated={onGroupCreated} />
       </div>
       <div style={{ display: "flex", gap: "16px" }}>
         {userGroups.map((group, index) => (
@@ -73,10 +82,9 @@ export const Dashboard = () => {
             title={group.name ?? ""}
             description={group.description ?? ""}
             buttonText="Leave"
-            showButtonJoin={true}
             imageSrc={group.icon as string}
-            avatarSrcList={[]}
             name=""
+            onAction={onAction} // Pass the onAction callback
           />
         ))}
       </div>
@@ -95,10 +103,9 @@ export const Dashboard = () => {
             title={group.name ?? ""}
             description={group.description ?? ""}
             buttonText="Join"
-            showButtonJoin={true}
             imageSrc={group.icon as string}
-            avatarSrcList={[]}
             name={name}
+            onAction={onAction} // Pass the onAction callback
           />
         ))}
       </div>
