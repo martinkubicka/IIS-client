@@ -53,17 +53,7 @@ const ThreadFilter: React.FC<ThreadFilterProps> = ({ onFilterChange }) => {
           ...prevFilters,
           fromDate: event.target.value,
         }));
-      } else if (filterKey === 'fromDate' && filters.toDate === null) {
-        setFilters((prevFilters) => ({
-            ...prevFilters,
-            toDate: event.target.value,
-          }));
-      } else if (filterKey === 'toDate' && filters.fromDate === null) {
-         setFilters((prevFilters) => ({
-            ...prevFilters,
-            fromDate: event.target.value,
-          }));
-      }
+      } 
 
     onFilterChange({
         ...filters,

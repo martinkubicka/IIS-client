@@ -34,8 +34,6 @@ export const NavBar: React.FC = () => {
             });
     
             await loginService.logout();
-            document.cookie = `jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-            window.userRole = null;
         
             localStorage.setItem('snackbarData', JSON.stringify({
                 message: "Logout successfull.",
@@ -162,7 +160,7 @@ export const NavBar: React.FC = () => {
             </ListItem>
         </List>
         <Divider/>
-        { window.userRole == null ? 
+        { loginService.getCookie('userEmail') == null ? 
             <Link to="/login" style={{textDecoration: 'none'}}> 
                 <LoginIcon />
             </Link>
