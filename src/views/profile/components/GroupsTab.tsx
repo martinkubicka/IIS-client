@@ -3,10 +3,10 @@ import { GroupModel } from "@src/shared/models/GroupModel";
 import { groupService } from "@src/services/groupService";
 import GroupComponent from "@src/views/dashboard/components/GroupComponent";
 import { TabPanel } from "@mui/joy";
-
+import { loginService } from "@src/services/loginService";
 const GroupsTab = () => {
   const [userGroups, setUserGroups] = useState<GroupModel[]>([]);
-  const userEmail = "user1@example.com";
+  const userEmail = loginService.getCookie("userEmail") ?? "";
 
   useEffect(() => {
     const fetchUserGroups = async () => {
@@ -42,9 +42,10 @@ const GroupsTab = () => {
             title={group.name ?? ""}
             description={group.description ?? ""}
             buttonText="Leave"
-            showButtonJoin={false}
-            imageSrc={""}
+            showButtonJoin={true}
+            imageSrc={group.icon as string}
             avatarSrcList={[]}
+            name=""
           />
         ))}
       </div>
