@@ -65,7 +65,7 @@ const GroupComponent: React.FC<CardProps> = ({
     <Card variant="outlined" sx={{ width: 250, backgroundColor: "#EEF1FF" }}>
       <Box
         sx={{
-          display: "flex",
+          width: 250,
           justifyContent: "space-between",
           alignItems: "center",
         }}
