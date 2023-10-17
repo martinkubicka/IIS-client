@@ -51,9 +51,11 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
   const handleOpenModal = () => {
     setModalOpen(true);
   };
+
   useEffect(() => {
     handleFieldChange();
   }, [name, icon, registeredChecked, guestChecked, groupChecked]);
+
   const handleCloseModal = () => {
     setModalOpen(false);
   };
@@ -130,13 +132,13 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
     if (userDetailData) {
       userDetailData.name = name;
       userDetailData.icon = icon;
-      userDetailData.password = "string"; //TODO password change functionality
+      userDetailData.password = ""; //TODO password change functionality
     }
 
     if (userPrivacySettingsData) {
-      userPrivacySettingsData.visibilityRegistered = registeredChecked || true; // todo checj this // if its right
-      userPrivacySettingsData.visibilityGuest = guestChecked || true;
-      userPrivacySettingsData.visibilityGroup = groupChecked || true;
+      userPrivacySettingsData.visibilityRegistered = registeredChecked || false;
+      userPrivacySettingsData.visibilityGuest = guestChecked || false;
+      userPrivacySettingsData.visibilityGroup = groupChecked || false;
     }
 
     try {
@@ -154,7 +156,7 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
 
       await userService.updateUser(userDetailData, userPrivacySettingsData);
       await onSettingsSaved();
-      handleFieldChange();
+      //setValuesChanged(true);
 
       enqueueSnackbar("User settings updated successfully.", {
         variant: "success",
@@ -219,6 +221,7 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
         defaultChecked={registeredChecked}
         onChange={(e) => {
           setRegisteredChecked(e.target.checked);
+          setGuestChecked(e.target.checked);
         }}
         style={{ margin: "10px" }}
       />
@@ -228,6 +231,7 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
         defaultChecked={guestChecked}
         onChange={(e) => {
           setGuestChecked(e.target.checked);
+          setRegisteredChecked(e.target.checked);
         }}
         style={{ margin: "10px" }}
       />
