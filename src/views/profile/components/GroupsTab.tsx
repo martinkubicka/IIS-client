@@ -3,26 +3,30 @@ import { GroupModel } from "@src/shared/models/GroupModel";
 import { groupService } from "@src/services/groupService";
 import GroupComponent from "@src/views/dashboard/components/GroupComponent";
 import { TabPanel } from "@mui/joy";
-
+import { loginService } from "@src/services/loginService";
 const GroupsTab = () => {
   const [userGroups, setUserGroups] = useState<GroupModel[]>([]);
-  const userEmail = "user1@example.com";
+  const userEmail = loginService.getCookie("userEmail") ?? "";
 
   useEffect(() => {
-    const fetchUserGroups = async () => {
-      try {
-        const joinedGroups = await groupService.getGroupsUserIsIn(
-          userEmail,
-          true
-        );
-        setUserGroups(joinedGroups);
-      } catch (error) {
-        console.error("Error fetching user's groups:", error);
-      }
-    };
-
     fetchUserGroups();
   }, []);
+
+  const fetchUserGroups = async () => {
+    try {
+      const joinedGroups = await groupService.getGroupsUserIsIn(
+        userEmail,
+        true
+      );
+      setUserGroups(joinedGroups);
+    } catch (error) {
+      console.error("Error fetching user's groups:", error);
+    }
+  };
+
+  const onAction = () => {
+    fetchUserGroups(); // Update userGroups and recommendedGroups
+  };
 
   const groupContainerStyle = {
     display: "flex",
@@ -42,9 +46,9 @@ const GroupsTab = () => {
             title={group.name ?? ""}
             description={group.description ?? ""}
             buttonText="Leave"
-            showButtonJoin={false}
-            imageSrc={""}
-            avatarSrcList={[]}
+            imageSrc={group.icon as string}
+            name=""
+            onAction={onAction} // Pass the onAction callback
           />
         ))}
       </div>

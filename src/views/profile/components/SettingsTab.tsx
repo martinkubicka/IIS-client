@@ -8,6 +8,7 @@ import {
   Button,
   Avatar,
   Input,
+  Checkbox,
 } from "@mui/joy";
 import Dialog from "../../../shared/components/Dialog/Dialog";
 import { useNavigate } from "react-router-dom";
@@ -37,13 +38,24 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
   const [valuesChanged, setValuesChanged] = useState<boolean>(true);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const navigate = useNavigate();
+  const [registeredChecked, setRegisteredChecked] = useState(
+    userPrivacySettingsData?.visibilityRegistered
+  );
+  const [guestChecked, setGuestChecked] = useState(
+    userPrivacySettingsData?.visibilityGuest
+  );
+  const [groupChecked, setGroupChecked] = useState(
+    userPrivacySettingsData?.visibilityGroup
+  );
 
   const handleOpenModal = () => {
     setModalOpen(true);
   };
+
   useEffect(() => {
     handleFieldChange();
-  }, [name, icon]);
+  }, [name, icon, registeredChecked, guestChecked, groupChecked]);
+
   const handleCloseModal = () => {
     setModalOpen(false);
   };
@@ -75,7 +87,11 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
     if (
       userDetailData &&
       validName &&
-      (userDetailData.name !== name || userDetailData.icon !== icon)
+      (userDetailData.name !== name ||
+        userDetailData.icon !== icon ||
+        userPrivacySettingsData?.visibilityGroup !== groupChecked ||
+        userPrivacySettingsData?.visibilityGuest !== guestChecked ||
+        userPrivacySettingsData?.visibilityRegistered !== registeredChecked)
     ) {
       setValuesChanged(false);
     } else {
@@ -116,7 +132,13 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
     if (userDetailData) {
       userDetailData.name = name;
       userDetailData.icon = icon;
-      userDetailData.password = "password1"; //TODO password change functionality
+      userDetailData.password = ""; //TODO password change functionality
+    }
+
+    if (userPrivacySettingsData) {
+      userPrivacySettingsData.visibilityRegistered = registeredChecked || false;
+      userPrivacySettingsData.visibilityGuest = guestChecked || false;
+      userPrivacySettingsData.visibilityGroup = groupChecked || false;
     }
 
     try {
@@ -134,6 +156,7 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
 
       await userService.updateUser(userDetailData, userPrivacySettingsData);
       await onSettingsSaved();
+      //setValuesChanged(true);
 
       enqueueSnackbar("User settings updated successfully.", {
         variant: "success",
@@ -192,33 +215,35 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
       <h3>Password:</h3>
       TODO
       <h3>Visible to:</h3>
-      TODO
-      {/* <Box sx={{ display: "flex", gap: 3 }}>
-        <Checkbox
-          label="Registered"
-          checked={privacyMember}
-          onChange={(e) => {
-            setPrivacyMember(e.target.checked);
-            e.target.checked ? null : setPrivacyGuest(e.target.checked);
-          }}
-        />
-        <Checkbox
-          label="Guests"
-          checked={privacyGuest}
-          onChange={(e) => {
-            setPrivacyGuest(e.target.checked);
-            e.target.checked ? setPrivacyMember(e.target.checked) : null;
-          }}
-        />
-        <Checkbox
-          label="Group members"
-          checked={privacyMember}
-          onChange={(e) => {
-            setPrivacyMember(e.target.checked);
-            e.target.checked ? null : setPrivacyGuest(e.target.checked);
-          }}
-        />
-      </Box> */}
+      <Checkbox
+        label="Registered"
+        variant="solid"
+        defaultChecked={registeredChecked}
+        onChange={(e) => {
+          setRegisteredChecked(e.target.checked);
+          setGuestChecked(e.target.checked);
+        }}
+        style={{ margin: "10px" }}
+      />
+      <Checkbox
+        label="Guest"
+        variant="solid"
+        defaultChecked={guestChecked}
+        onChange={(e) => {
+          setGuestChecked(e.target.checked);
+          setRegisteredChecked(e.target.checked);
+        }}
+        style={{ margin: "10px" }}
+      />
+      <Checkbox
+        label="Group"
+        variant="solid"
+        defaultChecked={groupChecked}
+        onChange={(e) => {
+          setGroupChecked(e.target.checked);
+        }}
+        style={{ margin: "10px" }}
+      />
       <Box sx={{ display: "flex", gap: 3, paddingTop: "40px" }}>
         <Button size="lg" onClick={saveSettings} disabled={valuesChanged}>
           Save

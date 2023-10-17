@@ -7,9 +7,52 @@ const instance = axios.create({
 });
 
 export const postService = {
-  async getPostsByThread(threadId: string) {
+  async getPost(postId: string) {
     try {
-      const response = await instance.get(`/Post/getPostsByThread/${threadId}`);
+      const response = await instance.get(`/Post/getPost/${postId}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async addPost(post: PostModel) {
+    try {
+      const response = await instance.post(`/Post/add`, post);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+
+  async deletePost(id: string) {
+    try {
+      const response = await instance.delete(`/Post/delete/${id}`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+
+  async updatePost(id: string, text: string) {
+    try {
+      const response = await instance.put(
+        `/Post/updateText?postId=${id}&text=${text}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+
+  async getPostsByThread(threadId: string, limit: number, offset: number) {
+    try {
+      const response = await instance.get(
+        `/Post/getPostsByThread/${threadId}?limit=${limit}&offset=${offset}`
+      );
       return response.data;
     } catch (error) {
       throw error;
