@@ -12,7 +12,22 @@ export const userService = {
   async updateUser(
     updatedUser?: UserDetailModel,
     userPrivacy?: UserPrivacySettingsModel
-  ) {},
+  ) {
+    try {
+      const response = await instance.put("/User/update", {
+        updatedUser,
+        userPrivacy,
+      });
+
+      if (response.status === 204) {
+        return "User successfully updated";
+      } else {
+        throw new Error("Failed to update user");
+      }
+    } catch (error) {
+      throw error;
+    }
+  },
 
   async getUser(handle?: string) {
     try {
@@ -22,10 +37,11 @@ export const userService = {
       throw error;
     }
   },
+
   async getPrivacy(handle?: string) {
     try {
       const response = await instance.get(`/User/privacy?handle=${handle}`);
-      return response.data;
+      return response.data as UserPrivacySettingsModel;
     } catch (error) {
       throw error;
     }
