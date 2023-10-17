@@ -62,10 +62,10 @@ const GroupComponent: React.FC<CardProps> = ({
   };
 
   return (
-    <Card variant="outlined" sx={{ width: 280 }}>
+    <Card variant="outlined" sx={{ width: 250, backgroundColor: "#EEF1FF" }}>
       <Box
         sx={{
-          display: "flex",
+          width: 250,
           justifyContent: "space-between",
           alignItems: "center",
         }}
@@ -79,7 +79,7 @@ const GroupComponent: React.FC<CardProps> = ({
         <Typography level="title-lg">{title}</Typography>
         <Typography level="body-sm">
           {description.length > 110
-            ? `${description.slice(0, 110)}...`
+            ? `${description.slice(0, 55)}...`
             : description}
         </Typography>
       </CardContent>
