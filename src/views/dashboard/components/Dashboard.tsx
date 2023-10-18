@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Page } from "@src/shared/components/Page";
 import GroupComponent from "./GroupComponent";
-import { Divider, Typography, Button } from "@mui/joy";
-import Add from "@mui/icons-material/Add";
+import { Divider, Typography } from "@mui/joy";
 import { groupService } from "@src/services/groupService";
 import { loginService } from "@src/services/loginService";
 import { GroupModel } from "@src/shared/models/GroupModel";
 import { Thread } from "@src/shared/components/Threads";
 import { ThreadModel } from "@src/shared/models/ThreadModel";
 import { threadService } from "@src/services/threadService";
-import CreateGroupButton from "./CreateButton";
+// import CreateGroupButton from "./CreateButton";
+import NewGroup from "./NewGroup";
 
 export const Dashboard = () => {
   const [userGroups, setUserGroups] = useState<GroupModel[]>([]);
@@ -24,7 +24,7 @@ export const Dashboard = () => {
 
   useEffect(() => {
     fetchUserGroupsAndThreads();
-  }, [userEmail, name,]);
+  }, [userEmail, name]);
 
   // Define the onAction callback function to update groups
   const onAction = () => {
@@ -68,12 +68,13 @@ export const Dashboard = () => {
           alignItems: "center",
         }}
       >
-        <Typography level="h1" fontSize="x2" sx={{ mb: 0.5 }}>
+        <Typography level="h1" fontSize="x2" marginBottom="10px">
           My Groups
         </Typography>
-        <CreateGroupButton onGroupCreated={onGroupCreated} />
+        {/* <CreateGroupButton onGroupCreated={onGroupCreated} /> */}
       </div>
-      <div style={{ display: "flex", gap: "16px" }}>
+      <div style={{ display: "flex", gap: "16px", height: "225px" }}>
+        <NewGroup onGroupCreated={onGroupCreated} />
         {userGroups.map((group, index) => (
           <GroupComponent
             key={index}
@@ -88,13 +89,13 @@ export const Dashboard = () => {
           />
         ))}
       </div>
-      <div style={{ marginTop: "20px" }}>
+      <div style={{ marginTop: "50px", marginBottom: "30px" }}>
         <Divider />
       </div>
-      <Typography level="h1" fontSize="x2" sx={{ mb: 0.5 }}>
+      <Typography level="h1" fontSize="x2" marginBottom="10px">
         Suggested
       </Typography>
-      <div style={{ display: "flex", gap: "16px" }}>
+      <div style={{ display: "flex", gap: "16px", height: "225px" }}>
         {recommendedGroups.map((group, index) => (
           <GroupComponent
             key={index}
@@ -109,7 +110,7 @@ export const Dashboard = () => {
           />
         ))}
       </div>
-      <div style={{ marginTop: "20px" }}>
+      <div style={{ marginTop: "50px", marginBottom: "50px" }}>
         <Divider />
       </div>
 
@@ -119,7 +120,7 @@ export const Dashboard = () => {
         "No threads found"
       ) : (
         <div>
-          <Typography level="h1" fontSize="x2" sx={{ mb: 0.5 }}>
+          <Typography level="h1" fontSize="x2" marginBottom="10px">
             Threads
           </Typography>
           {threads.map((thread, index) => (

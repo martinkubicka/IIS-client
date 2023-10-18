@@ -9,20 +9,24 @@ const GroupsTab = () => {
   const userEmail = loginService.getCookie("userEmail") ?? "";
 
   useEffect(() => {
-    const fetchUserGroups = async () => {
-      try {
-        const joinedGroups = await groupService.getGroupsUserIsIn(
-          userEmail,
-          true
-        );
-        setUserGroups(joinedGroups);
-      } catch (error) {
-        console.error("Error fetching user's groups:", error);
-      }
-    };
-
     fetchUserGroups();
   }, []);
+
+  const fetchUserGroups = async () => {
+    try {
+      const joinedGroups = await groupService.getGroupsUserIsIn(
+        userEmail,
+        true
+      );
+      setUserGroups(joinedGroups);
+    } catch (error) {
+      console.error("Error fetching user's groups:", error);
+    }
+  };
+
+  const onAction = () => {
+    fetchUserGroups(); // Update userGroups and recommendedGroups
+  };
 
   const groupContainerStyle = {
     display: "flex",
@@ -42,10 +46,9 @@ const GroupsTab = () => {
             title={group.name ?? ""}
             description={group.description ?? ""}
             buttonText="Leave"
-            showButtonJoin={true}
             imageSrc={group.icon as string}
-            avatarSrcList={[]}
             name=""
+            onAction={onAction} // Pass the onAction callback
           />
         ))}
       </div>

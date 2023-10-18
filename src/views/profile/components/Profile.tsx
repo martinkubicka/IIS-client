@@ -64,6 +64,7 @@ export const Profile = () => {
           iconName={
             userDetailData?.icon != null ? userDetailData?.icon : "doughnut"
           }
+          size={100}
         />
       </Avatar>
       <PageHeader text={userDetailData?.name} />
