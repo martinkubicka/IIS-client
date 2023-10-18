@@ -33,7 +33,7 @@ export const loginService = {
         return cookie.substring(cookieName.length, cookie.length);
       }
     }
-    return null;
+    return undefined;
   },
 
   async login(data?: LoginModel) {

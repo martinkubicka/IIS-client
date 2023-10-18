@@ -82,11 +82,9 @@ export const threadService = {
 
   async createThread(data?: ThreadModel) {
     try {
-      console.log(data);
       const response = await instance.post(`/Thread/create`, data);
       return response.data;
     } catch (error) {
-      console.log(error);
       throw error;
     }
   },

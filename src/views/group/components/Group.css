@@ -8,6 +8,8 @@
 
 @media (max-width: 899px) {
     .contentPadding {
-        padding-right: 0px;
+        padding-left: 20px;
+        padding-right: 20px;
     }
+
 }

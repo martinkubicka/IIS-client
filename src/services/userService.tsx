@@ -38,6 +38,15 @@ export const userService = {
     }
   },
 
+  async getUserIcon(handle?: string) {
+    try {
+      const response = await this.getUser(handle);
+      return response.icon;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   async getPrivacy(handle?: string) {
     try {
       const response = await instance.get(`/User/privacy?handle=${handle}`);

@@ -40,11 +40,13 @@ export const LoginForm = () => {
         setOpenForgotModal(false);
     };
 
-    const singin = async () => {
+    const singin = async (e: any) => {
         const loginModel: LoginModel = {
             email: name,
             password: password
         }
+        
+        e.preventDefault();
 
         try {
         enqueueSnackbar("Loading..", {
@@ -71,53 +73,55 @@ export const LoginForm = () => {
           navigate('/');
     } catch (error) {
         setValidForm(false);
-    }   
+    }     
 }
 
     return (
         <div>
-        <MaterialCssVarsProvider theme={{ [MATERIAL_THEME_ID]: materialTheme }}>
+          <MaterialCssVarsProvider theme={{ [MATERIAL_THEME_ID]: materialTheme }}>
             <JoyCssVarsProvider>
-           <h2>Sign in</h2>
-           <h4>Email</h4>
-            <FormControl error={!validForm}>
-            <Input error={!validForm} value={name} onChange={(e) => {setName(e.target.value);}}/>
-            </FormControl>
+              <form onSubmit={singin}>
+                  <h2>Sign in</h2>
+                  <h4>Email</h4>
+                  <FormControl error={!validForm}>
+                  <Input error={!validForm} value={name} onChange={(e) => {setName(e.target.value);}}/>
+                  </FormControl>
 
-            <h4>Password</h4>
-      <FormControl error={!validForm}>
-        <Input
-          error={!validForm}
-          type={showPassword ? 'text' : 'password'}
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="Toggle password visibility"
-                onClick={handlePasswordVisibilityToggle}
-                edge="end"
-              >
-                {showPassword ? <Visibility /> : <VisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-        {!validForm && <FormHelperText>Invalid email or password.</FormHelperText>}
-      </FormControl>
-            
-            <Typography align='right' sx={{paddingTop: "10px"}}>
-                <Link level="title-sm" onClick={handleOpenForgotModal}>
-                        Forgot your password?
-                </Link>
-            </Typography>
+                  <h4>Password</h4>
+                  <FormControl error={!validForm}>
+                    <Input
+                      error={!validForm}
+                      type={showPassword ? 'text' : 'password'}
+                      value={password}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                      }}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="Toggle password visibility"
+                            onClick={handlePasswordVisibilityToggle}
+                            edge="end"
+                          >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                    {!validForm && <FormHelperText>Invalid email or password.</FormHelperText>}
+                  </FormControl>
+                  
+                  <Typography align='right' sx={{paddingTop: "10px"}}>
+                      <Link level="title-sm" onClick={handleOpenForgotModal}>
+                              Forgot your password?
+                      </Link>
+                  </Typography>
 
-            <Button sx={{float: "right", marginTop: "20px"}} onClick={singin}>Sign in</Button>
-            <ForgotPassword open={openForgotModal} onClose={handleCloseForgotModal}/>
-            </JoyCssVarsProvider>
-        </MaterialCssVarsProvider>
+                  <Button sx={{float: "right", marginTop: "20px"}} type="submit">Sign in</Button>
+                  <ForgotPassword open={openForgotModal} onClose={handleCloseForgotModal}/>
+                </form>
+              </JoyCssVarsProvider>
+          </MaterialCssVarsProvider>
         </div>
     );
 };

@@ -51,6 +51,7 @@ export const Page = ({ children, backgroundColor }: PageProps) => {
           width: "100%",
           minHeight: "100vh",
           padding: { md: "30px", xs: "0px" },
+          marginTop: { xs: 7, md: 0 },
         }}
       >
         {children}

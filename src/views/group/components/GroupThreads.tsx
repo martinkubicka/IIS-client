@@ -9,6 +9,7 @@ import { enqueueSnackbar } from "notistack";
 import AddEditThread from "./AddEditThread";
 import PaginationComponent from "@src/shared/components/Pagination/PaginationComponent";
 import ThreadFilter from "@src/shared/components/ThreadFilter/ThreadFilter";
+import { loginService } from "@src/services/loginService";
 
 interface GroupThreadsProps {
     groupData?: GroupModel;
@@ -61,7 +62,7 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData }) => {
 
     const handleSubmitCreate = async (formData: { name: string; description: string | null }) => {
         const newThread = {
-            email: "user1@example.com",
+            email: loginService.getCookie("userEmail"),
             name: formData.name,
             description: formData.description,
             handle: groupData?.handle, 

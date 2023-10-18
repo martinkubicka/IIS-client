@@ -18,6 +18,7 @@ import { useState } from "react";
 import { threadService } from "@src/services/threadService";
 import { enqueueSnackbar } from "notistack";
 import AddEditThread from "@src/views/group/components/AddEditThread";
+import { loginService } from "@src/services/loginService";
 
 interface ThreadProps {
   thread?: ThreadModel;
@@ -55,7 +56,6 @@ const handleSubmitUpdate = async (formData: { name: string; description: string 
         ...thread, 
         name: formData.name,
         description: formData.description,
-        email: 'user1@example.com',
       };
 
     try {

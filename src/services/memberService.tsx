@@ -1,5 +1,7 @@
 import axios, { AxiosError } from "axios";
 import API_BASE_URL from "@src/apiConfig";
+import { userService } from "./userService";
+import { UserProfileModel } from "@src/shared/models/UserProfileModel";
 
 const instance = axios.create({
   baseURL: API_BASE_URL,
@@ -54,13 +56,29 @@ export const memberService = {
     }
   },
 
-  async addMember(handle?: string, userEmail?: string, role = 1, name?: string, icon = "doughnut") {
+  async userInGroup(email?: string, handle?: string) {
+    var params = `/Member/UserInGroup?email=${email}&handle=${handle}`;
+
+    try {
+      const response = await instance.get(params);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async addMember(handle?: string, userEmail?: string, role = 1, name?: string, icon = "doughnut", userHandle?: string) {
+    var userData : UserProfileModel;
+    if (userHandle) {
+      userData = await userService.getUser(userHandle);
+    }
+    
     const memberData = {
       handle: handle,
       role: role,
       email: userEmail,
-      icon: icon,
-      name: name,
+      icon: userHandle ? userData.icon : icon,
+      name: userHandle ? userData.name : icon,
     };
     console.log(memberData);
     try {
