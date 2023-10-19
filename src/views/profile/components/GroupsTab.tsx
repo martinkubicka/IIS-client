@@ -4,7 +4,10 @@ import { groupService } from "@src/services/groupService";
 import GroupComponent from "@src/views/dashboard/components/GroupComponent";
 import { TabPanel } from "@mui/joy";
 import { loginService } from "@src/services/loginService";
-const GroupsTab = () => {
+interface GroupsTabProps {
+  showLeave: boolean;
+}
+const GroupsTab: React.FC<GroupsTabProps> = ({ showLeave }) => {
   const [userGroups, setUserGroups] = useState<GroupModel[]>([]);
   const userEmail = loginService.getCookie("userEmail") ?? "";
 
@@ -45,7 +48,7 @@ const GroupsTab = () => {
             handle={group.handle}
             title={group.name ?? ""}
             description={group.description ?? ""}
-            buttonText="Leave"
+            buttonText={showLeave ? "Leave" : ""}
             imageSrc={group.icon as string}
             name=""
             onAction={onAction} // Pass the onAction callback
