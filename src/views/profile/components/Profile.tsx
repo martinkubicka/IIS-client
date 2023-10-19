@@ -3,6 +3,8 @@ import { Page } from "@src/shared/components/Page";
 import { Avatar } from "@mui/joy";
 import { Icon } from "@src/shared/components/Icon/Icon";
 import TabMenu from "./TabMenuProfile";
+import { useParams } from "react-router-dom";
+
 import { UserDetailModel } from "@src/shared/models/UserDetailModel";
 import { useEffect, useState } from "react";
 import { userService } from "@src/services/userService";
@@ -16,8 +18,11 @@ export const Profile = () => {
   );
   const [userPrivacySettingsData, setUserPrivacyData] =
     useState<UserPrivacySettingsModel | null>(null);
-  const userEmail = loginService.getCookie("userEmail") ?? "";
-  const handle = loginService.getCookie("userHandle") ?? "";
+    
+    const handleMember = useParams<{ handle: string }>() ?? "";
+    const userEmail = loginService.getCookie("userEmail") ?? "";
+    const handle = handleMember.handle || loginService.getCookie("userHandle") || "";
+    console.log(handle);
 
   const onSettingsSaved = async () => {
     const updatedUserData = await userService.getUser(handle);
@@ -72,6 +77,7 @@ export const Profile = () => {
         userDetailData={userDetailData}
         userPrivacySettingsData={userPrivacySettingsData}
         onSettingsSaved={onSettingsSaved}
+        showSettings={handle === loginService.getCookie("userHandle")}
       />
     </Page>
   );
