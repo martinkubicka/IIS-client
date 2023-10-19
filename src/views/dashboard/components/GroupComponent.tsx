@@ -83,15 +83,17 @@ const GroupComponent: React.FC<CardProps> = ({
             : description}
         </Typography>
       </CardContent>
-      <CardActions buttonFlex="0 1 120px">
+      <CardActions sx={{ justifyContent: "center" } } buttonFlex="0 1 120px">
         <Link to={`/group/${handle}`} style={{ textDecoration: "none" }}>
-          <Button variant="outlined" color="primary">
+          <Button variant="solid" color="primary">
             View
           </Button>
         </Link>
-        <Button onClick={handleClick} variant="solid" color="primary">
-          {buttonText}
-        </Button>
+        {buttonText === "" ? null : (
+          <Button onClick={handleClick} variant="outlined" color="primary">
+            {buttonText}
+          </Button>
+        )}
         <Modal open={open} onClose={() => setOpen(false)}>
           <ModalDialog variant="outlined" role="alertdialog">
             <DialogTitle>
