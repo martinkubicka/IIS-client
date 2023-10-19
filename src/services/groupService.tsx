@@ -76,4 +76,13 @@ export const groupService = {
       throw error;
     }
   },
+
+  async getAllGroups() {
+    try {
+      const response = await instance.get("/Group");
+      return response.data as GroupModel[];
+    } catch (error) {
+      throw error;
+    }
+  },
 };

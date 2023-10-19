@@ -28,6 +28,25 @@ export const userService = {
       throw error;
     }
   },
+  async updateUserWithoutPassword(
+    updatedUser?: UserDetailModel,
+    userPrivacy?: UserPrivacySettingsModel
+  ) {
+    try {
+      const response = await instance.put("/User/updateWithoutPassword", {
+        updatedUser,
+        userPrivacy,
+      });
+
+      if (response.status === 204) {
+        return "User successfully updated";
+      } else {
+        throw new Error("Failed to update user");
+      }
+    } catch (error) {
+      throw error;
+    }
+  },
 
   async getUser(handle?: string) {
     try {

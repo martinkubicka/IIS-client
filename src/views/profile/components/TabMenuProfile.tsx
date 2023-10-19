@@ -10,12 +10,14 @@ interface TabMenuProps {
   userDetailData?: UserDetailModel;
   userPrivacySettingsData?: UserPrivacySettingsModel;
   onSettingsSaved: () => void;
+  showSettings: boolean;
 }
 
 const TabMenu: React.FC<TabMenuProps> = ({
   userDetailData,
   userPrivacySettingsData,
   onSettingsSaved,
+  showSettings,
 }) => {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
@@ -24,23 +26,33 @@ const TabMenu: React.FC<TabMenuProps> = ({
   return (
     <Tabs orientation="horizontal" size="lg" defaultValue={activeTab}>
       <TabList>
-        <Tab variant="plain" color="neutral">Posts</Tab>
-        <Tab variant="plain" color="neutral">Groups</Tab>
-        <Tab variant="plain" color="neutral">Settings</Tab>
+        <Tab variant="plain" color="neutral">
+          Posts
+        </Tab>
+        <Tab variant="plain" color="neutral">
+          Groups
+        </Tab>
+        {showSettings && (
+          <Tab variant="plain" color="neutral">
+            Settings
+          </Tab>
+        )}
       </TabList>
       <TabPanel value={0}>
         <PostsTab />
       </TabPanel>
       <TabPanel value={1}>
-        <GroupsTab />
+        <GroupsTab showLeave={showSettings}/>
       </TabPanel>
-      <TabPanel value={2}>
-        <SettingsTab
-          userDetailData={userDetailData}
-          userPrivacySettingsData={userPrivacySettingsData}
-          onSettingsSaved={onSettingsSaved}
-        />
-      </TabPanel>
+      {showSettings && (
+        <TabPanel value={2}>
+          <SettingsTab
+            userDetailData={userDetailData}
+            userPrivacySettingsData={userPrivacySettingsData}
+            onSettingsSaved={onSettingsSaved}
+          />
+        </TabPanel>
+      )}
     </Tabs>
   );
 };

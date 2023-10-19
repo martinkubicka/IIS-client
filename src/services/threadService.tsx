@@ -47,7 +47,6 @@ export const threadService = {
   },
 
   async getAllThreadsUserIsIn(handle?: string) {
-    console.log(handle);
     try {
       const response = await instance.get(
         `/Thread/GetAllThreadsUserIsIn/${handle}`, 
