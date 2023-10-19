@@ -14,11 +14,14 @@ import AccountTreeRoundedIcon from '@mui/icons-material/AccountTreeRounded';
 import MoreVert from '@mui/icons-material/MoreVert';
 import { Link, useNavigate } from 'react-router-dom';
 import Dialog from "../Dialog/Dialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { threadService } from "@src/services/threadService";
 import { enqueueSnackbar } from "notistack";
 import AddEditThread from "@src/views/group/components/AddEditThread";
 import { loginService } from "@src/services/loginService";
+import Role from "@src/enums/Role";
+import { memberService } from "@src/services/memberService";
+import GroupRole from "@src/enums/GroupRole";
 
 interface ThreadProps {
   thread?: ThreadModel;
@@ -26,9 +29,22 @@ interface ThreadProps {
 }
 
 export const Thread: React.FC<ThreadProps> = ({ thread, onDelete }) => {
-  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [openUpdate, setOpenUpdate] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+      const getPermissions = async () => {
+        if (loginService.getCookie("userRole") == Role.admin ||
+            loginService.getCookie("userEmail") == thread?.email ||
+            await memberService.getMemberRole(loginService.getCookie("userEmail"), thread?.handle) == GroupRole.admin
+        ) {
+          setIsVisible(true);
+        }
+      }
+
+      getPermissions();
+  }, []);
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -185,8 +201,12 @@ const handleSubmitUpdate = async (formData: { name: string; description: string 
       <Link to={`/thread/${thread?.id}`} style={{ textDecoration: 'none' }}>
         <MenuItem>Detail</MenuItem>
       </Link>
-      <MenuItem onClick={handleOpenUpdate}>Edit</MenuItem>
-      <MenuItem onClick={handleOpenModal}>Delete</MenuItem>
+
+      { isVisible ?
+        (<div><MenuItem onClick={handleOpenUpdate}>Edit</MenuItem>
+        <MenuItem onClick={handleOpenModal}>Delete</MenuItem></div>) : null
+      }
+    
     </Menu>
   </Dropdown>
 </Card>

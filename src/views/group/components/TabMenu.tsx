@@ -2,35 +2,81 @@ import Tabs from '@mui/joy/Tabs';
 import TabList from '@mui/joy/TabList';
 import Tab from '@mui/joy/Tab';
 import TabPanel from '@mui/joy/TabPanel';
-import { Thread } from '@src/shared/components/Threads';
 import { GroupSettings } from './GroupSettings';
 import { GroupModel } from '@src/shared/models/GroupModel';
 import { GroupThreads } from './GroupThreads';
 import { GroupMembers } from './GroupMembers';
+import { useEffect, useState } from 'react';
+import { loginService } from '@src/services/loginService';
+import Role from '@src/enums/Role';
+import GroupRole from '@src/enums/GroupRole';
+import { memberService } from '@src/services/memberService';
 
 interface TabMenuProps {
     groupData?: GroupModel;
     onSettingsSaved: () => void;
+    triggerUseEffect?: string;
 }
 
-export const TabMenu: React.FC<TabMenuProps> = ({ groupData, onSettingsSaved })=> {
+export const TabMenu: React.FC<TabMenuProps> = ({ groupData, onSettingsSaved, triggerUseEffect })=> {
+    const [isVisibleSettings, setIsVisibleSettings] = useState(false);
+    const [isVisibleMembers, setIsVisibleMembers] = useState(false);
+    
+    useEffect(() => {
+        const getPermissions = async () => {
+          if (loginService.getCookie("userRole") == Role.admin ||
+              await memberService.getMemberRole(loginService.getCookie("userEmail"), groupData?.handle) == GroupRole.admin
+          ) {
+            setIsVisibleSettings(true);
+          } else {
+            setIsVisibleSettings(false);
+          }
+        }
+    
+        getPermissions();
+      }, [triggerUseEffect]);
+
+      useEffect(() => {
+        const getPermissions = async () => {
+            if (groupData?.visibilityGuest ||
+                (groupData?.visibilityMember && await memberService.getMemberRole(loginService.getCookie("userEmail"), groupData?.handle)) != null||
+                loginService.getCookie("userRole") == Role.admin ||
+              await memberService.getMemberRole(loginService.getCookie("userEmail"), groupData?.handle) == GroupRole.admin
+            ) {
+                setIsVisibleMembers(true);
+            } else {
+                setIsVisibleMembers(false);
+            }
+        }
+    
+        getPermissions();
+      }, [groupData, triggerUseEffect]);
+
     return (
         <Tabs orientation="horizontal" size="lg" defaultValue={0}>
         <TabList>
             <Tab variant="plain" color="neutral">Threads</Tab>
+            { isVisibleMembers ? 
             <Tab variant="plain" color="neutral">Members</Tab>
+            : null }
+            { isVisibleSettings ?
             <Tab variant="plain" color="neutral">Settings</Tab>
+            : null }
         </TabList>
         
         <TabPanel value={0}>
-            <GroupThreads groupData={groupData}/>
+            <GroupThreads groupData={groupData} triggerUseEffect={triggerUseEffect}/>
         </TabPanel>
+        
+        { isVisibleMembers ?
         <TabPanel value={1}>
             <GroupMembers groupData={groupData}/>
-        </TabPanel>
+        </TabPanel> : null }
+
+        { isVisibleSettings ?
         <TabPanel value={2}>
             <GroupSettings groupData={groupData} onSettingsSaved={onSettingsSaved}/>
-        </TabPanel>
+        </TabPanel> : null }
 
         </Tabs>
     );

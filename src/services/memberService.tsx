@@ -2,17 +2,20 @@ import axios, { AxiosError } from "axios";
 import API_BASE_URL from "@src/apiConfig";
 import { userService } from "./userService";
 import { UserProfileModel } from "@src/shared/models/UserProfileModel";
+import { authHeaderGenerator } from "./authHeaderGenerator";
 
 const instance = axios.create({
   baseURL: API_BASE_URL,
 });
+
+const headers = authHeaderGenerator.getAuthHeader();
 
 export const memberService = {
   async getGroupMembersCount(handle?: string) {
     var params = `/Member/GetMembersCount?Handle=${handle}`;
 
     try {
-      const response = await instance.get(params);
+      const response = await instance.get(params, { headers });
       return response.data;
     } catch (error) {
       throw error;
@@ -27,7 +30,7 @@ export const memberService = {
     var params = `/Member/getMembers?handle=${handle}&currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`;
 
     try {
-      const response = await instance.get(params);
+      const response = await instance.get(params, { headers });
       return response.data;
     } catch (error) {
       throw error;
@@ -38,7 +41,7 @@ export const memberService = {
     var params = `/Member/delete?email=${email}&handle=${handle}`;
 
     try {
-      const response = await instance.delete(params);
+      const response = await instance.delete(params, { headers });
       return response.data;
     } catch (error) {
       throw error;
@@ -49,7 +52,7 @@ export const memberService = {
     var params = `/Member/updateRole?email=${email}&role=${role}&handle=${handle}`;
 
     try {
-      const response = await instance.put(params);
+      const response = await instance.put(params, null, { headers });
       return response.data;
     } catch (error) {
       throw error;
@@ -60,10 +63,20 @@ export const memberService = {
     var params = `/Member/UserInGroup?email=${email}&handle=${handle}`;
 
     try {
-      const response = await instance.get(params);
+      const response = await instance.get(params, { headers });
       return response.data;
     } catch (error) {
       throw error;
+    }
+  },
+
+  async getMemberRole(email?: string, handle?: string | null) {
+    var params = `/Member/getMemberRole?email=${email}&handle=${handle}`;
+
+    try {
+      const response = await instance.get(params, { headers });
+      return response.data;
+    } catch (error) {
     }
   },
 
@@ -82,7 +95,7 @@ export const memberService = {
     };
     console.log(memberData);
     try {
-      const response = await instance.post("/Member/add", memberData);
+      const response = await instance.post("/Member/add", memberData, { headers });
       console.log(response.data);
     } catch (error) {
       throw error;

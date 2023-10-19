@@ -69,7 +69,7 @@ export const LoginForm = () => {
             duration: 2000,
             fontFamily: 'Arial',
           }));
-
+          
           navigate('/');
     } catch (error) {
         setValidForm(false);

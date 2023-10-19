@@ -1,10 +1,13 @@
 import axios from "axios";
 import API_BASE_URL from "@src/apiConfig";
 import { ThreadModel } from "@src/shared/models/ThreadModel";
+import { authHeaderGenerator } from "./authHeaderGenerator";
 
 const instance = axios.create({
   baseURL: API_BASE_URL,
 });
+
+const headers = authHeaderGenerator.getAuthHeader();
 
 export const threadService = {
   async getThread(threadId: string) {
@@ -47,7 +50,8 @@ export const threadService = {
     console.log(handle);
     try {
       const response = await instance.get(
-        `/Thread/GetAllThreadsUserIsIn/${handle}`
+        `/Thread/GetAllThreadsUserIsIn/${handle}`, 
+        { headers }
       );
       return response.data;
     } catch (error) {
@@ -82,7 +86,7 @@ export const threadService = {
 
   async createThread(data?: ThreadModel) {
     try {
-      const response = await instance.post(`/Thread/create`, data);
+      const response = await instance.post(`/Thread/create`, data, { headers });
       return response.data;
     } catch (error) {
       throw error;
@@ -91,7 +95,7 @@ export const threadService = {
 
   async deleteThread(id?: string) {
     try {
-      const response = await instance.delete(`/Thread/delete/${id}`);
+      const response = await instance.delete(`/Thread/delete/${id}`, { headers });
       return response.data;
     } catch (error) {
       throw error;
@@ -100,7 +104,7 @@ export const threadService = {
 
   async updateThread(id?: string, data?: ThreadModel) {
     try {
-      const response = await instance.put(`/Thread/update/${id}`, data);
+      const response = await instance.put(`/Thread/update/${id}`, data, { headers });
       return response.data;
     } catch (error) {
       throw error;

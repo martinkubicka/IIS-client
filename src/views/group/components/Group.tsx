@@ -195,7 +195,7 @@ export const Group = () => {
                 }}>
                     {groupData?.description}
                 </Typography>
-                <TabMenu groupData={groupData} onSettingsSaved={onSettingsSaved}/>
+                <TabMenu groupData={groupData} onSettingsSaved={onSettingsSaved} triggerUseEffect={joinLeaveText}/>
             </StyledEngineProvider>
             </div>
 

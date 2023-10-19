@@ -1,6 +1,6 @@
 import { Page } from "@src/shared/components/Page";
 import { FormControl, FormHelperText, Button, Box} from '@mui/joy';
-import { useState } from "react";
+import React, { useState } from "react";
 import {
     Input,
     InputAdornment,
@@ -25,6 +25,7 @@ export const ResetPassword = () => {
     const [password, setPassword] = useState("");
     const [secondPassword, setSecondPassword] = useState("");
     const [validForm, setValidForm] = useState<boolean>(true);
+    const [validPassword, setValidPassword] = useState<boolean>(true);
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [showSecondPassword, setShowSecondPassword] = useState<boolean>(false);
     const navigate = useNavigate();
@@ -96,6 +97,17 @@ export const ResetPassword = () => {
     }
 
     const handlePasswordChange = (pswd: string) => {
+        if (pswd.length >= 8 &&
+            /[A-Z]/.test(pswd) &&
+            /\d/.test(pswd) &&
+            /[^A-Za-z0-9]/.test(pswd) && 
+            pswd?.trim() !== ''
+        ) {
+            setValidPassword(true);
+        } else {
+            setValidPassword(false);
+        }
+
         setPassword(pswd);
         if (secondPassword !== pswd) {
             setValidForm(false);
@@ -125,8 +137,9 @@ export const ResetPassword = () => {
             <h2 className={style.PageHeaderNoPadding}>Reset password</h2>
             <h4 className={style.PageHeaderNoPadding}>New password</h4>
            
-        <FormControl>
+        <FormControl error={!validPassword}>
            <Input
+           error={!validPassword}
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={(e) => {
@@ -144,6 +157,8 @@ export const ResetPassword = () => {
                 </InputAdornment>
             }
             />
+            {!validPassword && <FormHelperText>Password must be at least 8 characters long, contain at least one uppercase letter, one number, and one special character.</FormHelperText>}
+
         </FormControl>
 
             <h4 className={style.PageHeaderNoPadding}>Confirm password</h4>

@@ -1,11 +1,14 @@
 import { MemberModel } from "@src/shared/models/MemberModel";
 import { Avatar, Button, Select, Box, FormControl, FormLabel, Option, Card, CardContent, CardOverflow, CardActions, Typography } from '@mui/joy';
 import { Icon } from "@src/shared/components/Icon/Icon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import Dialog from "../Dialog/Dialog";
 import { memberService } from "@src/services/memberService";
 import { enqueueSnackbar } from "notistack";
+import { loginService } from "@src/services/loginService";
+import Role from "@src/enums/Role";
+import GroupRole from "@src/enums/GroupRole";
 
 interface MemberProps {
   member?: MemberModel;
@@ -17,6 +20,20 @@ export const Member: React.FC<MemberProps> = ({ member, onDelete, handle }) => {
     const [valueChanged, setValueChanged] = useState(false);
     const [selectedRole, setSelectedRole] = useState(member?.role);
     const [modalOpen, setModalOpen] = useState<boolean>(false);
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const getPermissions = async () => {
+        
+          if (loginService.getCookie("userRole") != null && (loginService.getCookie("userRole") == Role.admin ||
+              await memberService.getMemberRole(loginService.getCookie("userEmail"), handle) == GroupRole.admin)
+          ) {
+            setIsVisible(true);
+          }
+        }
+    
+        getPermissions();
+      }, []);
 
     const handleRoleChange = (value: number) => {
         if (member?.role != value) {
@@ -151,30 +168,31 @@ export const Member: React.FC<MemberProps> = ({ member, onDelete, handle }) => {
             </Link>
             <Link to={`/profile/${member?.handle}`} style={{textDecoration: 'none'}}>
                 <Typography level="title-lg">{member?.name}</Typography>  
-            </Link>     
+            </Link>   
+            </CardContent>
+        { isVisible ?
+        (
+            <div>
+            <FormControl sx={{ width: 150 }}>
+            <FormLabel id="select-field-demo-label" htmlFor="select-field-demo-button">
+                Role
+            </FormLabel>
+            <Select
+                    defaultValue={selectedRole?.toString()}
+                >
+                <Option value="0" onClick={() => handleRoleChange(0)}>Admin</Option>
+                <Option value="1" onClick={() => handleRoleChange(1)}>Member</Option>
+                <Option value="2" onClick={() => handleRoleChange(2)}>Moderator</Option>
+            </Select>
+            </FormControl>
 
-        <FormControl sx={{ width: 140 }}>
-        <FormLabel id="select-field-demo-label" htmlFor="select-field-demo-button">
-            Role
-        </FormLabel>
-        <Select
-                defaultValue={selectedRole?.toString()}
-            >
-            <Option value="0" onClick={() => handleRoleChange(0)}>Admin</Option>
-            <Option value="1" onClick={() => handleRoleChange(1)}>Member</Option>
-            <Option value="2" onClick={() => handleRoleChange(2)}>Moderator</Option>
-        </Select>
-        </FormControl>
-
-        </CardContent>
-        <CardOverflow sx={{ bgcolor: 'background.level1' }}>
-            <CardActions buttonFlex="1">
-                <Box sx={{ display: 'flex', gap: 1 }}>
-                    <Button disabled={!valueChanged} onClick={saveSettings}>Save</Button>
-                    <Button color="danger" onClick={handleOpenModal}>Delete</Button>
-                </Box>
-            </CardActions>
-        </CardOverflow>
+                <CardActions buttonFlex="1">
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                        <Button disabled={!valueChanged} onClick={saveSettings}>Save</Button>
+                        <Button color="danger" onClick={handleOpenModal}>Delete</Button>
+                    </Box>
+                </CardActions>
+            </div>) : null}
         </Card>
 
         <Dialog
