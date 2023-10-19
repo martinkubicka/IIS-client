@@ -20,6 +20,7 @@ export const Routes = () => {
     { path: "/notfound", element: <NotFound /> },
     { path: "/login", element: <Login /> },
     { path: "/passwordReset", element: <ResetPassword /> },
+    { path : "profile/:handle", element: <Profile />}
   ]);
 
   return element;
