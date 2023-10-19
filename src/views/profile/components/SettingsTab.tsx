@@ -153,8 +153,15 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
           fontFamily: "Arial",
         },
       });
-
-      await userService.updateUser(userDetailData, userPrivacySettingsData);
+      // if (userDetailData?.password === "") use updateUserWithoutPassword
+      if (userDetailData?.password === "") {
+        await userService.updateUserWithoutPassword(
+          userDetailData,
+          userPrivacySettingsData
+        );
+      } else {
+        await userService.updateUser(userDetailData, userPrivacySettingsData);
+      }
       await onSettingsSaved();
       //setValuesChanged(true);
 
@@ -221,7 +228,6 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
         defaultChecked={registeredChecked}
         onChange={(e) => {
           setRegisteredChecked(e.target.checked);
-          setGuestChecked(e.target.checked);
         }}
         style={{ margin: "10px" }}
       />
@@ -231,7 +237,6 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
         defaultChecked={guestChecked}
         onChange={(e) => {
           setGuestChecked(e.target.checked);
-          setRegisteredChecked(e.target.checked);
         }}
         style={{ margin: "10px" }}
       />
