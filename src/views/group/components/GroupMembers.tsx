@@ -7,9 +7,11 @@ import { useEffect, useState } from "react";
 
 interface GroupMembersProps {
     groupData?: GroupModel;
+    isVisibleMembers?: boolean;
+    triggerUseEffect?: boolean;
 }
 
-export const GroupMembers: React.FC<GroupMembersProps> = ({ groupData }) => {
+export const GroupMembers: React.FC<GroupMembersProps> = ({ groupData, isVisibleMembers, triggerUseEffect }) => {
     const [members, setMembers] = useState<MemberModel[] | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
@@ -17,17 +19,19 @@ export const GroupMembers: React.FC<GroupMembersProps> = ({ groupData }) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                const memberDataResponse = await memberService.getGroupMembers(groupData?.handle, currentPage, itemsPerPage);
-                setMembers(memberDataResponse);
+            if (isVisibleMembers) {
+                try {
+                    const memberDataResponse = await memberService.getGroupMembers(groupData?.handle, currentPage, itemsPerPage);
+                    setMembers(memberDataResponse);
 
-                const membersCount = await memberService.getGroupMembersCount(groupData?.handle);
-                setTotalPages(Math.floor(membersCount / itemsPerPage) + (membersCount % itemsPerPage == 0 ? 0 : + 1));
-            } catch (error) {}
+                    const membersCount = await memberService.getGroupMembersCount(groupData?.handle);
+                    setTotalPages(Math.floor(membersCount / itemsPerPage) + (membersCount % itemsPerPage == 0 ? 0 : + 1));
+                } catch (error) {}
+            }
         };
     
         fetchData();
-    }, []);
+    }, [triggerUseEffect]);
 
     const onDelete = async () => {
         const membersCount = await memberService.getGroupMembersCount(groupData?.handle);

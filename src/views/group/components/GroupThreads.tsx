@@ -55,9 +55,8 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData, triggerUs
 
           const getPermissions = async () => {
             const groupRole = await memberService.getMemberRole(loginService.getCookie("userEmail"), groupData.handle)
-            console.log(groupRole)
             if (loginService.getCookie("userRole") == Role.admin ||
-                groupRole ==  GroupRole.admin || groupRole == GroupRole.member || groupRole == GroupRole.moderator
+                (groupRole != "" && groupRole ==  GroupRole.admin || groupRole == GroupRole.member || groupRole == GroupRole.moderator)
             ) {
                 setIsVisible(true);
             } else {

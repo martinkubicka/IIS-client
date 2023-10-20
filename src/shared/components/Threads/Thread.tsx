@@ -35,9 +35,10 @@ export const Thread: React.FC<ThreadProps> = ({ thread, onDelete }) => {
 
   useEffect(() => {
       const getPermissions = async () => {
+        const role = await memberService.getMemberRole(loginService.getCookie("userEmail"), thread?.handle);
         if (loginService.getCookie("userRole") == Role.admin ||
             loginService.getCookie("userEmail") == thread?.email ||
-            await memberService.getMemberRole(loginService.getCookie("userEmail"), thread?.handle) == GroupRole.admin
+            (role != "" && role == GroupRole.admin)
         ) {
           setIsVisible(true);
         }

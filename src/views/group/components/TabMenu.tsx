@@ -23,32 +23,32 @@ export const TabMenu: React.FC<TabMenuProps> = ({ groupData, onSettingsSaved, tr
     const [isVisibleMembers, setIsVisibleMembers] = useState(false);
     
     useEffect(() => {
-        const getPermissions = async () => {
-          if (loginService.getCookie("userRole") == Role.admin ||
-              await memberService.getMemberRole(loginService.getCookie("userEmail"), groupData?.handle) == GroupRole.admin
-          ) {
-            setIsVisibleSettings(true);
-          } else {
-            setIsVisibleSettings(false);
-          }
-        }
-    
-        getPermissions();
-      }, [triggerUseEffect]);
+      const getPermissions = async () => {
+        if(groupData) {
+          const role = await memberService.getMemberRole(loginService.getCookie("userEmail"), groupData?.handle);
 
-      useEffect(() => {
-        const getPermissions = async () => {
-            if (groupData?.visibilityGuest ||
-                (groupData?.visibilityMember && await memberService.getMemberRole(loginService.getCookie("userEmail"), groupData?.handle)) != null||
-                loginService.getCookie("userRole") == Role.admin ||
-              await memberService.getMemberRole(loginService.getCookie("userEmail"), groupData?.handle) == GroupRole.admin
-            ) {
-                setIsVisibleMembers(true);
-            } else {
-                setIsVisibleMembers(false);
-            }
+          if (groupData?.visibilityGuest ||
+              (groupData?.visibilityMember && role != "" && role != undefined) ||
+              loginService.getCookie("userRole") == Role.admin ||
+           (role != "" && role == GroupRole.admin)
+          ) {
+              console.log(role);
+              setIsVisibleMembers(true);
+          } else {
+              setIsVisibleMembers(false);
+          }
+        
+
+        if (loginService.getCookie("userRole") == Role.admin ||
+            (role != "" && role == GroupRole.admin)
+        ) {
+          setIsVisibleSettings(true);
+        } else {
+          setIsVisibleSettings(false);
         }
-    
+      }
+      }
+
         getPermissions();
       }, [groupData, triggerUseEffect]);
 
@@ -70,7 +70,7 @@ export const TabMenu: React.FC<TabMenuProps> = ({ groupData, onSettingsSaved, tr
         
         { isVisibleMembers ?
         <TabPanel value={1}>
-            <GroupMembers groupData={groupData}/>
+            <GroupMembers groupData={groupData} isVisibleMembers={isVisibleMembers} triggerUseEffect={triggerUseEffect}/>
         </TabPanel> : null }
 
         { isVisibleSettings ?

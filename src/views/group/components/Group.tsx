@@ -151,11 +151,13 @@ export const Group = () => {
                     };
     
                     setGroupData(updatedGroupData);
-
+                    
+                    const groupRole = await memberService.getMemberRole(loginService.getCookie("userEmail"), groupDataResponse.handle)
                     if (loginService.getCookie("userEmail") !== null) {
-                        const userInGroup = await memberService.userInGroup(loginService.getCookie("userEmail"), groupDataResponse.handle);
-                        if (userInGroup) {
+                        if (groupRole != "" && groupRole != undefined) {
                             setJoinLeaveText("Leave");
+                        } else {
+                            setJoinLeaveText("Join");
                         }
                     }
                 }

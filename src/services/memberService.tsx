@@ -60,6 +60,10 @@ export const memberService = {
   },
 
   async userInGroup(email?: string, handle?: string) {
+    if (email == undefined || handle == undefined) {
+      return false;
+    }
+
     var params = `/Member/UserInGroup?email=${email}&handle=${handle}`;
 
     try {
@@ -71,12 +75,17 @@ export const memberService = {
   },
 
   async getMemberRole(email?: string, handle?: string | null) {
+    if (email == undefined || handle == undefined) {
+      return;
+    }
+    
     var params = `/Member/getMemberRole?email=${email}&handle=${handle}`;
 
     try {
       const response = await instance.get(params, { headers });
       return response.data;
     } catch (error) {
+      return null;
     }
   },
 
@@ -93,10 +102,9 @@ export const memberService = {
       icon: userHandle ? userData.icon : icon,
       name: userHandle ? userData.name : icon,
     };
-    console.log(memberData);
     try {
       const response = await instance.post("/Member/add", memberData, { headers });
-      console.log(response.data);
+      return response.data;
     } catch (error) {
       throw error;
     }
