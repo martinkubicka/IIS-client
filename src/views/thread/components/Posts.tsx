@@ -1,10 +1,9 @@
-import { Box, Button, CircularProgress, IconButton, Stack } from "@mui/joy";
-import React from "react";
-import { fabStyle, postsContainerStyle, postsStyle } from "./styles/style";
-import { PostModel } from "@src/shared/models/PostModel";
-import { Post } from "@src/shared/components/Post/Post";
-import { KeyboardDoubleArrowDown } from "@mui/icons-material";
+import { Box, Stack } from "@mui/joy";
 import { LoadingOverlay } from "@src/shared/components/LoadingOverlay/LoadingOverlay";
+import { Post } from "@src/shared/components/Post/Post";
+import { PostModel } from "@src/shared/models/PostModel";
+import React from "react";
+import { postsContainerStyle, postsStyle } from "./styles/style";
 
 interface PostsProps {
   posts?: PostModel[];
@@ -20,7 +19,6 @@ export const Posts = ({
   loading,
   onScrollTop,
   onDeletePost = () => {},
-  onUpdatePost = () => {},
 }: PostsProps) => {
   const ref = React.useRef<HTMLDivElement | null>(null);
   const [scrollFlag, setScrollFlag] = React.useState(false);

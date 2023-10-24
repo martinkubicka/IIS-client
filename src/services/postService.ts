@@ -67,4 +67,26 @@ export const postService = {
       throw error;
     }
   },
+
+  async getRatingByPostAndUser(postId: string, userEmail: string) {
+    try {
+      const response = await instance.get(
+        `/Rating/getRatingByPostAndUser/${postId}/${userEmail}`
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async updateRating(postId: string, userEmail: string, ratingChange: number) {
+    try {
+      const response = await instance.post(
+        `http://localhost:5203/Rating/update?postId=${postId}&userEmail=${userEmail}&ratingChange=${ratingChange}`
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
