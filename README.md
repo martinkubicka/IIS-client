@@ -6,4 +6,4 @@
 
 3. Then run  ``` npm run dev  ```, url will be available in terminal
 
-Note: At first you need to run backend.
+Note: At first you need to setup and run backend.
