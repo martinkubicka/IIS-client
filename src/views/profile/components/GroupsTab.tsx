@@ -4,26 +4,41 @@ import { groupService } from "@src/services/groupService";
 import GroupComponent from "@src/views/dashboard/components/GroupComponent";
 import { TabPanel } from "@mui/joy";
 import { loginService } from "@src/services/loginService";
+import { useParams } from "react-router-dom";
+
 interface GroupsTabProps {
   showLeave: boolean;
 }
 const GroupsTab: React.FC<GroupsTabProps> = ({ showLeave }) => {
   const [userGroups, setUserGroups] = useState<GroupModel[]>([]);
+  const handleMember = useParams<{ handle: string }>() ?? "";
   const userEmail = loginService.getCookie("userEmail") ?? "";
+  const handle =
+    handleMember.handle || loginService.getCookie("userHandle") || "";
 
   useEffect(() => {
     fetchUserGroups();
   }, []);
 
   const fetchUserGroups = async () => {
-    try {
-      const joinedGroups = await groupService.getGroupsUserIsIn(
-        userEmail,
-        true
-      );
-      setUserGroups(joinedGroups);
-    } catch (error) {
-      console.error("Error fetching user's groups:", error);
+    if (handle !== "") {
+      console.log(handle);
+      try {
+        const joinedGroups = await groupService.getGroupsUserIsInByHandle(handle);
+        setUserGroups(joinedGroups);
+      } catch (error) {
+        console.error("Error fetching user's groups:", error);
+      }
+    } else {
+      try {
+        const joinedGroups = await groupService.getGroupsUserIsIn(
+          userEmail,
+          true
+        );
+        setUserGroups(joinedGroups);
+      } catch (error) {
+        console.error("Error fetching user's groups:", error);
+      }
     }
   };
 
