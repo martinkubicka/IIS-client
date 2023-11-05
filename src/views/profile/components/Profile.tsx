@@ -18,11 +18,11 @@ export const Profile = () => {
   );
   const [userPrivacySettingsData, setUserPrivacyData] =
     useState<UserPrivacySettingsModel | null>(null);
-    
-    const handleMember = useParams<{ handle: string }>() ?? "";
-    const userEmail = loginService.getCookie("userEmail") ?? "";
-    const handle = handleMember.handle || loginService.getCookie("userHandle") || "";
-    console.log(handle);
+
+  const handleMember = useParams<{ handle: string }>() ?? "";
+  const userEmail = loginService.getCookie("userEmail") ?? "";
+  const handle =
+    handleMember.handle || loginService.getCookie("userHandle") || "";
 
   const onSettingsSaved = async () => {
     const updatedUserData = await userService.getUser(handle);
