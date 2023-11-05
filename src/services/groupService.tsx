@@ -34,6 +34,15 @@ export const groupService = {
     }
   },
 
+  async getGroupsUserIsInByHandle(handle?: string) {
+    try {
+      const response = await instance.get(`/Group/user/${handle}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   async getGroupPolicy(handle?: string) {
     try {
       const response = await instance.get(`/Group/policy/${handle}`);
