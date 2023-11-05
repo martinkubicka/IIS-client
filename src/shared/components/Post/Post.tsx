@@ -38,7 +38,6 @@ export const Post = ({
   onDelete = () => {},
 }: PostProps) => {
   const [user, setUser] = React.useState<UserProfileModel>();
-  const [rating, setRating] = React.useState(0);
   const [editing, setEditing] = React.useState(false);
 
   const { mutate: updatePostMutation, isLoading: updateLoading } = useMutation(
@@ -73,12 +72,6 @@ export const Post = ({
         const data = await userService.getUser(handle);
 
         setUser(data);
-      } catch (error) {
-        console.log(error);
-      }
-      try {
-        const data = await postService.calculateRating(id as string);
-        setRating(data);
       } catch (error) {
         console.log(error);
       }
@@ -119,7 +112,7 @@ export const Post = ({
           onEditCancel={handleCancelEditing}
           updateLoading={updateLoading}
         />
-        <PostFooter onRatingChange={() => {}} initialRating={rating} />
+        <PostFooter postId={id as string} />
       </Stack>
     </Stack>
   );

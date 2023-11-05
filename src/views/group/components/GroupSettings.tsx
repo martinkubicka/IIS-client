@@ -180,13 +180,13 @@ export const GroupSettings: React.FC<GroupSettingsProps> = ({ groupData, onSetti
 
             <h3>Name</h3>
             <FormControl error={!validName}>
-            <Input error={!validName} value={name} onChange={(e) => {setName(e.target.value);}}/>
+            <Input error={!validName} value={name} onChange={(e) => {e.target.value = e.target.value.slice(0, 20);setName(e.target.value);}}/>
                 {!validName && <FormHelperText>Name field cannot be empty!</FormHelperText>}
             </FormControl>
 
             <h3>Description</h3>
             <FormControl error={!validDescription}>
-            <Textarea  error={!validDescription} minRows={1} value={description} onChange={(e) => {setDescription(e.target.value);}}/>
+            <Textarea  error={!validDescription} minRows={1} value={description} onChange={(e) => {e.target.value = e.target.value.slice(0, 100);setDescription(e.target.value);}}/>
                 {!validDescription && <FormHelperText>Description cannot contains only whitespaces!</FormHelperText>}
             </FormControl>
             <h3>Group members visibility</h3>

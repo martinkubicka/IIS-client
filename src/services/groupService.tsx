@@ -1,15 +1,18 @@
 import axios from "axios";
 import API_BASE_URL from "@src/apiConfig";
 import { GroupModel } from "@src/shared/models/GroupModel";
+import { authHeaderGenerator } from "./authHeaderGenerator";
 
 const instance = axios.create({
   baseURL: API_BASE_URL,
 });
 
+const headers = authHeaderGenerator.getAuthHeader();
+
 export const groupService = {
   async getGroupsUserIsIn(userEmail?: string, joined?: boolean) {
     try {
-      const response = await instance.get(`/Group/user/${userEmail}/${joined}`);
+      const response = await instance.get(`/Group/user/${userEmail}/${joined}`, { headers });
       return response.data;
     } catch (error) {
       throw error;
@@ -18,7 +21,7 @@ export const groupService = {
 
   async addGroup(data?: GroupModel) {
     try {
-      const response = await instance.post("/Group/add", data);
+      const response = await instance.post("/Group/add", data, { headers });
       return response.data;
     } catch (error) {
       throw error;
@@ -54,7 +57,7 @@ export const groupService = {
 
   async updateGroup(data?: GroupModel) {
     try {
-      const response = await instance.put(`/Group/update`, data);
+      const response = await instance.put(`/Group/update`, data, { headers });
       return response.data;
     } catch (error) {
       throw error;
@@ -63,7 +66,7 @@ export const groupService = {
 
   async deleteGroup(handle?: string) {
     try {
-      const response = await instance.delete(`/Group/remove/${handle}`);
+      const response = await instance.delete(`/Group/remove/${handle}`, { headers });
       return response.data;
     } catch (error) {
       throw error;
@@ -74,7 +77,8 @@ export const groupService = {
     try {
       const response = await instance.put(
         `/Group/updatePolicy?handle=${data?.handle}`,
-        data
+        data,
+        { headers }
       );
       return response.data;
     } catch (error) {

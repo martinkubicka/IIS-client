@@ -1,12 +1,9 @@
-# Rozdelenie
+# Frontend setup
 
-- Dominik: thread, search
-- Matej: dashboard, profile
-- Martin: groups, login + navbar
+1. Nodejs version > 16
 
-# Absolutni cesty
+2. In project folder run ``` npm install ```
 
-- Jsou nastavene absolutni cesty, pouzivejme napr. misto
-  `import {something} from "../../../something"`
-  ->
-  `import {something} from "@src/something"`
+3. Then run  ``` npm run dev  ```, url will be available in terminal
+
+Note: At first you need to setup and run backend.

@@ -50,7 +50,7 @@ export default function AddThread({ open, onClose, onSubmit, header, createUpdat
                 autoFocus
                 required
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => {e.target.value = e.target.value.slice(0, 50); setName(e.target.value);}}
                 error={!validName}
                 sx={{minWidth: "320px"}}
               />
@@ -62,7 +62,7 @@ export default function AddThread({ open, onClose, onSubmit, header, createUpdat
               <Textarea
                 minRows={1}
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={(e) => {e.target.value = e.target.value.slice(0, 100); setDescription(e.target.value);}}
                 error={!validDescription}
               />
               {!validDescription && <FormHelperText>Description cannot contains only whitespaces!</FormHelperText>}

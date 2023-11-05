@@ -5,16 +5,123 @@ import { TabMenu } from "./TabMenu";
 import { useEffect, useState } from 'react';
 import { groupService } from '@src/services/groupService';
 import { GroupModel } from '@src/shared/models/GroupModel';
-import { Typography } from '@mui/joy'; 
+import { Typography, Button } from '@mui/joy'; 
 import Avatar from '@mui/joy/Avatar';
 import './Group.css';
 import { StyledEngineProvider } from '@mui/material/styles';
 import { Icon } from "@src/shared/components/Icon/Icon";
+import Add from '@mui/icons-material/Add';
+import { loginService } from "@src/services/loginService";
+import { memberService } from "@src/services/memberService";
+import { enqueueSnackbar } from "notistack";
+import CloseIcon from '@mui/icons-material/Close';
+import Dialog from "@src/shared/components/Dialog/Dialog";
 
 export const Group = () => {
     const { handle } = useParams<{ handle: string}>();
     const [groupData, setGroupData] = useState<GroupModel | null>(null);
-    const navigate = useNavigate();
+    const [joinLeaveText, setJoinLeaveText] = useState<string>("Join");
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+    const handleOpenModal = () => {
+        setModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+    };
+
+    const handleConfirm = () => {
+        leave();
+        handleCloseModal();
+    };
+
+    const join = async () => {        
+        try {
+            enqueueSnackbar("Loading..", {
+                variant: 'info',
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                autoHideDuration: 2000,
+                style: {
+                    fontFamily: 'Arial',
+                },
+            });
+    
+            await memberService.addMember(handle, loginService.getCookie("userEmail"), undefined, undefined, undefined, loginService.getCookie("userHandle"));
+    
+            enqueueSnackbar("Joined successfully.", {
+                variant: 'success',
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                autoHideDuration: 2000,
+                style: {
+                    fontFamily: 'Arial',
+                },
+            });
+            setJoinLeaveText("Leave");
+        } catch (error) {
+            enqueueSnackbar("Error occured while joining the group.", {
+                variant: 'error',
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                autoHideDuration: 2000,
+                style: {
+                    fontFamily: 'Arial',
+                },
+            });
+        }
+        
+    }
+
+    const leave = async () => {        
+        try {
+            enqueueSnackbar("Loading..", {
+                variant: 'info',
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                autoHideDuration: 2000,
+                style: {
+                    fontFamily: 'Arial',
+                },
+            });
+    
+            await memberService.deleteMember(loginService.getCookie("userEmail"), handle);
+    
+            enqueueSnackbar("The group left successfully.", {
+                variant: 'success',
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                autoHideDuration: 2000,
+                style: {
+                    fontFamily: 'Arial',
+                },
+            });
+            setJoinLeaveText("Join");
+        } catch (error) {
+            enqueueSnackbar("Error occured while leaving the group.", {
+                variant: 'error',
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                autoHideDuration: 2000,
+                style: {
+                    fontFamily: 'Arial',
+                },
+            });
+        }
+    }
 
     const onSettingsSaved = async () => {
         const groupDataResponse = await groupService.getGroup(handle);
@@ -35,7 +142,7 @@ export const Group = () => {
                 setGroupData(groupDataResponse);
     
                 const groupPolicyData = await groupService.getGroupPolicy(handle);
-    
+
                 if (groupDataResponse) {
                     const updatedGroupData = {
                         ...groupDataResponse,
@@ -44,6 +151,15 @@ export const Group = () => {
                     };
     
                     setGroupData(updatedGroupData);
+                    
+                    const groupRole = await memberService.getMemberRole(loginService.getCookie("userEmail"), groupDataResponse.handle)
+                    if (loginService.getCookie("userEmail") !== null) {
+                        if (groupRole != "" && groupRole != undefined) {
+                            setJoinLeaveText("Leave");
+                        } else {
+                            setJoinLeaveText("Join");
+                        }
+                    }
                 }
             } catch (error) {}
         };
@@ -55,12 +171,23 @@ export const Group = () => {
         <Page>
             <div className="contentPadding">
             <StyledEngineProvider injectFirst>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingRight: "10px" }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Avatar>
-                    <Icon iconName={groupData?.icon ? groupData?.icon : "doughnut"} />
-                </Avatar>
+                    <Avatar>
+                    <Icon iconName={groupData?.icon ? groupData.icon : ""} />
+                    </Avatar>
                     <PageHeader text={groupData?.name} />
                 </div>
+                {loginService.getCookie("userEmail") ? 
+                    <Button
+                        color={joinLeaveText == "Join" ? "primary" : "danger"}
+                        onClick={joinLeaveText == "Join" ? join : handleOpenModal}
+                        variant="outlined"
+                        startDecorator={joinLeaveText == "Join" ? <Add /> : <CloseIcon />}
+                    >{joinLeaveText}</Button>
+                    : null
+                }
+            </div>
 
                 <Typography className="groupDescription" variant="subtitle1" color="textSecondary" style={{
                     whiteSpace: 'normal',
@@ -70,9 +197,17 @@ export const Group = () => {
                 }}>
                     {groupData?.description}
                 </Typography>
-                <TabMenu groupData={groupData} onSettingsSaved={onSettingsSaved}/>
+                <TabMenu groupData={groupData} onSettingsSaved={onSettingsSaved} triggerUseEffect={joinLeaveText}/>
             </StyledEngineProvider>
             </div>
+
+            <Dialog
+                open={modalOpen}
+                onClose={handleCloseModal}
+                title="Confirmation"
+                content="Are you sure you want to leave this group?"
+                onConfirm={handleConfirm}
+            />
         </Page>
     );
 };

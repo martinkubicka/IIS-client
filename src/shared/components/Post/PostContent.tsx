@@ -39,7 +39,6 @@ export const PostContent = ({
   useEffect(() => {
     if (editing && ref.current) {
       ref.current.focus();
-      console.log("focused");
     }
   }, [editing]);
 

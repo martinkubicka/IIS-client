@@ -77,29 +77,13 @@ export const PostHeader = ({
         title={"Delete post"}
       />
 
-      <Box>
-        <Dropdown>
-          <MenuButton
-            slots={{ root: IconButton }}
-            slotProps={{ root: { variant: "plain", color: "neutral" } }}
-          >
-            <MoreVert />
-          </MenuButton>
-          <Menu>
-            <MenuItem onClick={() => onUpdate(id)}>
-              <ListItemDecorator>
-                <Edit />
-              </ListItemDecorator>
-              Edit post
-            </MenuItem>
-            <MenuItem onClick={handleDelete} variant="plain" color="danger">
-              <ListItemDecorator sx={{ color: "inherit" }}>
-                <DeleteForever />
-              </ListItemDecorator>
-              Delete
-            </MenuItem>
-          </Menu>
-        </Dropdown>
+      <Box sx={{ marginRight: { xs: 0, md: 10 } }}>
+        <IconButton onClick={() => onUpdate(id)}>
+          <Edit />
+        </IconButton>
+        <IconButton onClick={handleDelete} variant="plain" color="danger">
+          <DeleteForever />
+        </IconButton>
       </Box>
     </Stack>
   );

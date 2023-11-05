@@ -9,16 +9,22 @@ import { enqueueSnackbar } from "notistack";
 import AddEditThread from "./AddEditThread";
 import PaginationComponent from "@src/shared/components/Pagination/PaginationComponent";
 import ThreadFilter from "@src/shared/components/ThreadFilter/ThreadFilter";
+import { loginService } from "@src/services/loginService";
+import { memberService } from "@src/services/memberService";
+import Role from "@src/enums/Role";
+import GroupRole from "@src/enums/GroupRole";
 
 interface GroupThreadsProps {
     groupData?: GroupModel;
+    triggerUseEffect?: string;
 }
 
-export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData }) => {
+export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData, triggerUseEffect }) => {
     const [threads, setThreads] = useState<ThreadModel[] | null>(null);
     const [openCreate, setOpenCreate] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
+    const [isVisible, setIsVisible] = useState(false);
     const itemsPerPage = 5;
 
     const handlePageChange = async (page: number) => {
@@ -46,10 +52,22 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData }) => {
                     setThreads(threadsResponse);
                 } catch {}
           };
+
+          const getPermissions = async () => {
+            const groupRole = await memberService.getMemberRole(loginService.getCookie("userEmail"), groupData.handle)
+            if (loginService.getCookie("userRole") == Role.admin ||
+                (groupRole != "" && groupRole ==  GroupRole.admin || groupRole == GroupRole.member || groupRole == GroupRole.moderator)
+            ) {
+                setIsVisible(true);
+            } else {
+                setIsVisible(false);
+            }
+         }
     
+          getPermissions();
           fetchData();
         }
-      }, [groupData]);
+      }, [groupData, triggerUseEffect]);
     
     const handleOpenCreate = () => {
         setOpenCreate(true);
@@ -61,7 +79,7 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData }) => {
 
     const handleSubmitCreate = async (formData: { name: string; description: string | null }) => {
         const newThread = {
-            email: "user1@example.com",
+            email: loginService.getCookie("userEmail"),
             name: formData.name,
             description: formData.description,
             handle: groupData?.handle, 
@@ -145,17 +163,19 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData }) => {
     
     return (
         <div>
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button
-                variant="outlined"
-                color="neutral"
-                startDecorator={<Add />}
-                sx={{ marginBottom: "20px" }}
-                onClick={handleOpenCreate}
-            >
-                New thread
-            </Button>
-            </div>
+            { isVisible ?
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <Button
+                    variant="outlined"
+                    color="neutral"
+                    startDecorator={<Add />}
+                    sx={{ marginBottom: "20px" }}
+                    onClick={handleOpenCreate}
+                >
+                    New thread
+                </Button>
+                </div> 
+            : null }
 
             <ThreadFilter onFilterChange={handleFilterChange} />
 

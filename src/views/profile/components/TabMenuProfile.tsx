@@ -4,7 +4,7 @@ import GroupsTab from "./GroupsTab";
 import PostsTab from "./PostsTab";
 import { UserDetailModel } from "@src/shared/models/UserDetailModel";
 import { UserPrivacySettingsModel } from "@src/shared/models/UserPrivacySettingsModel";
-import { loginService } from "@src/services/loginService";
+import { useLocation } from "react-router-dom";
 
 interface TabMenuProps {
   userDetailData?: UserDetailModel;
@@ -19,8 +19,12 @@ const TabMenu: React.FC<TabMenuProps> = ({
   onSettingsSaved,
   showSettings,
 }) => {
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
+  const activeTab = parseInt(queryParams.get("activeTab") || "0");
+
   return (
-    <Tabs orientation="horizontal" size="lg" defaultValue={1}>
+    <Tabs orientation="horizontal" size="lg" defaultValue={activeTab}>
       <TabList>
         <Tab variant="plain" color="neutral">
           Posts

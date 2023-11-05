@@ -22,7 +22,11 @@ import { AxiosError } from 'axios';
 
 const materialTheme = materialExtendTheme();
 
-export const RegisterForm = () => {
+interface RegisterFormProps {
+    setTabIndex: (value: number) => void;
+}
+
+export const RegisterForm: React.FC<RegisterFormProps>  = ({ setTabIndex }) => {
     const [password, setPassword] = useState("");
     const [handle, setHandle] = useState("");
     const [name, setName] = useState("");
@@ -38,11 +42,11 @@ export const RegisterForm = () => {
     const [open, setOpen] = useState(false);
     const ref = useRef(null);
 
-    const handlePasswordVisibilityToggle = () => {
+      const handlePasswordVisibilityToggle = () => {
         setShowPassword((prevShowPassword) => !prevShowPassword);
       };
 
-      const register = async () => {
+      const register = async (e: any) => {
         const registerModel: UserDetailModel = {
             handle: handle,
             name: name,
@@ -51,6 +55,10 @@ export const RegisterForm = () => {
             email: email,
             password: password
         }
+        
+        console.log("heree")
+
+        e.preventDefault();
 
         try {
         enqueueSnackbar("Loading..", {
@@ -78,10 +86,11 @@ export const RegisterForm = () => {
                 fontFamily: 'Arial',
             },
         });
+        setTabIndex(0);
 
     } catch (error) {
         if (error instanceof AxiosError && error.response) {
-            if (error.response.data.includes("email already exists")) {
+            if (error.response.data.includes("Email")) {
                 enqueueSnackbar("User with email already exists.", {
                     variant: 'error',
                     anchorOrigin: {
@@ -127,10 +136,15 @@ export const RegisterForm = () => {
   
       const handleFieldChange = () => {
 
-        if (password?.trim() === '') {
-            setValidPassword(false);
-        } else {
+        if (password?.length >= 8 &&
+            /[A-Z]/.test(password) &&
+            /\d/.test(password) &&
+            /[^A-Za-z0-9]/.test(password) && 
+            password?.trim() !== ''
+        ) {
             setValidPassword(true);
+        } else {
+            setValidPassword(false);
         }
 
         if (name?.trim() === '') {
@@ -171,6 +185,7 @@ export const RegisterForm = () => {
         <div>
             <MaterialCssVarsProvider theme={{ [MATERIAL_THEME_ID]: materialTheme }}>
             <JoyCssVarsProvider>
+            <form onSubmit={register}>
            
             <h2>Register</h2>
 
@@ -205,7 +220,7 @@ export const RegisterForm = () => {
                 error={!validHandle || !validHandleExists}
                 value={handle}
                 onChange={(e) => {
-                    setHandle(e.target.value);
+                    e.target.value = e.target.value.slice(0, 50); setHandle(e.target.value);
                 }}
                 />
                 {!validHandle && <FormHelperText>Handle cannot be empty or contains only whitespaces.</FormHelperText>}
@@ -218,7 +233,7 @@ export const RegisterForm = () => {
                 error={!validName}
                 value={name}
                 onChange={(e) => {
-                    setName(e.target.value);
+                    e.target.value = e.target.value.slice(0, 50); setName(e.target.value);
                 }}
                 />
                 {!validName && <FormHelperText>Name cannot be empty or contains only whitespaces.</FormHelperText>}
@@ -245,10 +260,11 @@ export const RegisterForm = () => {
                     </InputAdornment>
                 }
                 />
-                {!validPassword && <FormHelperText>Password cannot be empty or contains only whitespaces.</FormHelperText>}
+                {!validPassword && <FormHelperText>Password must be at least 8 characters long, contain at least one uppercase letter, one number, and one special character.</FormHelperText>}
             </FormControl>
             
-            <Button sx={{float: "right", marginTop: "20px"}} onClick={register} disabled={!validPassword || !validHandle || !validName || !validEmail || !validEmailExists || !validHandleExists}>Register</Button>
+            <Button type="submit" sx={{float: "right", marginTop: "20px"}} disabled={!validPassword || !validHandle || !validName || !validEmail || !validEmailExists || !validHandleExists}>Register</Button>
+            </form>
             </JoyCssVarsProvider>
         </MaterialCssVarsProvider>
         </div>

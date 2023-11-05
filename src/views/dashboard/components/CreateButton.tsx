@@ -22,6 +22,7 @@ import { memberService } from "@src/services/memberService";
 import { groupService } from "@src/services/groupService";
 import { loginService } from "@src/services/loginService";
 import { useSnackbar } from "notistack";
+import { userService } from "@src/services/userService";
 
 interface BasicModalDialogProps {
   onGroupCreated?: () => void;
@@ -93,6 +94,9 @@ const BasicModalDialog: React.FC<BasicModalDialogProps> = ({
         icon: icon,
         email: userEmail,
       });
+
+      // TODO set user as an admin
+      // memberService.addMember(loginService.getCookie("userHandle"), loginService.getCookie("userEmail"), 1, loginService.getCookie("name"));
 
       // restore value of name and description
       setName("");

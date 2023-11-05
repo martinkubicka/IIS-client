@@ -5,14 +5,10 @@ import { Rating } from "./Rating";
 import { Timestamp } from "../Timestamp/Timestamp";
 
 interface PostFooterProps {
-  initialRating: number;
-  onRatingChange: (direction: number) => void;
+  postId: string;
 }
 
-export const PostFooter = ({
-  initialRating,
-  onRatingChange,
-}: PostFooterProps) => {
+export const PostFooter = ({ postId }: PostFooterProps) => {
   return (
     <Box sx={footerStyle}>
       <Stack
@@ -20,7 +16,7 @@ export const PostFooter = ({
         direction={"row"}
         alignItems={"center"}
       >
-        <Rating onRatingChange={onRatingChange} rating={initialRating} />
+        <Rating postId={postId} />
       </Stack>
     </Box>
   );

@@ -1,15 +1,6 @@
-import {
-  Alert,
-  Box,
-  Button,
-  Container,
-  Divider,
-  Stack,
-  Typography,
-} from "@mui/joy";
+import { Alert, Stack } from "@mui/joy";
 import React from "react";
 import { threadStyle } from "./styles/style";
-import { Post } from "@src/shared/components/Post/Post";
 import { NewPost } from "./NewPost";
 import { PostModel } from "@src/shared/models/PostModel";
 import { postService } from "@src/services/postService";
@@ -25,8 +16,7 @@ import { UserProfileModel } from "@src/shared/models/UserProfileModel";
 import { loginService } from "@src/services/loginService";
 import { userService } from "@src/services/userService";
 import { InfoRounded } from "@mui/icons-material";
-import { useInfiniteQuery, useMutation, useQuery } from "react-query";
-import Dialog from "@src/shared/components/Dialog/Dialog";
+import { useMutation, useQuery } from "react-query";
 
 export const Thread = () => {
   const { threadId } = useParams<{ threadId: string }>();

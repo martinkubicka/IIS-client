@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "@mui/joy/Avatar";
 import { ListItem, List, Divider, ListItemButton } from "@mui/joy";
 import Sheet from "@mui/joy/Sheet";
@@ -15,9 +15,19 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { enqueueSnackbar } from "notistack";
 import { loginService } from "@src/services/loginService";
+import { userService } from "@src/services/userService";
 
 export const NavBar: React.FC = () => {
   const navigate = useNavigate();
+  const [userIcon, setUserIcon] = useState<string | undefined>("");
+
+  useEffect(() => {
+    const getIcon = async () => {
+      const icon = await userService.getUserIcon(loginService.getCookie("userHandle"));
+      setUserIcon(icon);
+    }
+    getIcon();
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -149,34 +159,33 @@ export const NavBar: React.FC = () => {
             </ListItemButton>
           </ListItem>
         </List>
-        <List
-          sx={{
-            size: "md",
-            flexGrow: 0,
-            "--ListItem-radius": "6px",
-            "--List-gap": "8px",
-          }}
-        >
-          <ListItem>
-            <ListItemButton
-              component={Link}
-              to="/settings"
-              selected={location.pathname === "/settings"}
-            >
-              <SettingsRoundedIcon />
-            </ListItemButton>
-          </ListItem>
-        </List>
-        <Divider />
         {loginService.getCookie("userEmail") == null ? (
           <Link to="/login" style={{ textDecoration: "none" }}>
             <LoginIcon />
           </Link>
         ) : (
-          <div>
+          <div>          
+            <List
+              sx={{
+                size: "md",
+                flexGrow: 0,
+                "--ListItem-radius": "6px",
+                "--List-gap": "8px",
+              }}
+            >
+              <ListItem>
+                <ListItemButton
+                  component={Link}
+                  to="/profile?activeTab=2"
+                >
+                  <SettingsRoundedIcon />
+                </ListItemButton>
+              </ListItem>
+            </List>
+            <Divider />
             <Link to="/profile" style={{ textDecoration: "none" }}>
-              <Avatar sx={{ marginBottom: "20px" }}>
-                <Icon iconName="doughnut" />
+              <Avatar sx={{ marginBottom: "20px", marginTop: "20px" }}>
+                <Icon iconName={userIcon ? userIcon : ""} />
               </Avatar>
             </Link>
             <span
