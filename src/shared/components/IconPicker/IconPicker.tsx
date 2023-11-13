@@ -55,7 +55,12 @@ export const IconPicker = ({
         <Grid overflow={"scroll"} height={"100%"} width={"100%"} container>
           <Grid xs={12}>
             {currentEmojis.map((code: string) => (
-              <Button onClick={() => onSelect(code)} variant="plain" key={code}>
+              <Button
+                size="lg"
+                onClick={() => onSelect(code)}
+                variant="plain"
+                key={code}
+              >
                 {emojisMap.get(code)}
               </Button>
             ))}

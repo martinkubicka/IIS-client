@@ -1,9 +1,9 @@
 export interface GroupModel {
   handle: string;
   name?: string;
-  description?: string | null;
-  icon?: string | null;
+  description?: string;
+  icon?: string;
   visibilityMember?: boolean;
   visibilityGuest?: boolean;
-  email?: string | null;
+  email?: string;
 }

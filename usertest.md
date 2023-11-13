@@ -12,3 +12,5 @@ notes:
 - nepovolovat specialni znaky v handle
 - enter na odeslani upravy postu
 - vyber ikonek by mel mit vetsi ikonky
+
+

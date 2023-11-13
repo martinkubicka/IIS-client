@@ -35,7 +35,7 @@ export const Thread = () => {
   };
 
   const { data: threadData } = useQuery(
-    "thread",
+    threadId as string,
     async (): Promise<ThreadModel | undefined> => {
       const data = await threadService.getThread(threadId as string);
       return data;

@@ -1,13 +1,50 @@
-import { IconPickerExample } from "@src/examples/IconPickerExample";
-import { IconPicker } from "@src/shared/components/IconPicker/IconPicker";
+import { Stack } from "@mui/joy";
 import { Page } from "@src/shared/components/Page";
-import { Post } from "@src/shared/components/Post/Post";
-import { Thread } from "@src/views/thread/components/Thread";
+import React from "react";
+import { SearchInput } from "./SearchInput";
+import { Filters } from "./Filters";
+import { GroupResults } from "./GroupResults";
+import { ThreadResults } from "./ThreadResults";
+import { UserResults } from "./UserResults";
 
 export const Search = () => {
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [currentCategory, setCurrentCategory] = React.useState("all");
+
+  const categories = {
+    all: (
+      <>
+        <GroupResults searchTerm={searchTerm} />
+        <ThreadResults searchTerm={searchTerm} />
+        <UserResults searchTerm={searchTerm} />
+      </>
+    ),
+    groups: <GroupResults searchTerm={searchTerm} />,
+    threads: <ThreadResults searchTerm={searchTerm} />,
+    users: <UserResults searchTerm={searchTerm} />,
+  };
+
+  const handleSearch = (value: string) => {
+    setSearchTerm(value);
+  };
+
+  const handleCategoryChange = (category: string) => {
+    setCurrentCategory(category);
+  };
+
   return (
     <Page>
-      <h1>Search</h1>
+      <Stack direction={"column"} alignItems={"center"} width={"100%"}>
+        <SearchInput onChange={handleSearch} onSearch={handleSearch} />
+        <Filters onCategoryChange={handleCategoryChange} />
+        <Stack
+          width={"100%"}
+          sx={{ overflowY: "scroll", overflowX: "hidden" }}
+          height={"700px"}
+        >
+          {categories[currentCategory]}
+        </Stack>
+      </Stack>
     </Page>
   );
 };
