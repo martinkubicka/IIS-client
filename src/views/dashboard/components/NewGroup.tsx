@@ -128,7 +128,7 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
   };
 
   return (
-    <Card sx={{ width: 250 }}>
+    <Card sx={{ width: 250, height: 200, alignItems: "center" }}>
       <Box
         sx={{
           display: "flex",
