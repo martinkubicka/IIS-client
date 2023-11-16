@@ -62,7 +62,19 @@ const GroupComponent: React.FC<CardProps> = ({
   };
 
   return (
-    <Card variant="outlined" sx={{ width: 250, backgroundColor: "#EEF1FF" }}>
+    <Card
+      variant="outlined"
+      sx={{
+        width: 250,
+        height: 200,
+        backgroundColor: "#EEF1FF",
+        boxShadow: "0px 0px 8px 5px rgba(0,0,0,0.1)",
+        transition: "transform 0.3s ease-in-out", // Add transition for smooth animation
+        "&:hover": {
+          transform: "scale(1.20)", // Apply scale transformation on hover
+        },
+      }}
+    >
       <Box
         sx={{
           width: 250,
@@ -83,14 +95,23 @@ const GroupComponent: React.FC<CardProps> = ({
             : description}
         </Typography>
       </CardContent>
-      <CardActions sx={{ justifyContent: "center" } } buttonFlex="0 1 120px">
+      <CardActions sx={{ justifyContent: "center" }} buttonFlex="0 1 120px">
         <Link to={`/group/${handle}`} style={{ textDecoration: "none" }}>
-          <Button variant="solid" color="primary">
+          <Button
+            variant="solid"
+            color="primary"
+            sx={{ boxShadow: "0px 0px 8px 5px rgba(0,0,0,0.1)" }}
+          >
             View
           </Button>
         </Link>
         {buttonText === "" ? null : (
-          <Button onClick={handleClick} variant="outlined" color="primary">
+          <Button
+            onClick={handleClick}
+            variant="outlined"
+            color="primary"
+            sx={{ boxShadow: "0px 0px 8px 5px rgba(0,0,0,0.1)" }}
+          >
             {buttonText}
           </Button>
         )}
