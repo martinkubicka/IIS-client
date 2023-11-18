@@ -31,7 +31,7 @@ jobs:
       - name: npm install, build, and test
         run: |
           npm install
-          npm run dev build
+          npm run dev build --base=/
 
 
       - name: Zip artifact for deployment
