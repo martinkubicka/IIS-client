@@ -42,7 +42,7 @@ export const Thread: React.FC<ThreadProps> = ({ thread, onDelete }) => {
       if (
         loginService.getCookie("userRole") == Role.admin ||
         loginService.getCookie("userEmail") == thread?.email ||
-        (role != "" && role == GroupRole.admin)
+        (role !== "" && role == GroupRole.admin)
       ) {
         setIsVisible(true);
       }

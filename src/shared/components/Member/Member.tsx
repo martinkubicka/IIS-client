@@ -26,8 +26,8 @@ export const Member: React.FC<MemberProps> = ({ member, onDelete, handle }) => {
         const getPermissions = async () => {
         
             const role = await memberService.getMemberRole(loginService.getCookie("userEmail"), handle);
-          if (loginService.getCookie("userRole") != "" && (loginService.getCookie("userRole") == Role.admin ||
-              (role != "" && role == GroupRole.admin))
+          if (loginService.getCookie("userRole") !== "" && (loginService.getCookie("userRole") == Role.admin ||
+              (role !== "" && role == GroupRole.admin))
           ) {
             setIsVisible(true);
           } else {

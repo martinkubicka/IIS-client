@@ -154,7 +154,7 @@ export const Group = () => {
                     
                     const groupRole = await memberService.getMemberRole(loginService.getCookie("userEmail"), groupDataResponse.handle)
                     if (loginService.getCookie("userEmail") !== null) {
-                        if (groupRole != "" && groupRole != undefined) {
+                        if (groupRole !== "" && groupRole != undefined) {
                             setJoinLeaveText("Leave");
                         } else {
                             setJoinLeaveText("Join");
