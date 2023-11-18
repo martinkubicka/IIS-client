@@ -31,7 +31,7 @@ jobs:
       - name: npm install, build, and test
         run: |
           npm install
-          npm run dev build
+          npx vite build --base=./dist
 
 
       - name: Zip artifact for deployment
