@@ -19,20 +19,13 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
-
-      - name: Clear and replace content in apiConfig.tsx
-        run: |
-          echo "" > apiConfig.tsx
-          echo "const API_BASE_URL = 'https://antioznuk-api.azurewebsites.net';" >> apiConfig.tsx
-          echo "export default API_BASE_URL;" >> apiConfig.tsx
-          cat apiConfig.tsx
+          node-version: '18.x'
 
       - name: npm install, build, and test
         run: |
           npm install
-          npx vite build --base=./dist
-
+          npm run build --if-present
+          npm run test --if-present
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -54,7 +47,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: node-app 
+          name: node-app
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
@@ -66,4 +59,4 @@ jobs:
           app-name: 'antioznuk-web'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0FEF701D962F4661A73B7421EF8D03E3 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_19D751DD598A435488905F0995FAE558 }}
