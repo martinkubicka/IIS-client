@@ -34,6 +34,7 @@ export const Thread: React.FC<ThreadProps> = ({ thread, onDelete }) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [trigger, setTrigger] = useState(false);
   const threadIcon = thread?.name[0].toUpperCase();
 
   useEffect(() => {
@@ -48,11 +49,13 @@ export const Thread: React.FC<ThreadProps> = ({ thread, onDelete }) => {
         (role !== "" && role == GroupRole.admin)
       ) {
         setIsVisible(true);
+      } else {
+        setIsVisible(false);
       }
     };
     
     getPermissions();
-  }, []);
+  }, [thread, trigger]);
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -64,6 +67,7 @@ export const Thread: React.FC<ThreadProps> = ({ thread, onDelete }) => {
 
   const handleConfirm = () => {
     deleteThread();
+    setTrigger(!trigger);
     handleCloseModal();
   };
 
