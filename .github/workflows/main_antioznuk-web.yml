@@ -21,6 +21,13 @@ jobs:
         with:
           node-version: '16.x'
 
+      - name: Clear and replace content in apiConfig.tsx
+        run: |
+          echo "" > apiConfig.tsx
+          echo "const API_BASE_URL = 'https://antioznuk-api.azurewebsites.net';" >> apiConfig.tsx
+          echo "export default API_BASE_URL;" >> apiConfig.tsx
+          cat apiConfig.tsx
+
       - name: npm install, build, and test
         run: |
           npm install
