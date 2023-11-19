@@ -157,7 +157,7 @@ export const Member: React.FC<MemberProps> = ({ member, onDelete, handle }) => {
         <div>
         <Card
         sx={{
-            width: 150,
+            width: 190,
             maxWidth: '100%',
             marginRight: "20px",
             marginBottom: "20px",
@@ -176,7 +176,7 @@ export const Member: React.FC<MemberProps> = ({ member, onDelete, handle }) => {
         { isVisible ?
         (
             <div>
-            <FormControl sx={{ width: 150 }}>
+            <FormControl sx={{ width: 190 }}>
             <FormLabel id="select-field-demo-label" htmlFor="select-field-demo-button">
                 Role
             </FormLabel>
