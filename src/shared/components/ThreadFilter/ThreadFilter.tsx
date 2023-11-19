@@ -14,6 +14,7 @@ import AccordionSummary, {
   accordionSummaryClasses,
 } from '@mui/joy/AccordionSummary';
 import AddIcon from '@mui/icons-material/Add';
+import "./threadFilter.css";
 
 interface ThreadFilterProps {
   onFilterChange: (filters: Filters) => void;
