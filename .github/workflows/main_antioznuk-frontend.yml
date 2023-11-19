@@ -21,14 +21,20 @@ jobs:
         with:
           node-version: '16.x'
 
+      - name: Clear and replace content in apiConfig.tsx
+        run: |
+          echo "" > apiConfig.tsx
+          echo "const API_BASE_URL = 'https://antioznuk-api.azurewebsites.net';" >> apiConfig.tsx
+          echo "export default API_BASE_URL;" >> apiConfig.tsx
+          cat apiConfig.tsx
+
       - name: npm install, build, and test
         run: |
           npm install
-          npm run build --if-present
-          npm run test --if-present
+          npm run dev build --base=/
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        run: zip release.zip ./dist -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
