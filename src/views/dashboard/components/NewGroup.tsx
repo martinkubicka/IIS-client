@@ -203,12 +203,14 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
                 </FormControl>
 
                 <FormControl error={!validDescription}>
-                  <FormLabel>Description</FormLabel>
                   <Textarea
+                    error={!validDescription}
                     minRows={1}
                     value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    error={!validDescription}
+                    onChange={(e) => {
+                      e.target.value = e.target.value.slice(0, 100);
+                      setDescription(e.target.value);
+                    }}
                   />
                   {!validDescription && (
                     <FormHelperText>

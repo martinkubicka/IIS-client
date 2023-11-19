@@ -120,7 +120,7 @@ const GroupComponent: React.FC<CardProps> = ({
       <CardContent>
         <Typography level="title-lg">{title}</Typography>
         <Typography level="body-sm">
-          {description.length > 110
+          {description.length > 66
             ? `${description.slice(0, 55)}...`
             : description}
         </Typography>
