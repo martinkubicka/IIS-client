@@ -172,7 +172,7 @@ export const NavBar: React.FC = () => {
             </ListItemButton>
           </ListItem>
         </List>
-        <div style={{marginBottom: onMobile ? "105px" : "0px"}} onClick={willCloseSideBar()}>
+        <div style={{marginBottom: onMobile ? "115px" : "0px"}} onClick={willCloseSideBar()}>
           {loginService.getCookie("userEmail") == null ? (
             <Link to="/login" style={{ textDecoration: "none" }}>
               <LoginIcon />
