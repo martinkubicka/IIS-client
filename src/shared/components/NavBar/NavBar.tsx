@@ -166,7 +166,7 @@ export const NavBar: React.FC = () => {
             </ListItemButton>
           </ListItem>
         </List>
-        <div style={{marginBottom: onMobile ? "30px" : "0px"}}>
+        <div style={{marginBottom: onMobile ? "90px" : "0px"}}>
           {loginService.getCookie("userEmail") == null ? (
             <Link to="/login" style={{ textDecoration: "none" }}>
               <LoginIcon />
