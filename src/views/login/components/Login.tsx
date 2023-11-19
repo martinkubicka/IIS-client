@@ -3,6 +3,7 @@ import { Tabs, TabList, Tab, TabPanel, Box } from '@mui/joy';
 import { LoginForm } from "./LoginForm";
 import { RegisterForm } from "..";
 import { useState } from "react";
+import "./loginstyles.css";
 
 export const Login = () => {
     const [tabIndex, setTabIndex] = useState(0);
@@ -13,12 +14,10 @@ export const Login = () => {
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
-                height="100vh"
+                height="100%"
                 >
             <div
-                style={{
-                width: '50%',   
-                }}
+                className="formWidth"
             >
                 <Tabs orientation="horizontal" size="lg" value={tabIndex} onChange={(event, newValue) => setTabIndex(newValue)}>
                 <TabList>

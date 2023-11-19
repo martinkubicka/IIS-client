@@ -36,6 +36,12 @@ export const NavBar: React.FC = () => {
     getIcon();
   }, []);
 
+  const willCloseSideBar = () => {
+    if (onMobile) {
+      closeSidebar();
+    }
+  }
+
   const handleLogout = async () => {
     try {
       enqueueSnackbar("Loading..", {
@@ -166,7 +172,7 @@ export const NavBar: React.FC = () => {
             </ListItemButton>
           </ListItem>
         </List>
-        <div style={{marginBottom: onMobile ? "90px" : "0px"}}>
+        <div style={{marginBottom: onMobile ? "105px" : "0px"}} onClick={willCloseSideBar()}>
           {loginService.getCookie("userEmail") == null ? (
             <Link to="/login" style={{ textDecoration: "none" }}>
               <LoginIcon />
