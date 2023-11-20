@@ -21,7 +21,6 @@ import { IconPicker } from "@src/shared/components/IconPicker/IconPicker";
 import { groupService } from "@src/services/groupService";
 import { loginService } from "@src/services/loginService";
 import { useSnackbar } from "notistack";
-import { memberService } from "@src/services/memberService";
 
 interface CardProps {
   onGroupCreated: () => void;
@@ -38,7 +37,6 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
   const [validDescription, setValidDescription] = useState<boolean>(true);
   const userEmail = loginService.getCookie("userEmail") ?? "";
   const { enqueueSnackbar } = useSnackbar();
-  const userHandle = loginService.getCookie("userHandle") ?? "";
 
   const handleClick = () => {
     setOpenIcons((prev) => !prev);
@@ -71,7 +69,7 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
     }
   };
 
-  const SubmitClicked = async () => {
+  const SubmitClicked = () => {
     try {
       enqueueSnackbar("Creating New Group..", {
         variant: "info",
@@ -85,15 +83,13 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
         },
       });
 
-      await groupService.addGroup({
+      groupService.addGroup({
         handle: name,
         name: name,
         description: description,
         icon: icon,
         email: userEmail,
       });
-
-      await memberService.addMember(name, userEmail, 0, "", "", userHandle);
 
       // restore value of name and description
       setName("");
@@ -132,14 +128,7 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
   };
 
   return (
-    <Card
-      sx={{
-        width: 300,
-        height: 200,
-        alignItems: "center",
-        boxShadow: "0px 0px 8px 5px rgba(0,0,0,0.1)",
-      }}
-    >
+    <Card sx={{ width: 250, height: 200, alignItems: "center" }}>
       <Box
         sx={{
           display: "flex",
@@ -203,14 +192,12 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
                 </FormControl>
 
                 <FormControl error={!validDescription}>
+                  <FormLabel>Description</FormLabel>
                   <Textarea
-                    error={!validDescription}
                     minRows={1}
                     value={description}
-                    onChange={(e) => {
-                      e.target.value = e.target.value.slice(0, 100);
-                      setDescription(e.target.value);
-                    }}
+                    onChange={(e) => setDescription(e.target.value)}
+                    error={!validDescription}
                   />
                   {!validDescription && (
                     <FormHelperText>
@@ -224,13 +211,6 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
                   onClick={SubmitClicked}
                 >
                   Submit
-                </Button>
-                <Button
-                  variant="plain"
-                  color="neutral"
-                  onClick={() => setOpen(false)}
-                >
-                  Cancel
                 </Button>
               </Stack>
             </form>

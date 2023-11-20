@@ -11,7 +11,7 @@ import { threadService } from "@src/services/threadService";
 import NewGroup from "./NewGroup";
 import { Box } from "@mui/material";
 import { KeyboardArrowRight, KeyboardArrowLeft } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"; // Assuming you are using React Router for navigation
 
 export const Dashboard = () => {
   const [userGroups, setUserGroups] = useState<GroupModel[]>([]);
@@ -39,6 +39,7 @@ export const Dashboard = () => {
         groupContainerRef.current.scrollLeft +=
           groupContainerRef.current.offsetWidth;
       }
+      console.log(groupContainerRef.current.scrollLeft);
     }
   };
 
@@ -51,6 +52,7 @@ export const Dashboard = () => {
         recommendedGroupsContainerRef.current.scrollLeft +=
           recommendedGroupsContainerRef.current.offsetWidth;
       }
+      console.log(recommendedGroupsContainerRef.current.scrollLeft);
     }
   };
 
@@ -75,14 +77,14 @@ export const Dashboard = () => {
           userEmail,
           true
         );
-        setUserGroups(joinedGroups);
+        setUserGroups(joinedGroups); // Only get the first 5 joined groups
 
         // Fetch recommended groups (groups where the user is not joined)
         const recommendedGroups = await groupService.getGroupsUserIsIn(
           userEmail,
           false
         );
-        setRecommendedGroups(recommendedGroups);
+        setRecommendedGroups(recommendedGroups); // Only get the first 5 recommended groups
 
         // Fetch all threads the user is in
         const allThreads = await threadService.getAllThreadsUserIsIn(userEmail);
@@ -302,7 +304,7 @@ export const Dashboard = () => {
                       name={name}
                       onAction={onAction} // Pass the onAction callback
                     />
-                  ))}
+                  ))}{" "}
                 </div>
               </div>
               <IconButton

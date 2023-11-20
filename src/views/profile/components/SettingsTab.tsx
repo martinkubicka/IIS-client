@@ -47,8 +47,6 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
   const [groupChecked, setGroupChecked] = useState(
     userPrivacySettingsData?.visibilityGroup
   );
-  const [password, setPassword] = useState("");
-  const [validPassword, setValidPassword] = useState<boolean>(true);
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -56,7 +54,7 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
 
   useEffect(() => {
     handleFieldChange();
-  }, [name, icon, registeredChecked, guestChecked, groupChecked, password]);
+  }, [name, icon, registeredChecked, guestChecked, groupChecked]);
 
   const handleCloseModal = () => {
     setModalOpen(false);
@@ -87,28 +85,13 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
     }
 
     if (
-      password?.length >= 8 &&
-      /[A-Z]/.test(password) &&
-      /\d/.test(password) &&
-      /[^A-Za-z0-9]/.test(password)
-    ) {
-      setValidPassword(true);
-    } else if (password === "") {
-      setValidPassword(true);
-    } else {
-      setValidPassword(false);
-    }
-
-    if (
-      validPassword &&
       userDetailData &&
       validName &&
       (userDetailData.name !== name ||
         userDetailData.icon !== icon ||
         userPrivacySettingsData?.visibilityGroup !== groupChecked ||
         userPrivacySettingsData?.visibilityGuest !== guestChecked ||
-        userPrivacySettingsData?.visibilityRegistered !== registeredChecked ||
-        (password !== "" && password?.length >= 8))
+        userPrivacySettingsData?.visibilityRegistered !== registeredChecked)
     ) {
       setValuesChanged(false);
     } else {
@@ -149,7 +132,7 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
     if (userDetailData) {
       userDetailData.name = name;
       userDetailData.icon = icon;
-      userDetailData.password = password; //TODO password change functionality TEST
+      userDetailData.password = ""; //TODO password change functionality
     }
 
     if (userPrivacySettingsData) {
@@ -170,6 +153,7 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
           fontFamily: "Arial",
         },
       });
+      // if (userDetailData?.password === "") use updateUserWithoutPassword
       if (userDetailData?.password === "") {
         await userService.updateUserWithoutPassword(
           userDetailData,
@@ -233,22 +217,10 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
           <FormHelperText>Name field cannot be empty!</FormHelperText>
         )}
       </FormControl>
+      <h3>Bio:</h3>
+      TODO
       <h3>Password:</h3>
-      <Input
-        error={!validPassword}
-        type="password"
-        value={password}
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-      />
-      {!validPassword && (
-        <FormHelperText>
-          Password must be at least 8 characters long, contain at least one
-          uppercase letter, one number, and one special character.
-        </FormHelperText>
-      )}
-
+      TODO
       <h3>Visible to:</h3>
       <Checkbox
         label="Registered"
