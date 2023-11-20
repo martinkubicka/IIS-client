@@ -12,7 +12,10 @@ const headers = authHeaderGenerator.getAuthHeader();
 export const groupService = {
   async getGroupsUserIsIn(userEmail?: string, joined?: boolean) {
     try {
-      const response = await instance.get(`/Group/user/${userEmail}/${joined}`, { headers });
+      const response = await instance.get(
+        `/Group/user/${userEmail}/${joined}`,
+        { headers }
+      );
       return response.data;
     } catch (error) {
       throw error;
@@ -40,7 +43,7 @@ export const groupService = {
   async getGroupsUserIsInByHandle(handle?: string) {
     try {
       const response = await instance.get(`/Group/user/${handle}`);
-      return response.data;
+      return response.data as GroupModel[];
     } catch (error) {
       throw error;
     }
@@ -66,7 +69,9 @@ export const groupService = {
 
   async deleteGroup(handle?: string) {
     try {
-      const response = await instance.delete(`/Group/remove/${handle}`, { headers });
+      const response = await instance.delete(`/Group/remove/${handle}`, {
+        headers,
+      });
       return response.data;
     } catch (error) {
       throw error;
