@@ -28,9 +28,9 @@ export const TabMenu: React.FC<TabMenuProps> = ({ groupData, onSettingsSaved, tr
           const role = await memberService.getMemberRole(loginService.getCookie("userEmail"), groupData?.handle);
 
           if (groupData?.visibilityGuest ||
-              (groupData?.visibilityMember && role != "" && role != undefined) ||
+              (groupData?.visibilityMember && role !== "" && role != undefined) ||
               loginService.getCookie("userRole") == Role.admin ||
-           (role != "" && role == GroupRole.admin)
+           (role !== "" && role == GroupRole.admin)
           ) {
               console.log(role);
               setIsVisibleMembers(true);
@@ -40,7 +40,7 @@ export const TabMenu: React.FC<TabMenuProps> = ({ groupData, onSettingsSaved, tr
         
 
         if (loginService.getCookie("userRole") == Role.admin ||
-            (role != "" && role == GroupRole.admin)
+            (role !== "" && role == GroupRole.admin)
         ) {
           setIsVisibleSettings(true);
         } else {

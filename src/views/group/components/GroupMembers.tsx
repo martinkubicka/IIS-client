@@ -4,6 +4,7 @@ import PaginationComponent from "@src/shared/components/Pagination/PaginationCom
 import { GroupModel } from "@src/shared/models/GroupModel";
 import { MemberModel } from "@src/shared/models/MemberModel";
 import { useEffect, useState } from "react";
+import "./Group.css";
 
 interface GroupMembersProps {
     groupData?: GroupModel;
@@ -49,7 +50,7 @@ export const GroupMembers: React.FC<GroupMembersProps> = ({ groupData, isVisible
 
     return (
       <div>
-            <div style={{ display: "flex", flexWrap: "wrap", maxWidth: "100%" }}>
+            <div className="membersBox">
                 {members === null ? (
                 "Loading members..."
                 ) : members.length === 0 ? (

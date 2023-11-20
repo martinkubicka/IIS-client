@@ -26,8 +26,8 @@ export const Member: React.FC<MemberProps> = ({ member, onDelete, handle }) => {
         const getPermissions = async () => {
         
             const role = await memberService.getMemberRole(loginService.getCookie("userEmail"), handle);
-          if (loginService.getCookie("userRole") != "" && (loginService.getCookie("userRole") == Role.admin ||
-              (role != "" && role == GroupRole.admin))
+          if (loginService.getCookie("userRole") !== "" && (loginService.getCookie("userRole") == Role.admin ||
+              (role !== "" && role == GroupRole.admin))
           ) {
             setIsVisible(true);
           } else {
@@ -64,7 +64,7 @@ export const Member: React.FC<MemberProps> = ({ member, onDelete, handle }) => {
             });
         } catch (error) {
             if (error?.response?.status === 403) {
-                enqueueSnackbar("Admin cannot be removed.", {
+                enqueueSnackbar("Error: Group must have at least one more admin.", {
                   variant: 'error',
                   anchorOrigin: {
                     vertical: 'bottom',
@@ -106,11 +106,7 @@ export const Member: React.FC<MemberProps> = ({ member, onDelete, handle }) => {
         onDelete();
     };
 
-    const saveSettings = async () => {
-        if (member) {
-            member.role = selectedRole;
-        }
-    
+    const saveSettings = async () => {    
         try {
             enqueueSnackbar("Loading..", {
                 variant: 'info',
@@ -124,8 +120,12 @@ export const Member: React.FC<MemberProps> = ({ member, onDelete, handle }) => {
                 },
             });
 
-          await memberService.updateMemberRole(member?.email, member?.role, handle);
+          await memberService.updateMemberRole(member?.email, selectedRole, handle);
           setValueChanged(false);
+
+          if (member) {
+            member.role = selectedRole;
+          }
     
           enqueueSnackbar("Member role updated successfully.", {
             variant: 'success',
@@ -139,7 +139,7 @@ export const Member: React.FC<MemberProps> = ({ member, onDelete, handle }) => {
             },
         });
         } catch (error) {
-            enqueueSnackbar("Error occured while updating member role.", {
+            enqueueSnackbar(error?.response?.data ?? "Error occured while updating member role.", {
                 variant: 'error',
                 anchorOrigin: {
                 vertical: 'bottom',
@@ -157,7 +157,7 @@ export const Member: React.FC<MemberProps> = ({ member, onDelete, handle }) => {
         <div>
         <Card
         sx={{
-            width: 150,
+            width: 190,
             maxWidth: '100%',
             marginRight: "20px",
             marginBottom: "20px",
@@ -176,7 +176,7 @@ export const Member: React.FC<MemberProps> = ({ member, onDelete, handle }) => {
         { isVisible ?
         (
             <div>
-            <FormControl sx={{ width: 150 }}>
+            <FormControl sx={{ width: 190 }}>
             <FormLabel id="select-field-demo-label" htmlFor="select-field-demo-button">
                 Role
             </FormLabel>

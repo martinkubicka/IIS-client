@@ -9,8 +9,9 @@ import {
   Menu,
   MenuButton,
   IconButton,
+  Avatar,
+  Divider,
 } from "@mui/joy";
-import AccountTreeRoundedIcon from "@mui/icons-material/AccountTreeRounded";
 import MoreVert from "@mui/icons-material/MoreVert";
 import { Link, useNavigate } from "react-router-dom";
 import Dialog from "../Dialog/Dialog";
@@ -22,6 +23,7 @@ import { loginService } from "@src/services/loginService";
 import Role from "@src/enums/Role";
 import { memberService } from "@src/services/memberService";
 import GroupRole from "@src/enums/GroupRole";
+import { Edit, DeleteForever } from "@mui/icons-material";
 
 interface ThreadProps {
   thread?: ThreadModel;
@@ -32,6 +34,8 @@ export const Thread: React.FC<ThreadProps> = ({ thread, onDelete }) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [trigger, setTrigger] = useState(false);
+  const threadIcon = thread?.name[0].toUpperCase();
 
   useEffect(() => {
     const getPermissions = async () => {
@@ -42,14 +46,16 @@ export const Thread: React.FC<ThreadProps> = ({ thread, onDelete }) => {
       if (
         loginService.getCookie("userRole") == Role.admin ||
         loginService.getCookie("userEmail") == thread?.email ||
-        (role != "" && role == GroupRole.admin)
+        (role !== "" && role == GroupRole.admin)
       ) {
         setIsVisible(true);
+      } else {
+        setIsVisible(false);
       }
     };
-
+    
     getPermissions();
-  }, []);
+  }, [thread, trigger]);
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -61,6 +67,7 @@ export const Thread: React.FC<ThreadProps> = ({ thread, onDelete }) => {
 
   const handleConfirm = () => {
     deleteThread();
+    setTrigger(!trigger);
     handleCloseModal();
   };
 
@@ -172,62 +179,57 @@ export const Thread: React.FC<ThreadProps> = ({ thread, onDelete }) => {
   return (
     <>
       <Card
-        variant="soft"
+        variant=""
         orientation="horizontal"
         sx={{
-          marginBottom: "20px",
+          marginBottom: "0px",
           display: "flex",
           justifyContent: "space-between",
         }}
       >
+        <Link
+          to={`/thread/${thread?.id}`}
+          style={{ textDecoration: "none", textDecorationColor: "black" }}
+          onMouseEnter={(e) => {
+            const nameElement = e.currentTarget.querySelector('.thread-name');
+            if (nameElement) {
+              nameElement.style.textDecoration = "underline";
+              nameElement.style.textDecorationColor = "black";
+            }
+          }}
+          onMouseLeave={(e) => {
+            const nameElement = e.currentTarget.querySelector('.thread-name');
+            if (nameElement) {
+              nameElement.style.textDecoration = "none";
+              nameElement.style.textDecorationColor = "black";
+            }
+          }}
+        >
         <div style={{ display: "flex", alignItems: "center" }}>
-          <AspectRatio ratio="1" sx={{ width: 35, marginRight: "10px" }}>
-            <AccountTreeRoundedIcon />
-          </AspectRatio>
+          <Avatar variant="outlined" sx={{marginRight: "20px"}}>
+            {threadIcon}
+          </Avatar>
+        
+          <CardContent>
+            <Typography level="title-md" className="thread-name">{thread?.name}</Typography>
+
+            <Typography sx={{ wordBreak: "break-word" }}>
+              {thread?.description}
+            </Typography>
+          </CardContent>
         </div>
-        <CardContent>
-          <Link
-            to={`/thread/${thread?.id}`}
-            style={{ textDecoration: "none", textDecorationColor: "black" }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.textDecoration = "underline";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.textDecoration = "none";
-            }}
-          >
-            <Typography level="title-md">{thread?.name}</Typography>
-          </Link>
+        </Link>
 
-          <Typography sx={{ wordBreak: "break-word" }}>
-            {thread?.description}
-          </Typography>
-        </CardContent>
-
-        <Dropdown>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <AspectRatio ratio="1" sx={{ width: 35 }}>
-              <MenuButton slots={{ root: IconButton }}>
-                <MoreVert />
-              </MenuButton>
-            </AspectRatio>
-          </div>
-          <Menu>
-            <Link
-              to={`/thread/${thread?.id}`}
-              style={{ textDecoration: "none" }}
-            >
-              <MenuItem>Detail</MenuItem>
-            </Link>
-
-            {isVisible ? (
-              <div>
-                <MenuItem onClick={handleOpenUpdate}>Edit</MenuItem>
-                <MenuItem onClick={handleOpenModal}>Delete</MenuItem>
+        {isVisible ? (
+              <div style={{ display: 'flex', alignItems: 'center'}}>
+                <IconButton onClick={handleOpenUpdate}>
+                  <Edit />
+                </IconButton>
+                <IconButton onClick={() => handleOpenModal()} variant="plain">
+                  <DeleteForever />
+                </IconButton>
               </div>
             ) : null}
-          </Menu>
-        </Dropdown>
       </Card>
 
       <Dialog
@@ -245,6 +247,8 @@ export const Thread: React.FC<ThreadProps> = ({ thread, onDelete }) => {
         header="Update thread settings"
         thread={thread}
       />
+
+      <Divider />
     </>
   );
 };

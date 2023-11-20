@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { ThreadModel } from "@src/shared/models/ThreadModel";
 import { threadService } from "@src/services/threadService";
 import { Thread } from "@src/shared/components/Threads";
-import { Button } from '@mui/joy';
+import { Button, Divider } from '@mui/joy';
 import Add from '@mui/icons-material/Add';
 import { enqueueSnackbar } from "notistack";
 import AddEditThread from "./AddEditThread";
@@ -56,7 +56,7 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData, triggerUs
           const getPermissions = async () => {
             const groupRole = await memberService.getMemberRole(loginService.getCookie("userEmail"), groupData.handle)
             if (loginService.getCookie("userRole") == Role.admin ||
-                (groupRole != "" && groupRole ==  GroupRole.admin || groupRole == GroupRole.member || groupRole == GroupRole.moderator)
+                (groupRole !== "" && groupRole ==  GroupRole.admin || groupRole == GroupRole.member || groupRole == GroupRole.moderator)
             ) {
                 setIsVisible(true);
             } else {
@@ -178,6 +178,7 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({ groupData, triggerUs
             : null }
 
             <ThreadFilter onFilterChange={handleFilterChange} />
+            <Divider />
 
             {threads === null ? (
             "Loading threads..."

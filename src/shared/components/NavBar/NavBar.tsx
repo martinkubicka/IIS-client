@@ -20,14 +20,27 @@ import { userService } from "@src/services/userService";
 export const NavBar: React.FC = () => {
   const navigate = useNavigate();
   const [userIcon, setUserIcon] = useState<string | undefined>("");
+  const [onMobile, setOnMobile] = useState<boolean>(false);
 
   useEffect(() => {
+    if (window.innerWidth < 500) {
+      setOnMobile(true);
+    } else {
+      setOnMobile(false);
+    }
+
     const getIcon = async () => {
       const icon = await userService.getUserIcon(loginService.getCookie("userHandle"));
       setUserIcon(icon);
     }
     getIcon();
   }, []);
+
+  const willCloseSideBar = () => {
+    if (onMobile) {
+      closeSidebar();
+    }
+  }
 
   const handleLogout = async () => {
     try {
@@ -159,43 +172,45 @@ export const NavBar: React.FC = () => {
             </ListItemButton>
           </ListItem>
         </List>
-        {loginService.getCookie("userEmail") == null ? (
-          <Link to="/login" style={{ textDecoration: "none" }}>
-            <LoginIcon />
-          </Link>
-        ) : (
-          <div>          
-            <List
-              sx={{
-                size: "md",
-                flexGrow: 0,
-                "--ListItem-radius": "6px",
-                "--List-gap": "8px",
-              }}
-            >
-              <ListItem>
-                <ListItemButton
-                  component={Link}
-                  to="/profile?activeTab=2"
-                >
-                  <SettingsRoundedIcon />
-                </ListItemButton>
-              </ListItem>
-            </List>
-            <Divider />
-            <Link to="/profile" style={{ textDecoration: "none" }}>
-              <Avatar sx={{ marginBottom: "20px", marginTop: "20px" }}>
-                <Icon iconName={userIcon ? userIcon : ""} />
-              </Avatar>
+        <div style={{marginBottom: onMobile ? "115px" : "0px"}} onClick={willCloseSideBar()}>
+          {loginService.getCookie("userEmail") == null ? (
+            <Link to="/login" style={{ textDecoration: "none" }}>
+              <LoginIcon />
             </Link>
-            <span
-              onClick={handleLogout}
-              style={{ cursor: "pointer", paddingLeft: "10px" }}
-            >
-              <LogoutIcon />
-            </span>
-          </div>
-        )}
+          ) : (
+            <div>          
+              <List
+                sx={{
+                  size: "md",
+                  flexGrow: 0,
+                  "--ListItem-radius": "6px",
+                  "--List-gap": "8px",
+                }}
+              >
+                <ListItem>
+                  <ListItemButton
+                    component={Link}
+                    to="/profile?activeTab=2"
+                  >
+                    <SettingsRoundedIcon />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+              <Divider />
+              <Link to="/profile" style={{ textDecoration: "none" }}>
+                <Avatar sx={{ marginBottom: "20px", marginTop: "20px" }}>
+                  <Icon iconName={userIcon ? userIcon : ""} />
+                </Avatar>
+              </Link>
+              <span
+                onClick={handleLogout}
+                style={{ cursor: "pointer", paddingLeft: "10px" }}
+              >
+                <LogoutIcon />
+              </span>
+            </div>
+          )}
+        </div>
       </Sheet>
     </React.Fragment>
   );
