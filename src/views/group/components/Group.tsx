@@ -109,17 +109,31 @@ export const Group = () => {
             });
             setJoinLeaveText("Join");
         } catch (error) {
-            enqueueSnackbar("Error occured while leaving the group.", {
-                variant: 'error',
-                anchorOrigin: {
-                vertical: 'bottom',
-                horizontal: 'center',
-                },
-                autoHideDuration: 2000,
-                style: {
-                    fontFamily: 'Arial',
-                },
-            });
+            if (error?.response?.status == 403) { 
+                enqueueSnackbar("Error: You are the only group admin.", {
+                    variant: 'error',
+                    anchorOrigin: {
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                    },
+                    autoHideDuration: 2000,
+                    style: {
+                        fontFamily: 'Arial',
+                    },
+                });
+            } else {
+                enqueueSnackbar("Error occured while leaving the group.", {
+                    variant: 'error',
+                    anchorOrigin: {
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                    },
+                    autoHideDuration: 2000,
+                    style: {
+                        fontFamily: 'Arial',
+                    },
+                });
+            }
         }
     }
 
@@ -154,7 +168,7 @@ export const Group = () => {
                     
                     const groupRole = await memberService.getMemberRole(loginService.getCookie("userEmail"), groupDataResponse.handle)
                     if (loginService.getCookie("userEmail") !== null) {
-                        if (groupRole != "" && groupRole != undefined) {
+                        if (groupRole !== "" && groupRole != undefined) {
                             setJoinLeaveText("Leave");
                         } else {
                             setJoinLeaveText("Join");

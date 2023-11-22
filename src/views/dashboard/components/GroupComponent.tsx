@@ -19,6 +19,7 @@ import { Icon } from "@src/shared/components/Icon/Icon";
 import { Link } from "react-router-dom";
 import { memberService } from "@src/services/memberService";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
+import { useSnackbar } from "notistack";
 
 interface CardProps {
   handle: string;
@@ -28,7 +29,7 @@ interface CardProps {
   description: string;
   buttonText: string;
   name: string;
-  onAction: () => void; // Add the onAction prop
+  onAction: () => void;
 }
 
 const GroupComponent: React.FC<CardProps> = ({
@@ -39,9 +40,10 @@ const GroupComponent: React.FC<CardProps> = ({
   description,
   buttonText,
   name,
-  onAction, // Destructure the onAction prop
+  onAction,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
+  const { enqueueSnackbar } = useSnackbar();
   const handleClick = () => {
     if (buttonText === "Join") {
       // Join action
@@ -54,15 +56,55 @@ const GroupComponent: React.FC<CardProps> = ({
     }
   };
 
-  const handleLeaveGroup = () => {
+  const handleLeaveGroup = async () => {
     setOpen(false); // Close the dialog
-    memberService.deleteMember(UserEmail, handle).then(() => {
+    try {
+      await memberService.deleteMember(UserEmail, handle);
       onAction(); // Notify the parent component that an action has been taken
-    });
+      enqueueSnackbar("Group leaved successfully.", {
+        variant: "success",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "center",
+        },
+        autoHideDuration: 2000,
+        style: {
+          fontFamily: "Arial",
+        },
+      });
+    } catch (error) {
+      // Display snackbar if an error occurs during deletion
+      enqueueSnackbar(
+        "Error occurred while leaving the group. You might be the only admin.",
+        {
+          variant: "error",
+          anchorOrigin: {
+            vertical: "bottom",
+            horizontal: "center",
+          },
+          autoHideDuration: 2000,
+          style: {
+            fontFamily: "Arial",
+          },
+        }
+      );
+    }
   };
 
   return (
-    <Card variant="outlined" sx={{ width: 250, backgroundColor: "#EEF1FF" }}>
+    <Card
+      variant="outlined"
+      sx={{
+        width: 250,
+        height: 200,
+        backgroundColor: "#EEF1FF",
+        boxShadow: "0px 0px 8px 5px rgba(0,0,0,0.1)",
+        transition: "transform 0.3s ease-in-out", // Add transition for smooth animation
+        "&:hover": {
+          transform: "scale(1.20)", // Apply scale transformation on hover
+        },
+      }}
+    >
       <Box
         sx={{
           width: 250,
@@ -78,19 +120,28 @@ const GroupComponent: React.FC<CardProps> = ({
       <CardContent>
         <Typography level="title-lg">{title}</Typography>
         <Typography level="body-sm">
-          {description.length > 110
+          {description.length > 66
             ? `${description.slice(0, 55)}...`
             : description}
         </Typography>
       </CardContent>
-      <CardActions sx={{ justifyContent: "center" } } buttonFlex="0 1 120px">
+      <CardActions sx={{ justifyContent: "center" }} buttonFlex="0 1 120px">
         <Link to={`/group/${handle}`} style={{ textDecoration: "none" }}>
-          <Button variant="solid" color="primary">
+          <Button
+            variant="solid"
+            color="primary"
+            sx={{ boxShadow: "0px 0px 8px 5px rgba(0,0,0,0.1)" }}
+          >
             View
           </Button>
         </Link>
         {buttonText === "" ? null : (
-          <Button onClick={handleClick} variant="outlined" color="primary">
+          <Button
+            onClick={handleClick}
+            variant="outlined"
+            color="primary"
+            sx={{ boxShadow: "0px 0px 8px 5px rgba(0,0,0,0.1)" }}
+          >
             {buttonText}
           </Button>
         )}
