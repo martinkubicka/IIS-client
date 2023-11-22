@@ -78,7 +78,7 @@ export const memberService = {
     if (email == undefined || handle == undefined) {
       return;
     }
-    
+
     var params = `/Member/getMemberRole?email=${email}&handle=${handle}`;
 
     try {
@@ -89,12 +89,19 @@ export const memberService = {
     }
   },
 
-  async addMember(handle?: string, userEmail?: string, role = 1, name?: string, icon = "doughnut", userHandle?: string) {
-    var userData : UserProfileModel;
+  async addMember(
+    handle?: string,
+    userEmail?: string,
+    role = 1,
+    name?: string,
+    icon = "doughnut",
+    userHandle?: string
+  ) {
+    var userData: UserProfileModel;
     if (userHandle) {
       userData = await userService.getUser(userHandle);
     }
-    
+
     const memberData = {
       handle: handle,
       role: role,
@@ -103,7 +110,9 @@ export const memberService = {
       name: userHandle ? userData.name : icon,
     };
     try {
-      const response = await instance.post("/Member/add", memberData, { headers });
+      const response = await instance.post("/Member/add", memberData, {
+        headers,
+      });
       return response.data;
     } catch (error) {
       throw error;

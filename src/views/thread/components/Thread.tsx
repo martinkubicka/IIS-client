@@ -15,8 +15,9 @@ import API_BASE_URL from "@src/apiConfig";
 import { UserProfileModel } from "@src/shared/models/UserProfileModel";
 import { loginService } from "@src/services/loginService";
 import { userService } from "@src/services/userService";
-import { InfoRounded } from "@mui/icons-material";
+import { Email, InfoRounded } from "@mui/icons-material";
 import { useMutation, useQuery } from "react-query";
+import { memberService } from "@src/services/memberService";
 
 export const Thread = () => {
   const { threadId } = useParams<{ threadId: string }>();
@@ -42,12 +43,27 @@ export const Thread = () => {
     }
   );
 
-  const { data: userData } = useQuery(
+  const { data: userData, isFetched: userFetched } = useQuery(
     "user",
     async (): Promise<UserProfileModel | undefined> => {
       const handle = loginService.getCookie("userHandle");
       if (handle) {
         const data = await userService.getUser(handle as string);
+        return data;
+      }
+    }
+  );
+
+  const { data: isUserMember, isFetched: isMemberFetched } = useQuery(
+    ["isUserMember", threadData?.handle],
+    async (): Promise<boolean | undefined> => {
+      const email = loginService.getCookie("userEmail");
+      if (email) {
+        const data = await memberService.userInGroup(
+          email,
+          threadData?.handle as string
+        );
+        console.log(data);
         return data;
       }
     }
@@ -104,6 +120,26 @@ export const Thread = () => {
     joinThread();
   }, []);
 
+  let newPost;
+  if (userFetched && userData?.handle) {
+    if (isMemberFetched && isUserMember) {
+      newPost = (
+        <NewPost handle={userData.handle} threadId={threadId as string} />
+      );
+    } else {
+      newPost = (
+        <Alert startDecorator={<InfoRounded />} color="primary">
+          <Link to={"/dashboard"}>Join group</Link>to write a new post
+        </Alert>
+      );
+    }
+  } else {
+    newPost = (
+      <Alert startDecorator={<InfoRounded />} color="primary">
+        <Link to={"/login"}>Log in</Link>to write a new post
+      </Alert>
+    );
+  }
   return (
     <Page>
       <Stack spacing={2} direction={"column"} sx={threadStyle}>
@@ -111,20 +147,13 @@ export const Thread = () => {
           name={threadData?.name as string}
           description={threadData?.description as string}
         />
-
         <Posts
           onDeletePost={handleDeletePost}
           onScrollTop={fetchMore}
           loading={postsLoading}
           posts={posts}
         />
-        {userData ? (
-          <NewPost handle={userData.handle} threadId={threadId as string} />
-        ) : (
-          <Alert startDecorator={<InfoRounded></InfoRounded>} color="primary">
-            <Link to={"/login"}>Log in</Link>to write a new post
-          </Alert>
-        )}
+        {newPost}
       </Stack>
     </Page>
   );
