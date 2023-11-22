@@ -33,6 +33,8 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
   const ref = React.useRef(null);
   const [openIcons, setOpenIcons] = React.useState(false);
   const [name, setName] = useState<string>("");
+  const [handle, setHandle] = useState<string>("");
+  const [validHandle, setValidHandle] = useState<boolean>(true);
   const [description, setDescription] = useState<string>("");
   const [validName, setValidName] = useState<boolean>(true);
   const [validDescription, setValidDescription] = useState<boolean>(true);
@@ -55,13 +57,25 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
 
   useEffect(() => {
     handleFieldChange();
-  }, [name, description]);
+  }, [name, description, handle]);
 
-  const handleFieldChange = () => {
+  const handleFieldChange = async () => {
     if (name?.trim() === "") {
       setValidName(false);
     } else {
       setValidName(true);
+    }
+
+    if (handle?.trim() === "") {
+      setValidHandle(false);
+    } else {
+      // Check if the handle is already taken
+      try {
+        await groupService.getGroup(handle);
+        setValidHandle(false);
+      } catch (error) {
+        setValidHandle(true);
+      }
     }
 
     if (description !== "" && description?.trim() === "") {
@@ -86,7 +100,7 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
       });
 
       await groupService.addGroup({
-        handle: name,
+        handle: handle,
         name: name,
         description: description,
         icon: icon,
@@ -98,6 +112,7 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
       // restore value of name and description
       setName("");
       setDescription("");
+      setHandle("");
       setOpen(false);
 
       // Trigger a callback function to indicate that a new group has been created
@@ -201,8 +216,25 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
                     <FormHelperText>Name field cannot be empty!</FormHelperText>
                   )}
                 </FormControl>
-
+                <FormControl error={!validHandle}>
+                  <FormLabel>Handle</FormLabel>
+                  <Input
+                    autoFocus
+                    required
+                    value={handle}
+                    onChange={(e) => setHandle(e.target.value)}
+                    error={!validHandle}
+                    sx={{ minWidth: "320px" }}
+                  />
+                  {!validHandle && (
+                    <FormHelperText>
+                      Handle field cannot be empty! Or the handle is already
+                      taken.
+                    </FormHelperText>
+                  )}
+                </FormControl>
                 <FormControl error={!validDescription}>
+                  <FormLabel>Description</FormLabel>
                   <Textarea
                     error={!validDescription}
                     minRows={1}
@@ -220,7 +252,7 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
                 </FormControl>
                 <Button
                   type="submit"
-                  disabled={!validName || !validDescription}
+                  disabled={!validName || !validDescription || !validHandle}
                   onClick={SubmitClicked}
                 >
                   Submit
