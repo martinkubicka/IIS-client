@@ -18,14 +18,20 @@ import { loginService } from "@src/services/loginService";
 import { useQuery } from "react-query";
 import { memberService } from "@src/services/memberService";
 import GroupRole from "@src/enums/GroupRole";
+import { postService } from "@src/services/postService";
+import Role from "@src/enums/Role";
+import { userService } from "@src/services/userService";
 
 interface PostHeaderProps {
   id?: string;
   name?: string;
   handle?: string;
   icon?: string;
-  role?: string;
+  role?: GroupRole;
   timestamp?: Date;
+  threadId: string;
+  canDelete?: boolean;
+  canEdit?: boolean;
   onUpdate?: (id?: string) => void;
   onDelete?: (id?: string) => void;
 }
@@ -36,31 +42,12 @@ export const PostHeader = ({
   name,
   icon,
   timestamp,
+  canDelete = false,
+  canEdit = false,
   onUpdate = () => {},
   onDelete = () => {},
 }: PostHeaderProps) => {
   const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
-  const [canDelete, setCanDelete] = React.useState(false);
-  const [canEdit, setCanEdit] = React.useState(false);
-  const currentLoginHandle = loginService.getCookie("userHandle");
-  const currentLoginEmail = loginService.getCookie("userEmail");
-  const { data: memberRole, isFetched: roleFetched } = useQuery({
-    queryKey: "postHeaderGroupRole",
-    queryFn: async (): Promise<GroupRole | undefined> => {
-      const data = await memberService.getMemberRole(currentLoginEmail, handle);
-      return data;
-    },
-  });
-
-  React.useEffect(() => {
-    setCanDelete(
-      (memberRole != undefined && memberRole === GroupRole.admin) ||
-        memberRole === GroupRole.moderator ||
-        (handle != null && currentLoginHandle === handle)
-    );
-
-    setCanEdit(handle != null && currentLoginHandle === handle);
-  }, [handle, currentLoginHandle, memberRole]);
 
   const handleDelete = () => {
     setDeleteDialogOpen(true);

@@ -18,11 +18,13 @@ import { userService } from "@src/services/userService";
 import { Email, InfoRounded } from "@mui/icons-material";
 import { useMutation, useQuery } from "react-query";
 import { memberService } from "@src/services/memberService";
+import Role from "@src/enums/Role";
 
 export const Thread = () => {
   const { threadId } = useParams<{ threadId: string }>();
   const [connection, setConnection] = React.useState<any>();
   const [posts, setPosts] = React.useState<PostModel[]>([]);
+  const currentLoginRole = loginService.getCookie("userRole");
 
   const { mutate: deletePostMutation } = useMutation(async (id: string) => {
     const data = await postService.deletePost(id);
@@ -122,7 +124,7 @@ export const Thread = () => {
 
   let newPost;
   if (userFetched && userData?.handle) {
-    if (isMemberFetched && isUserMember) {
+    if ((isMemberFetched && isUserMember) || currentLoginRole === Role.admin) {
       newPost = (
         <NewPost handle={userData.handle} threadId={threadId as string} />
       );

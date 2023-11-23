@@ -1,6 +1,7 @@
-import { Avatar, Link, Stack, Typography } from "@mui/joy";
+import { Avatar, Link, Stack, Typography, VariantProp } from "@mui/joy";
 import React from "react";
 import { Icon } from "../Icon/Icon";
+import { useNavigate } from "react-router-dom";
 
 interface PostUserProps {
   icon?: string;
@@ -17,6 +18,21 @@ export const PostUser = ({
   width,
   showIcon = true,
 }: PostUserProps) => {
+  const [variant, setVariant] = React.useState<VariantProp>("soft");
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/profile/${handle}`);
+  };
+
+  const handleMouseOver = () => {
+    setVariant("outlined");
+  };
+
+  const handleMouseOut = () => {
+    setVariant("soft");
+  };
+
   return (
     <Stack
       direction={"row"}
@@ -26,14 +42,19 @@ export const PostUser = ({
       width={width}
     >
       {showIcon && (
-        <Avatar>
+        <Avatar
+          variant={variant}
+          onMouseOver={handleMouseOver}
+          onMouseOut={handleMouseOut}
+          onClick={handleClick}
+        >
           <Icon iconName={icon}></Icon>
         </Avatar>
       )}
 
       <Stack spacing={-0.5} direction={"column"}>
         <Typography level="title-sm">{username}</Typography>
-        <Link fontSize={14}>{`@${handle}`}</Link>
+        <Link onClick={handleClick} fontSize={14}>{`@${handle}`}</Link>
       </Stack>
     </Stack>
   );

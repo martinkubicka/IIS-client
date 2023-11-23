@@ -6,9 +6,13 @@ import { Timestamp } from "../Timestamp/Timestamp";
 
 interface PostFooterProps {
   postId: string;
+  ratingDisabled?: boolean;
 }
 
-export const PostFooter = ({ postId }: PostFooterProps) => {
+export const PostFooter = ({
+  postId,
+  ratingDisabled = false,
+}: PostFooterProps) => {
   return (
     <Box sx={footerStyle}>
       <Stack
@@ -16,7 +20,7 @@ export const PostFooter = ({ postId }: PostFooterProps) => {
         direction={"row"}
         alignItems={"center"}
       >
-        <Rating postId={postId} />
+        <Rating disabled={ratingDisabled} postId={postId} />
       </Stack>
     </Box>
   );
