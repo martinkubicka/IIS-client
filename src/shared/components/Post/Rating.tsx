@@ -18,9 +18,10 @@ import { Link } from "react-router-dom";
 
 interface RatingProps {
   postId: string;
+  disabled?: boolean;
 }
 
-export const Rating = ({ postId }: RatingProps) => {
+export const Rating = ({ postId, disabled = false }: RatingProps) => {
   const [upvoted, setUpvoted] = React.useState(false);
   const [downvoted, setDownvoted] = React.useState(false);
   const handle = loginService.getCookie("userHandle");
@@ -86,7 +87,7 @@ export const Rating = ({ postId }: RatingProps) => {
   return (
     <Tooltip
       title={
-        Boolean(handle) ? (
+        !disabled ? (
           ""
         ) : (
           <>
@@ -104,7 +105,7 @@ export const Rating = ({ postId }: RatingProps) => {
       >
         <IconButton
           color={"primary"}
-          disabled={!Boolean(handle)}
+          disabled={disabled}
           onClick={handleUpvote}
           variant={upvoted ? "solid" : "plain"}
         >
@@ -119,7 +120,7 @@ export const Rating = ({ postId }: RatingProps) => {
         <IconButton
           color={"primary"}
           onClick={handleDownvote}
-          disabled={!Boolean(handle)}
+          disabled={disabled}
           variant={downvoted ? "solid" : "plain"}
         >
           {<KeyboardArrowDownRounded />}

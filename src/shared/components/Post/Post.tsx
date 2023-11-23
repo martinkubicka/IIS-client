@@ -1,15 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Divider,
-  Stack,
-  Textarea,
-  Typography,
-} from "@mui/joy";
-import { PostUser } from "./PostUser";
+import { Avatar, Box, Divider, Stack } from "@mui/joy";
 import { PostHeader } from "./PostHeader";
 import { postStyle } from "./style";
 import { Icon } from "../Icon/Icon";
@@ -20,7 +9,11 @@ import React from "react";
 import { UserProfileModel } from "@src/shared/models/UserProfileModel";
 import { postService } from "@src/services/postService";
 import { PostContent } from "./PostContent";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
+import GroupRole from "@src/enums/GroupRole";
+import Role from "@src/enums/Role";
+import { loginService } from "@src/services/loginService";
+import { memberService } from "@src/services/memberService";
 
 interface PostProps extends PostModel {
   lastPost?: boolean;
@@ -39,6 +32,45 @@ export const Post = ({
 }: PostProps) => {
   const [user, setUser] = React.useState<UserProfileModel>();
   const [editing, setEditing] = React.useState(false);
+  const [canDelete, setCanDelete] = React.useState(false);
+  const [canEdit, setCanEdit] = React.useState(false);
+  const [ratingDisabled, setRatingDisabled] = React.useState(true);
+  const currentLoginHandle = loginService.getCookie("userHandle");
+  const currentLoginEmail = loginService.getCookie("userEmail");
+  const currentLoginRole = loginService.getCookie("userRole");
+  const { data: currentMemberRole } = useQuery({
+    queryKey: `postHeaderGroupRole${threadId}`,
+    queryFn: async (): Promise<GroupRole | undefined> => {
+      if (id) {
+        const groupHandle = await postService.getGroupHandleByPostId(id);
+        const data = await memberService.getMemberRole(
+          currentLoginEmail,
+          groupHandle
+        );
+
+        if (!data && data !== GroupRole.admin) {
+          return undefined;
+        }
+        return data;
+      }
+      return undefined;
+    },
+  });
+
+  React.useEffect(() => {
+    setCanDelete(
+      (currentMemberRole != undefined &&
+        currentMemberRole === GroupRole.admin) ||
+        currentMemberRole === GroupRole.moderator ||
+        currentLoginRole === Role.admin ||
+        (handle != null && currentLoginHandle === handle)
+    );
+
+    setCanEdit(handle != null && currentLoginHandle === handle);
+
+    console.log("ROLE:", currentMemberRole);
+    setRatingDisabled(currentMemberRole === undefined);
+  }, [handle, currentLoginHandle, currentLoginRole, currentMemberRole]);
 
   const { mutate: updatePostMutation, isLoading: updateLoading } = useMutation(
     async ({ id, text }: { id: string; text: string }) => {
@@ -104,6 +136,9 @@ export const Post = ({
           name={user?.name}
           onUpdate={handleEditing}
           onDelete={onDelete}
+          threadId={threadId as string}
+          canDelete={canDelete}
+          canEdit={canEdit}
         />
         <PostContent
           editing={editing}
@@ -112,7 +147,7 @@ export const Post = ({
           onEditCancel={handleCancelEditing}
           updateLoading={updateLoading}
         />
-        <PostFooter postId={id as string} />
+        <PostFooter ratingDisabled={ratingDisabled} postId={id as string} />
       </Stack>
     </Stack>
   );
