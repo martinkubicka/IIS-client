@@ -165,7 +165,7 @@ export const Member: React.FC<MemberProps> = ({ member, onDelete, handle }) => {
         >
         <CardContent sx={{ alignItems: 'center', textAlign: 'center' }}>
             <Link to={`/profile/${member?.handle}`} style={{textDecoration: 'none'}}>
-                <Avatar src="/static/images/avatar/1.jpg" sx={{ '--Avatar-size': '4rem' }}>
+                <Avatar sx={{ '--Avatar-size': '4rem' }}>
                     <Icon iconName={member?.icon} />
                 </Avatar>
             </Link>

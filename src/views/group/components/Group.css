@@ -12,6 +12,10 @@
     max-width: 100%;
 }
 
+.modButton {
+    margin-right: 20px;
+}
+
 @media (max-width: 899px) {
     .contentPadding {
         padding-left: 20px;
@@ -23,5 +27,15 @@
         flex-wrap: wrap; 
         max-width: 100%;
         justify-content: center;
+    } 
+}
+
+@media (max-width: 715px) {
+    .modButton {
+        margin-bottom: 20px;
+    }
+
+    .joinButton {
+        margin-left: 30px;
     }
 }

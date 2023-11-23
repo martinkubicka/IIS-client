@@ -7,8 +7,6 @@ const instance = axios.create({
   baseURL: API_BASE_URL,
 });
 
-const headers = authHeaderGenerator.getAuthHeader();
-
 export const threadService = {
   async getThread(threadId: string) {
     try {
@@ -47,6 +45,8 @@ export const threadService = {
   },
 
   async getAllThreadsUserIsIn(handle?: string) {
+    const headers = authHeaderGenerator.getAuthHeader();
+
     try {
       const response = await instance.get(
         `/Thread/GetAllThreadsUserIsIn/${handle}`, 
@@ -84,6 +84,8 @@ export const threadService = {
   },
 
   async createThread(data?: ThreadModel) {
+    const headers = authHeaderGenerator.getAuthHeader();
+
     try {
       const response = await instance.post(`/Thread/create`, data, { headers });
       return response.data;
@@ -93,6 +95,8 @@ export const threadService = {
   },
 
   async deleteThread(id?: string) {
+    const headers = authHeaderGenerator.getAuthHeader();
+
     try {
       const response = await instance.delete(`/Thread/delete/${id}`, { headers });
       return response.data;
@@ -102,6 +106,8 @@ export const threadService = {
   },
 
   async updateThread(id?: string, data?: ThreadModel) {
+    const headers = authHeaderGenerator.getAuthHeader();
+    
     try {
       const response = await instance.put(`/Thread/update/${id}`, data, { headers });
       return response.data;

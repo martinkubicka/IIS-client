@@ -7,10 +7,9 @@ const instance = axios.create({
   baseURL: API_BASE_URL,
 });
 
-const headers = authHeaderGenerator.getAuthHeader();
-
 export const groupService = {
   async getGroupsUserIsIn(userEmail?: string, joined?: boolean) {
+    const headers = authHeaderGenerator.getAuthHeader();
     try {
       const response = await instance.get(
         `/Group/user/${userEmail}/${joined}`,
@@ -23,6 +22,7 @@ export const groupService = {
   },
 
   async addGroup(data?: GroupModel) {
+    const headers = authHeaderGenerator.getAuthHeader();
     try {
       const response = await instance.post("/Group/add", data, { headers });
       return response.data;
@@ -59,6 +59,7 @@ export const groupService = {
   },
 
   async updateGroup(data?: GroupModel) {
+    const headers = authHeaderGenerator.getAuthHeader();
     try {
       const response = await instance.put(`/Group/update`, data, { headers });
       return response.data;
@@ -68,6 +69,7 @@ export const groupService = {
   },
 
   async deleteGroup(handle?: string) {
+    const headers = authHeaderGenerator.getAuthHeader();
     try {
       const response = await instance.delete(`/Group/remove/${handle}`, {
         headers,
@@ -79,6 +81,7 @@ export const groupService = {
   },
 
   async updateGroupPolicy(data?: GroupModel) {
+    const headers = authHeaderGenerator.getAuthHeader();
     try {
       const response = await instance.put(
         `/Group/updatePolicy?handle=${data?.handle}`,
