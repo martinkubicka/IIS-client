@@ -17,7 +17,9 @@ import { memberService } from "@src/services/memberService";
 
 interface PostProps extends PostModel {
   lastPost?: boolean;
-
+  showIcon?: boolean;
+  deletable?: boolean;
+  editable?: boolean;
   onDelete?: (id?: string) => void;
 }
 
@@ -27,6 +29,9 @@ export const Post = ({
   handle,
   text,
   date,
+  deletable = true,
+  editable = true,
+  showIcon = false,
   lastPost = false,
   onDelete = () => {},
 }: PostProps) => {
@@ -119,7 +124,7 @@ export const Post = ({
           <Icon iconName={user?.icon} />
         </Avatar>
         <Box flexGrow={"1"}>
-          {!lastPost && (
+          {!lastPost && !showIcon && (
             <Divider
               sx={{ height: "calc(100% + 30px)", width: "1px" }}
               orientation={"vertical"}
@@ -137,8 +142,8 @@ export const Post = ({
           onUpdate={handleEditing}
           onDelete={onDelete}
           threadId={threadId as string}
-          canDelete={canDelete}
-          canEdit={canEdit}
+          canDelete={deletable && canDelete}
+          canEdit={editable && canEdit}
         />
         <PostContent
           editing={editing}
