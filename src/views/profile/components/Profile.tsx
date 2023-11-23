@@ -50,20 +50,7 @@ export const Profile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userProfileDataResponse = await userService.getUser(handle);
-        const userDetailDataResponse: UserDetailModel = {
-          name: userProfileDataResponse.name,
-          icon: userProfileDataResponse.icon,
-          handle: userProfileDataResponse.handle,
-          role: userProfileDataResponse.role,
-          email: userEmail,
-        };
-        setUserDetailData(userDetailDataResponse);
-
-        const userPrivacyDataResponse = await userService.getPrivacy(handle);
-        setUserPrivacyData(userPrivacyDataResponse);
-
-        if (handleMember && handleMember.handle !== userHandle) {
+        if (handleMember.handle) {
           const memberPrivacyDataResponse = await userService.getPrivacy(
             handleMember.handle
           );
@@ -117,6 +104,18 @@ export const Profile = () => {
             }
           }
         }
+        const userProfileDataResponse = await userService.getUser(handle);
+        const userDetailDataResponse: UserDetailModel = {
+          name: userProfileDataResponse.name,
+          icon: userProfileDataResponse.icon,
+          handle: userProfileDataResponse.handle,
+          role: userProfileDataResponse.role,
+          email: userEmail,
+        };
+        setUserDetailData(userDetailDataResponse);
+
+        const userPrivacyDataResponse = await userService.getPrivacy(handle);
+        setUserPrivacyData(userPrivacyDataResponse);
         setIsLoading(false); // Move this line inside the try block just before the function ends
       } catch (error) {
         console.log(error);
@@ -152,29 +151,32 @@ export const Profile = () => {
         <Skeleton variant="text" width={300} height={20} />
       </Page>
     );
-  }
-
-  if (showRestrictedContent) {
+  } else if (showRestrictedContent) {
     return <PermissionDenied errorMessage={errorMessage}></PermissionDenied>;
-  }
-
-  return (
-    <Page>
-      <Avatar sx={{ width: 250, height: 250, marginBottom: 5 }}>
-        <Icon
-          iconName={
-            userDetailData?.icon != null ? userDetailData?.icon : "doughnut"
-          }
-          size={100}
+  } else if (
+    userDetailData != null ||
+    userPrivacySettingsData != null ||
+    isLoading === false ||
+    showRestrictedContent === false
+  ) {
+    return (
+      <Page>
+        <Avatar sx={{ width: 250, height: 250, marginBottom: 5 }}>
+          <Icon
+            iconName={
+              userDetailData?.icon != null ? userDetailData?.icon : "doughnut"
+            }
+            size={100}
+          />
+        </Avatar>
+        <PageHeader text={userDetailData?.name} />
+        <TabMenu
+          userDetailData={userDetailData}
+          userPrivacySettingsData={userPrivacySettingsData}
+          onSettingsSaved={onSettingsSaved}
+          showSettings={handle === loginService.getCookie("userHandle")}
         />
-      </Avatar>
-      <PageHeader text={userDetailData?.name} />
-      <TabMenu
-        userDetailData={userDetailData}
-        userPrivacySettingsData={userPrivacySettingsData}
-        onSettingsSaved={onSettingsSaved}
-        showSettings={handle === loginService.getCookie("userHandle")}
-      />
-    </Page>
-  );
+      </Page>
+    );
+  }
 };

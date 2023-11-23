@@ -16,13 +16,15 @@ import { memberService } from "@src/services/memberService";
 import { enqueueSnackbar } from "notistack";
 import CloseIcon from '@mui/icons-material/Close';
 import Dialog from "@src/shared/components/Dialog/Dialog";
+import GroupRole from "@src/enums/GroupRole";
 
 export const Group = () => {
     const { handle } = useParams<{ handle: string}>();
     const [groupData, setGroupData] = useState<GroupModel | null>(null);
     const [joinLeaveText, setJoinLeaveText] = useState<string>("Join");
+    const [moderatorText, setModeratorText] = useState<string | null>(null);
     const [modalOpen, setModalOpen] = useState<boolean>(false);
-
+    const [modalModeratorOpen, setModalModeratorOpen] = useState<boolean>(false);
     const handleOpenModal = () => {
         setModalOpen(true);
     };
@@ -32,9 +34,71 @@ export const Group = () => {
     };
 
     const handleConfirm = () => {
-        leave();
+        if (joinLeaveText == "Cancel join request") {
+            cancelJoinRequest();
+        } else {
+            leave();
+        }
         handleCloseModal();
     };
+
+    const handleOpenModalModerator = () => {
+        setModalModeratorOpen(true);
+    };
+
+    const handleCloseModalModerator = () => {
+        setModalModeratorOpen(false);
+    };
+
+    const handleConfirmModerator = () => {
+        cancelRequestModerator();
+        handleCloseModalModerator();
+    };
+
+    const cancelJoinRequest = async () => {        
+        try {
+            enqueueSnackbar("Loading..", {
+                variant: 'info',
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                autoHideDuration: 2000,
+                style: {
+                    fontFamily: 'Arial',
+                },
+            });
+    
+            await memberService.deleteJoinRequest(loginService.getCookie("userEmail"), handle);
+    
+            enqueueSnackbar("Join request cancelled successfully.", {
+                variant: 'success',
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                autoHideDuration: 2000,
+                style: {
+                    fontFamily: 'Arial',
+                },
+            });
+            setJoinLeaveText("Join");
+        } catch (error) {
+            console.log(error)
+            enqueueSnackbar("Error occured while canceling join request.", {
+                variant: 'error',
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                autoHideDuration: 2000,
+                style: {
+                    fontFamily: 'Arial',
+                },
+            });
+        }
+        
+    }
 
     const join = async () => {        
         try {
@@ -50,9 +114,9 @@ export const Group = () => {
                 },
             });
     
-            await memberService.addMember(handle, loginService.getCookie("userEmail"), undefined, undefined, undefined, loginService.getCookie("userHandle"));
+            await memberService.createJoinRequest(handle, loginService.getCookie("userEmail"));
     
-            enqueueSnackbar("Joined successfully.", {
+            enqueueSnackbar("Join request sent successfully.", {
                 variant: 'success',
                 anchorOrigin: {
                 vertical: 'bottom',
@@ -63,7 +127,7 @@ export const Group = () => {
                     fontFamily: 'Arial',
                 },
             });
-            setJoinLeaveText("Leave");
+            setJoinLeaveText("Cancel join request");
         } catch (error) {
             enqueueSnackbar("Error occured while joining the group.", {
                 variant: 'error',
@@ -76,8 +140,95 @@ export const Group = () => {
                     fontFamily: 'Arial',
                 },
             });
-        }
-        
+        } 
+    }
+
+    const requestModerator = async () => {        
+        try {
+            enqueueSnackbar("Loading..", {
+                variant: 'info',
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                autoHideDuration: 2000,
+                style: {
+                    fontFamily: 'Arial',
+                },
+            });
+    
+            await memberService.createModeratorRequest(handle, loginService.getCookie("userEmail"));
+    
+            enqueueSnackbar("Moderator request sent successfully.", {
+                variant: 'success',
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                autoHideDuration: 2000,
+                style: {
+                    fontFamily: 'Arial',
+                },
+            });
+
+            setModeratorText("Cancel moderator request");
+        } catch (error) {
+            enqueueSnackbar("Error occured while sending moderator request.", {
+                variant: 'error',
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                autoHideDuration: 2000,
+                style: {
+                    fontFamily: 'Arial',
+                },
+            });
+        } 
+    }
+
+    const cancelRequestModerator = async () => {        
+        try {
+            enqueueSnackbar("Loading..", {
+                variant: 'info',
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                autoHideDuration: 2000,
+                style: {
+                    fontFamily: 'Arial',
+                },
+            });
+    
+            await memberService.deleteModeratorRequest(loginService.getCookie("userEmail"), handle);
+    
+            enqueueSnackbar("Moderator request cancelled successfully.", {
+                variant: 'success',
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                autoHideDuration: 2000,
+                style: {
+                    fontFamily: 'Arial',
+                },
+            });
+
+            setModeratorText("Request moderator role");
+        } catch (error) {
+            enqueueSnackbar("Error occured while cancelling moderator request.", {
+                variant: 'error',
+                anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center',
+                },
+                autoHideDuration: 2000,
+                style: {
+                    fontFamily: 'Arial',
+                },
+            });
+        } 
     }
 
     const leave = async () => {        
@@ -107,6 +258,7 @@ export const Group = () => {
                     fontFamily: 'Arial',
                 },
             });
+            setModeratorText(null);
             setJoinLeaveText("Join");
         } catch (error) {
             if (error?.response?.status == 403) { 
@@ -167,11 +319,26 @@ export const Group = () => {
                     setGroupData(updatedGroupData);
                     
                     const groupRole = await memberService.getMemberRole(loginService.getCookie("userEmail"), groupDataResponse.handle)
+                    const joinRequested = await memberService.joinRequested(groupDataResponse.handle, loginService.getCookie("userEmail"))
+                    const moderatorRequested = await memberService.moderatorRequested(groupDataResponse.handle, loginService.getCookie("userEmail"))
+
                     if (loginService.getCookie("userEmail") !== null) {
                         if (groupRole !== "" && groupRole != undefined) {
                             setJoinLeaveText("Leave");
+                        } else if (joinRequested) {
+                            setJoinLeaveText("Cancel join request");
                         } else {
                             setJoinLeaveText("Join");
+                        }
+                    }
+
+                    if (loginService.getCookie("userEmail") !== null) {
+                        if (moderatorRequested) {
+                            setModeratorText("Cancel moderator request")
+                        } else if (groupRole == GroupRole.member) {
+                            setModeratorText("Request moderator role")
+                        } else {
+                            setModeratorText(null)
                         }
                     }
                 }
@@ -192,15 +359,28 @@ export const Group = () => {
                     </Avatar>
                     <PageHeader text={groupData?.name} />
                 </div>
+                <div style={{ marginLeft: 'auto' }}>
+                {loginService.getCookie("userEmail") && moderatorText !== null ? 
+                    <Button
+                    className="modButton"
+                    color={moderatorText == "Cancel moderator request" ? "danger" : "primary"}
+                        onClick={moderatorText == "Cancel moderator request" ? handleOpenModalModerator : requestModerator}
+                        variant="outlined"
+                        startDecorator={moderatorText == "Cancel moderator request" ? <CloseIcon /> : <Add />}
+                    >{moderatorText}</Button>
+                    : null
+                }
                 {loginService.getCookie("userEmail") ? 
                     <Button
-                        color={joinLeaveText == "Join" ? "primary" : "danger"}
+                    className="joinButton"
+                    color={joinLeaveText == "Join" ? "primary" : "danger"}
                         onClick={joinLeaveText == "Join" ? join : handleOpenModal}
                         variant="outlined"
                         startDecorator={joinLeaveText == "Join" ? <Add /> : <CloseIcon />}
                     >{joinLeaveText}</Button>
                     : null
                 }
+                </div>
             </div>
 
                 <Typography className="groupDescription" variant="subtitle1" color="textSecondary" style={{
@@ -219,8 +399,16 @@ export const Group = () => {
                 open={modalOpen}
                 onClose={handleCloseModal}
                 title="Confirmation"
-                content="Are you sure you want to leave this group?"
+                content={joinLeaveText == "Cancel join request" ? "Are you sure you want to cancel join request?" : "Are you sure you want to leave this group?"}
                 onConfirm={handleConfirm}
+            />
+
+            <Dialog
+                open={modalModeratorOpen}
+                onClose={handleCloseModalModerator}
+                title="Confirmation"
+                content="Are you sure you want to cancel moderator request?"
+                onConfirm={handleConfirmModerator}
             />
         </Page>
     );
