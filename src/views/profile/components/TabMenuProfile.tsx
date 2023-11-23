@@ -11,6 +11,7 @@ interface TabMenuProps {
   userPrivacySettingsData?: UserPrivacySettingsModel;
   onSettingsSaved: () => void;
   showSettings: boolean;
+  userHandle: string;
 }
 
 const TabMenu: React.FC<TabMenuProps> = ({
@@ -18,6 +19,7 @@ const TabMenu: React.FC<TabMenuProps> = ({
   userPrivacySettingsData,
   onSettingsSaved,
   showSettings,
+  userHandle,
 }) => {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
@@ -39,10 +41,10 @@ const TabMenu: React.FC<TabMenuProps> = ({
         )}
       </TabList>
       <TabPanel value={0}>
-        <PostsTab />
+        <PostsTab userHandle={userHandle} />
       </TabPanel>
       <TabPanel value={1}>
-        <GroupsTab showLeave={showSettings}/>
+        <GroupsTab showLeave={showSettings} />
       </TabPanel>
       {showSettings && (
         <TabPanel value={2}>

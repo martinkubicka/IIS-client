@@ -175,6 +175,7 @@ export const Profile = () => {
           userPrivacySettingsData={userPrivacySettingsData}
           onSettingsSaved={onSettingsSaved}
           showSettings={handle === loginService.getCookie("userHandle")}
+          userHandle={handle}
         />
       </Page>
     );

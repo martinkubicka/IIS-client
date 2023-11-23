@@ -67,6 +67,22 @@ export const postService = {
     }
   },
 
+  async getPostsGroupedByThread(
+    userHandle: string,
+    threadsLimit: number,
+    postsPerThreadLimit: number
+  ) {
+    try {
+      const response = await instance.get(
+        `/Post/getPostsGroupedByThread/${userHandle}?threadLimit=${threadsLimit}&postsPerThreadLimit=${postsPerThreadLimit}`,
+        { headers }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   async getGroupHandleByPostId(postId: string) {
     try {
       const response = await instance.get(

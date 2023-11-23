@@ -28,6 +28,7 @@ interface PostHeaderProps {
   handle?: string;
   icon?: string;
   role?: GroupRole;
+  showIcon?: boolean;
   timestamp?: Date;
   threadId: string;
   canDelete?: boolean;
@@ -44,6 +45,7 @@ export const PostHeader = ({
   timestamp,
   canDelete = false,
   canEdit = false,
+  showIcon = false,
   onUpdate = () => {},
   onDelete = () => {},
 }: PostHeaderProps) => {
@@ -70,7 +72,7 @@ export const PostHeader = ({
         direction={"row"}
       >
         <PostUser
-          showIcon={false}
+          showIcon={showIcon}
           handle={handle as string}
           username={name as string}
           width={"120px"}
