@@ -89,6 +89,7 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
       setValidDescription(true);
     }
   };
+  [name, description, handle];
 
   const SubmitClicked = async () => {
     try {
@@ -128,16 +129,6 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
       };
 
       await groupService.addGroup(compositeModel);
-
-      // await groupService.addGroup({
-      //   handle: handle,
-      //   name: name,
-      //   description: description,
-      //   icon: icon,
-      //   email: userEmail,
-      // });
-
-      // await memberService.addMember(name, userEmail, 0, "", "", userHandle);// TODO takto už to nefunguje, treba to prerobiť
 
       // restore value of name and description
       setName("");
@@ -223,8 +214,9 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
                 </Avatar>
                 <Popper
                   anchorEl={ref.current}
-                  placement="left-start"
+                  placement="right-start"
                   open={openIcons}
+                  style={{ zIndex: 1500 }}
                 >
                   <ClickAwayListener onClickAway={handleClickAway}>
                     <Box width={"300px"} height={"300px"}>
