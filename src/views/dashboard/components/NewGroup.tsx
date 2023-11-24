@@ -116,9 +116,9 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
       var userData: UserProfileModel = await userService.getUser(userHandle);
 
       const memberData: MemberModel = {
-        handle: handle, // or get the handle from wherever it's needed
-        email: userEmail, // assuming userEmail is available in scope
-        role: 0, // set the appropriate role
+        handle: handle,
+        email: userEmail,
+        role: 0,
         icon: userData.icon,
         name: userData.name,
       };
@@ -191,8 +191,8 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
           sx={{
             minWidth: 120,
             "&:hover": {
-              backgroundColor: "primary", // Change the background color on hover
-              color: "white", // Change the text color on hover
+              backgroundColor: "primary",
+              color: "white",
             },
           }}
         >

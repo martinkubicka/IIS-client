@@ -20,6 +20,7 @@ import { Link } from "react-router-dom";
 import { memberService } from "@src/services/memberService";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import { useSnackbar } from "notistack";
+import { loginService } from "@src/services/loginService";
 
 interface CardProps {
   handle: string;
@@ -44,15 +45,134 @@ const GroupComponent: React.FC<CardProps> = ({
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const { enqueueSnackbar } = useSnackbar();
+  const [currentButtonText, setCurrentButtonText] =
+    useState<string>(buttonText);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (currentButtonText === "Join") {
+        try {
+          const joinRequested = await memberService.joinRequested(
+            handle,
+            loginService.getCookie("userEmail")
+          );
+
+          if (joinRequested) {
+            setCurrentButtonText("Requested");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+    };
+
+    fetchData();
+  });
+
   const handleClick = () => {
-    if (buttonText === "Join") {
+    if (currentButtonText === "Join") {
       // Join action
-      memberService.addMember(handle, UserEmail, 1, name).then(() => {
-        onAction(); // Notify the parent component that an action has been taken
-      });
-    } else {
+      console.log("Join action");
+      handleJoinGroup();
+    } else if (currentButtonText === "Leave") {
       // Leave action
-      setOpen(true); // Open the dialog
+      setOpen(true);
+    } else if (currentButtonText === "Requested") {
+      // Cancel join request
+      console.log("Cancel join request");
+      handleCancelJoinRequestGroup();
+    }
+  };
+
+  const handleCancelJoinRequestGroup = async () => {
+    try {
+      enqueueSnackbar("Loading..", {
+        variant: "info",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "center",
+        },
+        autoHideDuration: 2000,
+        style: {
+          fontFamily: "Arial",
+        },
+      });
+
+      await memberService.deleteJoinRequest(
+        loginService.getCookie("userEmail"),
+        handle
+      );
+
+      enqueueSnackbar("Join request cancelled successfully.", {
+        variant: "success",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "center",
+        },
+        autoHideDuration: 2000,
+        style: {
+          fontFamily: "Arial",
+        },
+      });
+      setCurrentButtonText("Join");
+    } catch (error) {
+      console.log(error);
+      enqueueSnackbar("Error occured while canceling join request.", {
+        variant: "error",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "center",
+        },
+        autoHideDuration: 2000,
+        style: {
+          fontFamily: "Arial",
+        },
+      });
+    }
+  };
+  const handleJoinGroup = async () => {
+    try {
+      enqueueSnackbar("Loading..", {
+        variant: "info",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "center",
+        },
+        autoHideDuration: 2000,
+        style: {
+          fontFamily: "Arial",
+        },
+      });
+
+      await memberService.createJoinRequest(
+        handle,
+        loginService.getCookie("userEmail")
+      );
+
+      enqueueSnackbar("Join request sent successfully.", {
+        variant: "success",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "center",
+        },
+        autoHideDuration: 2000,
+        style: {
+          fontFamily: "Arial",
+        },
+      });
+      setCurrentButtonText("Requested");
+    } catch (error) {
+      enqueueSnackbar("Error occured while joining the group.", {
+        variant: "error",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "center",
+        },
+        autoHideDuration: 2000,
+        style: {
+          fontFamily: "Arial",
+        },
+      });
     }
   };
 
@@ -73,7 +193,6 @@ const GroupComponent: React.FC<CardProps> = ({
         },
       });
     } catch (error) {
-      // Display snackbar if an error occurs during deletion
       enqueueSnackbar(
         "Error occurred while leaving the group. You might be the only admin.",
         {
@@ -142,7 +261,7 @@ const GroupComponent: React.FC<CardProps> = ({
             color="primary"
             sx={{ boxShadow: "0px 0px 8px 5px rgba(0,0,0,0.1)" }}
           >
-            {buttonText}
+            {currentButtonText}
           </Button>
         )}
         <Modal open={open} onClose={() => setOpen(false)}>
