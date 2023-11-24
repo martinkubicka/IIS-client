@@ -22,9 +22,10 @@ const GroupsTab: React.FC<GroupsTabProps> = ({ showLeave }) => {
 
   const fetchUserGroups = async () => {
     if (handle !== "") {
-      console.log(handle);
       try {
-        const joinedGroups = await groupService.getGroupsUserIsInByHandle(handle);
+        const joinedGroups = await groupService.getGroupsUserIsInByHandle(
+          handle
+        );
         setUserGroups(joinedGroups);
       } catch (error) {
         console.error("Error fetching user's groups:", error);

@@ -72,14 +72,12 @@ const GroupComponent: React.FC<CardProps> = ({
   const handleClick = () => {
     if (currentButtonText === "Join") {
       // Join action
-      console.log("Join action");
       handleJoinGroup();
     } else if (currentButtonText === "Leave") {
       // Leave action
       setOpen(true);
     } else if (currentButtonText === "Requested") {
       // Cancel join request
-      console.log("Cancel join request");
       handleCancelJoinRequestGroup();
     }
   };
