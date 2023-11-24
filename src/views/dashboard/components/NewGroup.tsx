@@ -22,6 +22,11 @@ import { groupService } from "@src/services/groupService";
 import { loginService } from "@src/services/loginService";
 import { useSnackbar } from "notistack";
 import { memberService } from "@src/services/memberService";
+import { userService } from "@src/services/userService";
+import { MemberModel } from "@src/shared/models/MemberModel";
+import { GroupModel } from "@src/shared/models/GroupModel";
+import GroupMemberCompositeModel from "@src/shared/models/GroupMemberCompositeModel";
+import { UserProfileModel } from "@src/shared/models/UserProfileModel";
 
 interface CardProps {
   onGroupCreated: () => void;
@@ -99,15 +104,40 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
         },
       });
 
-      await groupService.addGroup({
+      const groupData: GroupModel = {
         handle: handle,
         name: name,
         description: description,
         icon: icon,
         email: userEmail,
-      });
+      };
 
-      await memberService.addMember(name, userEmail, 0, "", "", userHandle);
+      var userData: UserProfileModel = await userService.getUser(userHandle);
+
+      const memberData: MemberModel = {
+        handle: handle, // or get the handle from wherever it's needed
+        email: userEmail, // assuming userEmail is available in scope
+        role: 0, // set the appropriate role
+        icon: userData.icon,
+        name: userData.name,
+      };
+
+      const compositeModel: GroupMemberCompositeModel = {
+        group: groupData,
+        member: memberData,
+      };
+
+      await groupService.addGroup(compositeModel);
+
+      // await groupService.addGroup({
+      //   handle: handle,
+      //   name: name,
+      //   description: description,
+      //   icon: icon,
+      //   email: userEmail,
+      // });
+
+      // await memberService.addMember(name, userEmail, 0, "", "", userHandle);// TODO takto už to nefunguje, treba to prerobiť
 
       // restore value of name and description
       setName("");
@@ -165,7 +195,7 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
       >
         <Button
           variant="solid"
-          color="primary" // You can change the color here, e.g., "secondary", "error", etc.
+          color="primary"
           onClick={() => setOpen(true)}
           sx={{
             minWidth: 120,

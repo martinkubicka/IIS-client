@@ -1,6 +1,7 @@
 import axios from "axios";
 import API_BASE_URL from "@src/apiConfig";
 import { GroupModel } from "@src/shared/models/GroupModel";
+import GroupMemberCompositeModel from "@src/shared/models/GroupMemberCompositeModel";
 import { authHeaderGenerator } from "./authHeaderGenerator";
 
 const instance = axios.create({
@@ -21,7 +22,7 @@ export const groupService = {
     }
   },
 
-  async addGroup(data?: GroupModel) {
+  async addGroup(data?: GroupMemberCompositeModel) {
     const headers = authHeaderGenerator.getAuthHeader();
     try {
       const response = await instance.post("/Group/add", data, { headers });
