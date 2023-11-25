@@ -17,7 +17,7 @@ import { ClickAwayListener, Popper } from "@mui/material";
 import { Icon } from "@src/shared/components/Icon/Icon";
 import { IconPicker } from "@src/shared/components/IconPicker/IconPicker";
 import { userService } from "@src/services/userService";
-
+import { loginService } from "@src/services/loginService";
 interface UserSettingsProps {
   userDetailData?: UserDetailModel;
   userPrivacySettingsData?: UserPrivacySettingsModel;
@@ -118,7 +118,8 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
 
   const deleteUser = async () => {
     try {
-      await userService.deleteUser(userDetailData?.handle);
+      await userService.deleteUser(userDetailData?.email);
+      await loginService.logout();
 
       localStorage.setItem(
         "snackbarData",
