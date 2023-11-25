@@ -29,7 +29,8 @@ export const GroupMembers: React.FC<GroupMembersProps> = ({ groupData, isVisible
     useEffect(() => {
         const fetchData = async () => {
             const groupRole = await memberService.getMemberRole(loginService.getCookie("userEmail"), groupData?.handle)
-            if (groupRole == GroupRole.admin || loginService.getCookie("userRole") == Role.admin) {
+            
+            if (groupRole === GroupRole.admin || loginService.getCookie("userRole") === Role.admin) {
                 setIsAdmin(true);
                 
                 const joinReqs = await memberService.getJoinRequests(groupData?.handle) ?? [];
