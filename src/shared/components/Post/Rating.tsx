@@ -55,7 +55,7 @@ export const Rating = ({ postId, disabled = false }: RatingProps) => {
     return data;
   });
 
-  const { mutate: changeRating } = useMutation(
+  const { mutate: changeRating, isLoading: ratingLoading } = useMutation(
     async (ratingChange: number) => {
       const data = await postService.updateRating(
         postId,
@@ -113,7 +113,7 @@ export const Rating = ({ postId, disabled = false }: RatingProps) => {
           {<KeyboardArrowUpRounded />}
         </IconButton>
 
-        {isLoading ? (
+        {isLoading || ratingLoading ? (
           <CircularProgress size={"sm"} />
         ) : (
           <Typography>{rating}</Typography>
