@@ -41,6 +41,7 @@ export const searchService = {
   async searchUsers(searchTerm: string, limit: number = 0) {
     try {
       let response;
+      searchTerm = searchTerm.trim();
       if (searchTerm == "") {
         response = await instance.get(`/User/getUsers?limit=${limit}`);
       } else {

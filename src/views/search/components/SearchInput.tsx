@@ -12,7 +12,7 @@ export const SearchInput = ({ onSearch, onChange }: SearchInputProps) => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
-    onChange && onChange(value);
+    onChange && onChange(event.target.value);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
