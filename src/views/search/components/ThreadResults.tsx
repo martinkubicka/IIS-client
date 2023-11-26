@@ -30,14 +30,10 @@ export const ThreadResults = ({
     data: threadData,
     refetch: searchAgain,
     isLoading,
-  } = useQuery(
-    "threadSearch",
-    async (): Promise<ThreadModel[] | undefined> => {
-      const data = await searchService.searchThreads(searchTerm, limit);
-      return data;
-    },
-    { onSuccess: (data) => console.log(data) }
-  );
+  } = useQuery("threadSearch", async (): Promise<ThreadModel[] | undefined> => {
+    const data = await searchService.searchThreads(searchTerm, limit);
+    return data;
+  });
 
   React.useEffect(() => {
     setLimit(5);

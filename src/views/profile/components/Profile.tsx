@@ -134,7 +134,6 @@ export const Profile = () => {
 
         return () => clearTimeout(timer);
       } catch (error) {
-        console.log(error);
         setShowRestrictedContent(true);
         setErrorMessage("Sorry, some problems come when loading profile.");
         setIsLoading(false);

@@ -33,8 +33,7 @@ export const UserResults = ({
     async (): Promise<UserProfileModel[] | undefined> => {
       const data = await searchService.searchUsers(searchTerm, limit);
       return data;
-    },
-    { onSuccess: (data) => console.log(data) }
+    }
   );
 
   React.useEffect(() => {

@@ -114,7 +114,6 @@ const GroupComponent: React.FC<CardProps> = ({
       });
       setCurrentButtonText("Join");
     } catch (error) {
-      console.log(error);
       enqueueSnackbar("Error occured while canceling join request.", {
         variant: "error",
         anchorOrigin: {

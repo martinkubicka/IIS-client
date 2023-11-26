@@ -1,6 +1,6 @@
-import axios from "axios";
 import API_BASE_URL from "@src/apiConfig";
 import { PostModel } from "@src/shared/models/PostModel";
+import axios from "axios";
 import { authHeaderGenerator } from "./authHeaderGenerator";
 
 const instance = axios.create({
@@ -26,7 +26,6 @@ export const postService = {
       const response = await instance.post(`/Post/add`, post, { headers });
       return response.data;
     } catch (error) {
-      console.log(error);
       throw error;
     }
   },
@@ -36,7 +35,6 @@ export const postService = {
       const response = await instance.delete(`/Post/delete/${id}`, { headers });
       return response.data;
     } catch (error) {
-      console.log(error);
       throw error;
     }
   },
@@ -50,7 +48,6 @@ export const postService = {
       );
       return response.data;
     } catch (error) {
-      console.log(error);
       throw error;
     }
   },

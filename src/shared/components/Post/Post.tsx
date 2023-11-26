@@ -73,7 +73,6 @@ export const Post = ({
 
     setCanEdit(handle != null && currentLoginHandle === handle);
 
-    console.log("ROLE:", currentMemberRole);
     setRatingDisabled(currentMemberRole === undefined);
   }, [handle, currentLoginHandle, currentLoginRole, currentMemberRole]);
 
@@ -109,9 +108,7 @@ export const Post = ({
         const data = await userService.getUser(handle);
 
         setUser(data);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
 
     fetchData();

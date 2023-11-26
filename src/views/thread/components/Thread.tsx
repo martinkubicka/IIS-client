@@ -33,7 +33,7 @@ export const Thread = () => {
 
   const handleDeletePost = (id?: string) => {
     if (id) {
-      deletePostMutation(id, { onError: (error) => console.log(error) });
+      deletePostMutation(id);
     }
   };
 
@@ -65,7 +65,6 @@ export const Thread = () => {
           email,
           threadData?.handle as string
         );
-        console.log(data);
         return data;
       }
     }
@@ -113,9 +112,7 @@ export const Thread = () => {
 
         await connection.start();
         await connection.invoke("JoinRoom", threadId);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
       setConnection(connection);
     };
 

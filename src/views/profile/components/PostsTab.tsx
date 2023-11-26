@@ -12,18 +12,10 @@ interface PostsTabProps {
 }
 
 const PostsTab = ({ userHandle }: PostsTabProps) => {
-  const { data: threads } = useQuery(
-    `postsTab${userHandle}`,
-    async () => {
-      const data = await postService.getPostsGroupedByThread(
-        userHandle,
-        10,
-        10
-      );
-      return data;
-    },
-    { onSuccess: (data) => console.log(data) }
-  );
+  const { data: threads } = useQuery(`postsTab${userHandle}`, async () => {
+    const data = await postService.getPostsGroupedByThread(userHandle, 10, 10);
+    return data;
+  });
 
   return (
     <>
