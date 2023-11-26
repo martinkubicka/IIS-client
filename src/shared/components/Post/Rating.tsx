@@ -89,10 +89,12 @@ export const Rating = ({ postId, disabled = false }: RatingProps) => {
       title={
         !disabled ? (
           ""
-        ) : (
+        ) : handle == undefined ? (
           <>
             <Link to={"/login"}>Log in</Link> to rate this post
           </>
+        ) : (
+          <>Join the group to rate this post</>
         )
       }
     >
