@@ -1,6 +1,5 @@
 import { Avatar, Card, CardContent, Typography } from "@mui/joy";
 import { UserProfileModel } from "@src/shared/models/UserProfileModel";
-import React from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "../Icon/Icon";
 

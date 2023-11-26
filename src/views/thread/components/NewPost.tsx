@@ -1,9 +1,9 @@
 import { SendRounded } from "@mui/icons-material";
 import { Box, Button, Stack, Textarea } from "@mui/joy";
-import React from "react";
-import { newPostStyle, newPostTextAreaStyle } from "./styles/style";
 import { postService } from "@src/services/postService";
+import React from "react";
 import { useMutation } from "react-query";
+import { newPostStyle, newPostTextAreaStyle } from "./styles/style";
 
 interface NewPostProps {
   handle: string;

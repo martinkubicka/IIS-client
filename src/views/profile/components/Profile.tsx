@@ -1,17 +1,17 @@
 // Profile.tsx
-import { Page } from "@src/shared/components/Page";
 import { Avatar, Skeleton } from "@mui/joy";
-import { Icon } from "@src/shared/components/Icon/Icon";
-import TabMenu from "./TabMenuProfile";
-import PermissionDenied from "./PermissionDenied";
-import { useParams } from "react-router-dom";
-import { UserDetailModel } from "@src/shared/models/UserDetailModel";
-import { useEffect, useState } from "react";
-import { userService } from "@src/services/userService";
-import { PageHeader } from "@src/shared/components/PageHeader";
-import { UserPrivacySettingsModel } from "@src/shared/models/UserPrivacySettingsModel";
-import { loginService } from "@src/services/loginService";
 import { groupService } from "@src/services/groupService";
+import { loginService } from "@src/services/loginService";
+import { userService } from "@src/services/userService";
+import { Icon } from "@src/shared/components/Icon/Icon";
+import { Page } from "@src/shared/components/Page";
+import { PageHeader } from "@src/shared/components/PageHeader";
+import { UserDetailModel } from "@src/shared/models/UserDetailModel";
+import { UserPrivacySettingsModel } from "@src/shared/models/UserPrivacySettingsModel";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import PermissionDenied from "./PermissionDenied";
+import TabMenu from "./TabMenuProfile";
 
 export const Profile = () => {
   const [userDetailData, setUserDetailData] = useState<UserDetailModel | null>(

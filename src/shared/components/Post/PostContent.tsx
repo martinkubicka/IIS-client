@@ -1,5 +1,4 @@
-import { ClickAwayListener } from "@mui/base";
-import { Box, Button, Textarea, Stack, Typography } from "@mui/joy";
+import { Box, Button, Stack, Textarea, Typography } from "@mui/joy";
 import React, { useEffect, useRef } from "react";
 
 interface PostContentProps {

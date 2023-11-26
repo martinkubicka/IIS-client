@@ -1,17 +1,17 @@
-import { useEffect, useState, useRef } from "react";
-import { Page } from "@src/shared/components/Page";
-import GroupComponent from "./GroupComponent";
-import { Divider, Typography, Button, Stack, IconButton } from "@mui/joy";
+import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
+import { Button, Divider, IconButton, Stack, Typography } from "@mui/joy";
+import { Box } from "@mui/material";
 import { groupService } from "@src/services/groupService";
 import { loginService } from "@src/services/loginService";
-import { GroupModel } from "@src/shared/models/GroupModel";
-import { Thread } from "@src/shared/components/Threads";
-import { ThreadModel } from "@src/shared/models/ThreadModel";
 import { threadService } from "@src/services/threadService";
-import NewGroup from "./NewGroup";
-import { Box } from "@mui/material";
-import { KeyboardArrowRight, KeyboardArrowLeft } from "@mui/icons-material";
+import { Page } from "@src/shared/components/Page";
+import { Thread } from "@src/shared/components/Threads";
+import { GroupModel } from "@src/shared/models/GroupModel";
+import { ThreadModel } from "@src/shared/models/ThreadModel";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import GroupComponent from "./GroupComponent";
+import NewGroup from "./NewGroup";
 
 export const Dashboard = () => {
   const [userGroups, setUserGroups] = useState<GroupModel[]>([]);

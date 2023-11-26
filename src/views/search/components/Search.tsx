@@ -1,9 +1,9 @@
 import { Stack } from "@mui/joy";
 import { Page } from "@src/shared/components/Page";
 import React from "react";
-import { SearchInput } from "./SearchInput";
 import { Filters } from "./Filters";
 import { GroupResults } from "./GroupResults";
+import { SearchInput } from "./SearchInput";
 import { ThreadResults } from "./ThreadResults";
 import { UserResults } from "./UserResults";
 

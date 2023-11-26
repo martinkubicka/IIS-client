@@ -1,6 +1,6 @@
-import axios from "axios";
 import API_BASE_URL from "@src/apiConfig";
 import { ThreadModel } from "@src/shared/models/ThreadModel";
+import axios from "axios";
 import { authHeaderGenerator } from "./authHeaderGenerator";
 
 const instance = axios.create({
@@ -49,7 +49,7 @@ export const threadService = {
 
     try {
       const response = await instance.get(
-        `/Thread/GetAllThreadsUserIsIn/${handle}`, 
+        `/Thread/GetAllThreadsUserIsIn/${handle}`,
         { headers }
       );
       return response.data;
@@ -98,7 +98,9 @@ export const threadService = {
     const headers = authHeaderGenerator.getAuthHeader();
 
     try {
-      const response = await instance.delete(`/Thread/delete/${id}`, { headers });
+      const response = await instance.delete(`/Thread/delete/${id}`, {
+        headers,
+      });
       return response.data;
     } catch (error) {
       throw error;
@@ -107,9 +109,11 @@ export const threadService = {
 
   async updateThread(id?: string, data?: ThreadModel) {
     const headers = authHeaderGenerator.getAuthHeader();
-    
+
     try {
-      const response = await instance.put(`/Thread/update/${id}`, data, { headers });
+      const response = await instance.put(`/Thread/update/${id}`, data, {
+        headers,
+      });
       return response.data;
     } catch (error) {
       throw error;

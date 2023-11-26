@@ -1,8 +1,8 @@
-import axios from "axios";
 import API_BASE_URL from "@src/apiConfig";
 import { UserDetailModel } from "@src/shared/models/UserDetailModel";
 import { UserPrivacySettingsModel } from "@src/shared/models/UserPrivacySettingsModel";
 import { UserProfileModel } from "@src/shared/models/UserProfileModel";
+import axios from "axios";
 
 const instance = axios.create({
   baseURL: API_BASE_URL,

@@ -1,9 +1,9 @@
 import { Box, Stack } from "@mui/joy";
-import style from "./Page.module.css";
-import NavBar from "@src/shared/components/NavBar/NavBar";
 import Header from "@src/shared/components/NavBar/Header";
-import { useEffect } from "react";
+import NavBar from "@src/shared/components/NavBar/NavBar";
 import { useSnackbar } from "notistack";
+import { useEffect } from "react";
+import style from "./Page.module.css";
 
 interface PageProps {
   children?: React.ReactNode;

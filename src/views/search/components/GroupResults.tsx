@@ -1,6 +1,5 @@
 import {
   Button,
-  Chip,
   CircularProgress,
   Divider,
   Grid,
@@ -11,7 +10,7 @@ import { searchService } from "@src/services/searchService";
 import { GroupModel } from "@src/shared/models/GroupModel";
 import GroupComponent from "@src/views/dashboard/components/GroupComponent";
 import React from "react";
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 
 interface ResultsProps {
   searchTerm?: string;

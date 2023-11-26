@@ -1,8 +1,6 @@
 import { Box, Stack } from "@mui/joy";
-import React from "react";
-import { footerStyle } from "./style";
 import { Rating } from "./Rating";
-import { Timestamp } from "../Timestamp/Timestamp";
+import { footerStyle } from "./style";
 
 interface PostFooterProps {
   postId: string;

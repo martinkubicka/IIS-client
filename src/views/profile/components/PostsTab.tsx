@@ -1,9 +1,7 @@
 import { Divider, Stack, Typography } from "@mui/joy";
 import { postService } from "@src/services/postService";
-import { searchService } from "@src/services/searchService";
 import { Post } from "@src/shared/components/Post/Post";
 import { PostModel } from "@src/shared/models/PostModel";
-import { ThreadModel } from "@src/shared/models/ThreadModel";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 

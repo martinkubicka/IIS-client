@@ -1,7 +1,7 @@
-import axios from "axios";
 import API_BASE_URL from "@src/apiConfig";
-import { GroupModel } from "@src/shared/models/GroupModel";
 import GroupMemberCompositeModel from "@src/shared/models/GroupMemberCompositeModel";
+import { GroupModel } from "@src/shared/models/GroupModel";
+import axios from "axios";
 import { authHeaderGenerator } from "./authHeaderGenerator";
 
 const instance = axios.create({

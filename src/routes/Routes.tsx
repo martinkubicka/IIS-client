@@ -1,11 +1,11 @@
 import {
   Dashboard,
-  Search,
-  Profile,
   Group,
-  NotFound,
   Login,
+  NotFound,
+  Profile,
   ResetPassword,
+  Search,
   Thread,
 } from "@src/views";
 import { useRoutes } from "react-router-dom";
@@ -20,7 +20,7 @@ export const Routes = () => {
     { path: "/notfound", element: <NotFound /> },
     { path: "/login", element: <Login /> },
     { path: "/passwordReset", element: <ResetPassword /> },
-    { path : "profile/:handle", element: <Profile />}
+    { path: "profile/:handle", element: <Profile /> },
   ]);
 
   return element;

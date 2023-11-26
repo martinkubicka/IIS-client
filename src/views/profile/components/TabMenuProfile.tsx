@@ -1,10 +1,10 @@
-import { Tabs, TabList, Tab, TabPanel } from "@mui/joy";
-import SettingsTab from "./SettingsTab";
-import GroupsTab from "./GroupsTab";
-import PostsTab from "./PostsTab";
+import { Tab, TabList, TabPanel, Tabs } from "@mui/joy";
 import { UserDetailModel } from "@src/shared/models/UserDetailModel";
 import { UserPrivacySettingsModel } from "@src/shared/models/UserPrivacySettingsModel";
 import { useLocation } from "react-router-dom";
+import GroupsTab from "./GroupsTab";
+import PostsTab from "./PostsTab";
+import SettingsTab from "./SettingsTab";
 
 interface TabMenuProps {
   userDetailData?: UserDetailModel;

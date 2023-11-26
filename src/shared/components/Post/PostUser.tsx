@@ -1,7 +1,7 @@
 import { Avatar, Link, Stack, Typography, VariantProp } from "@mui/joy";
 import React from "react";
-import { Icon } from "../Icon/Icon";
 import { useNavigate } from "react-router-dom";
+import { Icon } from "../Icon/Icon";
 
 interface PostUserProps {
   icon?: string;

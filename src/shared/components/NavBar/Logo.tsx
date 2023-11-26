@@ -1,5 +1,5 @@
-import AspectRatio, { AspectRatioProps } from '@mui/joy/AspectRatio';
-import PublicIcon from '@mui/icons-material/Public';
+import PublicIcon from "@mui/icons-material/Public";
+import AspectRatio, { AspectRatioProps } from "@mui/joy/AspectRatio";
 
 export default function Logo({ sx, ...props }: AspectRatioProps) {
   return (
@@ -22,7 +22,7 @@ export default function Logo({ sx, ...props }: AspectRatioProps) {
           viewBox="0 0 36 32"
           fill="none"
         >
-          <PublicIcon style={{ color: '3f50b5' }} />
+          <PublicIcon style={{ color: "3f50b5" }} />
         </svg>
       </div>
     </AspectRatio>

@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
-import Avatar from "@mui/joy/Avatar";
-import { ListItem, List, Divider, ListItemButton } from "@mui/joy";
-import Sheet from "@mui/joy/Sheet";
-import GlobalStyles from "@mui/joy/GlobalStyles";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
-import Logo from "./Logo";
-import { Link, useNavigate } from "react-router-dom";
-import Box from "@mui/joy/Box";
-import { closeSidebar } from "./Utils";
-import { Icon } from "@src/shared/components/Icon/Icon";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { enqueueSnackbar } from "notistack";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
+import { Divider, List, ListItem, ListItemButton } from "@mui/joy";
+import Avatar from "@mui/joy/Avatar";
+import Box from "@mui/joy/Box";
+import GlobalStyles from "@mui/joy/GlobalStyles";
+import Sheet from "@mui/joy/Sheet";
 import { loginService } from "@src/services/loginService";
 import { userService } from "@src/services/userService";
+import { Icon } from "@src/shared/components/Icon/Icon";
+import { enqueueSnackbar } from "notistack";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Logo from "./Logo";
+import { closeSidebar } from "./Utils";
 
 export const NavBar: React.FC = () => {
   const navigate = useNavigate();
@@ -30,9 +30,11 @@ export const NavBar: React.FC = () => {
     }
 
     const getIcon = async () => {
-      const icon = await userService.getUserIcon(loginService.getCookie("userHandle"));
+      const icon = await userService.getUserIcon(
+        loginService.getCookie("userHandle")
+      );
       setUserIcon(icon);
-    }
+    };
     getIcon();
   }, []);
 
@@ -40,7 +42,7 @@ export const NavBar: React.FC = () => {
     if (onMobile) {
       closeSidebar();
     }
-  }
+  };
 
   const handleLogout = async () => {
     try {
@@ -172,13 +174,16 @@ export const NavBar: React.FC = () => {
             </ListItemButton>
           </ListItem>
         </List>
-        <div style={{marginBottom: onMobile ? "115px" : "0px"}} onClick={willCloseSideBar()}>
+        <div
+          style={{ marginBottom: onMobile ? "115px" : "0px" }}
+          onClick={willCloseSideBar()}
+        >
           {loginService.getCookie("userEmail") == null ? (
             <Link to="/login" style={{ textDecoration: "none" }}>
               <LoginIcon />
             </Link>
           ) : (
-            <div>          
+            <div>
               <List
                 sx={{
                   size: "md",
@@ -188,10 +193,7 @@ export const NavBar: React.FC = () => {
                 }}
               >
                 <ListItem>
-                  <ListItemButton
-                    component={Link}
-                    to="/profile?activeTab=2"
-                  >
+                  <ListItemButton component={Link} to="/profile?activeTab=2">
                     <SettingsRoundedIcon />
                   </ListItemButton>
                 </ListItem>

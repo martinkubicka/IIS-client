@@ -11,9 +11,8 @@ import {
 } from "@mui/joy";
 import { loginService } from "@src/services/loginService";
 import { postService } from "@src/services/postService";
-import { RatingModel } from "@src/shared/models/RatingModel";
 import React from "react";
-import { useQuery, useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
 interface RatingProps {

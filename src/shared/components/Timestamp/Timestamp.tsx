@@ -1,6 +1,5 @@
 import { Tooltip, Typography } from "@mui/joy";
 import moment from "moment";
-import React from "react";
 
 interface TimestampProps {
   includeDate?: boolean;

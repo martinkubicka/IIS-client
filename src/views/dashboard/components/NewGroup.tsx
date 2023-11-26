@@ -1,32 +1,31 @@
-import React, { useState, useEffect } from "react";
 import {
-  Card,
+  Avatar,
+  Box,
   Button,
+  Card,
+  DialogContent,
+  DialogTitle,
   FormControl,
+  FormHelperText,
   FormLabel,
   Input,
   Modal,
   ModalDialog,
-  DialogTitle,
-  DialogContent,
   Stack,
-  Avatar,
-  Box,
   Textarea,
-  FormHelperText,
 } from "@mui/joy";
-import { Icon } from "@src/shared/components/Icon/Icon";
 import { ClickAwayListener, Popper } from "@mui/material";
-import { IconPicker } from "@src/shared/components/IconPicker/IconPicker";
 import { groupService } from "@src/services/groupService";
 import { loginService } from "@src/services/loginService";
-import { useSnackbar } from "notistack";
-import { memberService } from "@src/services/memberService";
 import { userService } from "@src/services/userService";
-import { MemberModel } from "@src/shared/models/MemberModel";
-import { GroupModel } from "@src/shared/models/GroupModel";
+import { Icon } from "@src/shared/components/Icon/Icon";
+import { IconPicker } from "@src/shared/components/IconPicker/IconPicker";
 import GroupMemberCompositeModel from "@src/shared/models/GroupMemberCompositeModel";
+import { GroupModel } from "@src/shared/models/GroupModel";
+import { MemberModel } from "@src/shared/models/MemberModel";
 import { UserProfileModel } from "@src/shared/models/UserProfileModel";
+import { useSnackbar } from "notistack";
+import React, { useEffect, useState } from "react";
 
 interface CardProps {
   onGroupCreated: () => void;

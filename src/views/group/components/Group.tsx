@@ -1,22 +1,22 @@
-import { Page } from "@src/shared/components/Page";
-import { PageHeader } from "@src/shared/components/PageHeader";
-import { useParams, useNavigate } from "react-router-dom";
-import { TabMenu } from "./TabMenu";
-import { useEffect, useState } from "react";
-import { groupService } from "@src/services/groupService";
-import { GroupModel } from "@src/shared/models/GroupModel";
-import { Typography, Button } from "@mui/joy";
-import Avatar from "@mui/joy/Avatar";
-import "./Group.css";
-import { StyledEngineProvider } from "@mui/material/styles";
-import { Icon } from "@src/shared/components/Icon/Icon";
 import Add from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
+import { Button, Typography } from "@mui/joy";
+import Avatar from "@mui/joy/Avatar";
+import { StyledEngineProvider } from "@mui/material/styles";
+import GroupRole from "@src/enums/GroupRole";
+import { groupService } from "@src/services/groupService";
 import { loginService } from "@src/services/loginService";
 import { memberService } from "@src/services/memberService";
-import { enqueueSnackbar } from "notistack";
-import CloseIcon from "@mui/icons-material/Close";
 import Dialog from "@src/shared/components/Dialog/Dialog";
-import GroupRole from "@src/enums/GroupRole";
+import { Icon } from "@src/shared/components/Icon/Icon";
+import { Page } from "@src/shared/components/Page";
+import { PageHeader } from "@src/shared/components/PageHeader";
+import { GroupModel } from "@src/shared/models/GroupModel";
+import { enqueueSnackbar } from "notistack";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import "./Group.css";
+import { TabMenu } from "./TabMenu";
 
 export const Group = () => {
   const { handle } = useParams<{ handle: string }>();

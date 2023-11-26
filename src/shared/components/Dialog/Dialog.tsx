@@ -1,6 +1,16 @@
-import * as React from 'react';
-import {Button, Divider, DialogTitle, DialogContent, DialogActions, Modal, ModalDialog, Input, FormHelperText} from '@mui/joy';
-import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
+import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
+import {
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Divider,
+  FormHelperText,
+  Input,
+  Modal,
+  ModalDialog,
+} from "@mui/joy";
+import * as React from "react";
 
 interface DialogProps {
   open: boolean;
@@ -18,13 +28,10 @@ const Dialog: React.FC<DialogProps> = ({
   title,
   content,
   onConfirm,
-  textConfirm = '',
-  textUnderConfirm = 'Insert group name to confirm deletion'
+  textConfirm = "",
+  textUnderConfirm = "Insert group name to confirm deletion",
 }) => {
-
-  
-
-  const [confirmValue, setConfirmValue] = React.useState('');
+  const [confirmValue, setConfirmValue] = React.useState("");
   return (
     <Modal open={open} onClose={onClose}>
       <ModalDialog variant="outlined" role="alertdialog">
@@ -34,9 +41,22 @@ const Dialog: React.FC<DialogProps> = ({
         </DialogTitle>
         <Divider />
         <DialogContent>{content}</DialogContent>
-        {textConfirm && <><Input onChange={(event) => setConfirmValue(event.target.value)} value={confirmValue}/><FormHelperText>{textUnderConfirm}</FormHelperText></>}
+        {textConfirm && (
+          <>
+            <Input
+              onChange={(event) => setConfirmValue(event.target.value)}
+              value={confirmValue}
+            />
+            <FormHelperText>{textUnderConfirm}</FormHelperText>
+          </>
+        )}
         <DialogActions>
-          <Button disabled={textConfirm != '' && confirmValue !== textConfirm} variant="solid" color="danger" onClick={onConfirm}>
+          <Button
+            disabled={textConfirm != "" && confirmValue !== textConfirm}
+            variant="solid"
+            color="danger"
+            onClick={onConfirm}
+          >
             Confirm
           </Button>
           <Button variant="plain" color="neutral" onClick={onClose}>

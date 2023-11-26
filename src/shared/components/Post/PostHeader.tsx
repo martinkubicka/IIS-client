@@ -1,26 +1,10 @@
-import {
-  Box,
-  Dropdown,
-  IconButton,
-  ListDivider,
-  ListItemDecorator,
-  Menu,
-  MenuButton,
-  MenuItem,
-  Stack,
-} from "@mui/joy";
-import { PostUser } from "./PostUser";
-import { Timestamp } from "../Timestamp/Timestamp";
-import { MoreVert, Edit, DeleteForever } from "@mui/icons-material";
+import { DeleteForever, Edit } from "@mui/icons-material";
+import { Box, IconButton, Stack } from "@mui/joy";
+import GroupRole from "@src/enums/GroupRole";
 import React from "react";
 import Dialog from "../Dialog/Dialog";
-import { loginService } from "@src/services/loginService";
-import { useQuery } from "react-query";
-import { memberService } from "@src/services/memberService";
-import GroupRole from "@src/enums/GroupRole";
-import { postService } from "@src/services/postService";
-import Role from "@src/enums/Role";
-import { userService } from "@src/services/userService";
+import { Timestamp } from "../Timestamp/Timestamp";
+import { PostUser } from "./PostUser";
 
 interface PostHeaderProps {
   id?: string;

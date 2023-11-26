@@ -1,18 +1,18 @@
-import { GroupModel } from "@src/shared/models/GroupModel";
-import { useEffect, useState } from "react";
-import { ThreadModel } from "@src/shared/models/ThreadModel";
-import { threadService } from "@src/services/threadService";
-import { Thread } from "@src/shared/components/Threads";
-import { Button, Divider } from "@mui/joy";
 import Add from "@mui/icons-material/Add";
-import { enqueueSnackbar } from "notistack";
-import AddEditThread from "./AddEditThread";
-import PaginationComponent from "@src/shared/components/Pagination/PaginationComponent";
-import ThreadFilter from "@src/shared/components/ThreadFilter/ThreadFilter";
+import { Button, Divider } from "@mui/joy";
+import GroupRole from "@src/enums/GroupRole";
+import Role from "@src/enums/Role";
 import { loginService } from "@src/services/loginService";
 import { memberService } from "@src/services/memberService";
-import Role from "@src/enums/Role";
-import GroupRole from "@src/enums/GroupRole";
+import { threadService } from "@src/services/threadService";
+import PaginationComponent from "@src/shared/components/Pagination/PaginationComponent";
+import ThreadFilter from "@src/shared/components/ThreadFilter/ThreadFilter";
+import { Thread } from "@src/shared/components/Threads";
+import { GroupModel } from "@src/shared/models/GroupModel";
+import { ThreadModel } from "@src/shared/models/ThreadModel";
+import { enqueueSnackbar } from "notistack";
+import { useEffect, useState } from "react";
+import AddEditThread from "./AddEditThread";
 
 interface GroupThreadsProps {
   groupData?: GroupModel;

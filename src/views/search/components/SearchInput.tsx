@@ -1,5 +1,5 @@
 import { SearchRounded } from "@mui/icons-material";
-import { Autocomplete, Input } from "@mui/joy";
+import { Input } from "@mui/joy";
 import React from "react";
 
 interface SearchInputProps {

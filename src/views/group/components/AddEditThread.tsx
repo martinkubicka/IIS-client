@@ -1,9 +1,29 @@
-import { useState, useEffect } from 'react';
-import { Button, FormControl, FormLabel, Input, Divider, Modal, FormHelperText, ModalDialog, Box, DialogTitle, Stack, Textarea } from '@mui/joy';
+import {
+  Box,
+  Button,
+  DialogTitle,
+  Divider,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Input,
+  Modal,
+  ModalDialog,
+  Stack,
+  Textarea,
+} from "@mui/joy";
+import { useEffect, useState } from "react";
 
-export default function AddThread({ open, onClose, onSubmit, header, createUpdateText, thread }) {
-  const [name, setName] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
+export default function AddThread({
+  open,
+  onClose,
+  onSubmit,
+  header,
+  createUpdateText,
+  thread,
+}) {
+  const [name, setName] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
   const [validName, setValidName] = useState<boolean>(true);
   const [validDescription, setValidDescription] = useState<boolean>(true);
 
@@ -19,16 +39,16 @@ export default function AddThread({ open, onClose, onSubmit, header, createUpdat
   }, [name, description]);
 
   const handleFieldChange = () => {
-    if (name?.trim() === '') {
-        setValidName(false);
+    if (name?.trim() === "") {
+      setValidName(false);
     } else {
-        setValidName(true);
+      setValidName(true);
     }
 
-    if (description !== '' && description?.trim() === '') {
-        setValidDescription(false);
+    if (description !== "" && description?.trim() === "") {
+      setValidDescription(false);
     } else {
-        setValidDescription(true);
+      setValidDescription(true);
     }
   };
 
@@ -50,11 +70,16 @@ export default function AddThread({ open, onClose, onSubmit, header, createUpdat
                 autoFocus
                 required
                 value={name}
-                onChange={(e) => {e.target.value = e.target.value.slice(0, 50); setName(e.target.value);}}
+                onChange={(e) => {
+                  e.target.value = e.target.value.slice(0, 50);
+                  setName(e.target.value);
+                }}
                 error={!validName}
-                sx={{minWidth: "320px"}}
+                sx={{ minWidth: "320px" }}
               />
-              {!validName && <FormHelperText>Name field cannot be empty!</FormHelperText>}
+              {!validName && (
+                <FormHelperText>Name field cannot be empty!</FormHelperText>
+              )}
             </FormControl>
 
             <FormControl error={!validDescription}>
@@ -62,14 +87,29 @@ export default function AddThread({ open, onClose, onSubmit, header, createUpdat
               <Textarea
                 minRows={1}
                 value={description}
-                onChange={(e) => {e.target.value = e.target.value.slice(0, 100); setDescription(e.target.value);}}
+                onChange={(e) => {
+                  e.target.value = e.target.value.slice(0, 100);
+                  setDescription(e.target.value);
+                }}
                 error={!validDescription}
               />
-              {!validDescription && <FormHelperText>Description cannot contains only whitespaces!</FormHelperText>}
+              {!validDescription && (
+                <FormHelperText>
+                  Description cannot contains only whitespaces!
+                </FormHelperText>
+              )}
             </FormControl>
-            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 3 }}>
-                <Button size="lg" color='neutral' onClick={onClose}>Cancel</Button>
-                <Button size="lg" type="submit" disabled={!validName || !validDescription}>{createUpdateText}</Button>
+            <Box sx={{ display: "flex", justifyContent: "center", gap: 3 }}>
+              <Button size="lg" color="neutral" onClick={onClose}>
+                Cancel
+              </Button>
+              <Button
+                size="lg"
+                type="submit"
+                disabled={!validName || !validDescription}
+              >
+                {createUpdateText}
+              </Button>
             </Box>
           </Stack>
         </form>

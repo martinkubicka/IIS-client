@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { GroupModel } from "@src/shared/models/GroupModel";
-import { groupService } from "@src/services/groupService";
-import GroupComponent from "@src/views/dashboard/components/GroupComponent";
 import { TabPanel } from "@mui/joy";
+import { groupService } from "@src/services/groupService";
 import { loginService } from "@src/services/loginService";
+import { GroupModel } from "@src/shared/models/GroupModel";
+import GroupComponent from "@src/views/dashboard/components/GroupComponent";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 interface GroupsTabProps {

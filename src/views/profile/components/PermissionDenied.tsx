@@ -1,6 +1,6 @@
-import React from "react";
-import { Page } from "@src/shared/components/Page";
 import { Button } from "@mui/joy";
+import { Page } from "@src/shared/components/Page";
+import React from "react";
 import { Link } from "react-router-dom";
 
 interface PermissionDeniedProps {

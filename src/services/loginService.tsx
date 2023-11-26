@@ -1,11 +1,11 @@
-import axios, { AxiosError } from "axios";
 import API_BASE_URL from "@src/apiConfig";
-import { UserDetailModel } from "@src/shared/models/UserDetailModel";
-import { NewPasswordModel } from "@src/shared/models/NewPasswordModel";
 import { LoginModel } from "@src/shared/models/LoginModel";
-import { authHeaderGenerator } from "./authHeaderGenerator";
+import { NewPasswordModel } from "@src/shared/models/NewPasswordModel";
+import { UserDetailModel } from "@src/shared/models/UserDetailModel";
+import axios from "axios";
 import Cookies from "js-cookie";
 import jwt from "jwt-decode";
+import { authHeaderGenerator } from "./authHeaderGenerator";
 
 const instance = axios.create({
   baseURL: API_BASE_URL,

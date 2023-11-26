@@ -1,7 +1,7 @@
+import MenuIcon from "@mui/icons-material/Menu";
+import { IconButton } from "@mui/joy";
 import GlobalStyles from "@mui/joy/GlobalStyles";
 import Sheet from "@mui/joy/Sheet";
-import { IconButton } from "@mui/joy";
-import MenuIcon from "@mui/icons-material/Menu";
 import { toggleSidebar } from "./Utils";
 
 export default function Header() {
@@ -24,16 +24,12 @@ export default function Header() {
           ":root": {
             "--Header-height": "20px",
             [theme.breakpoints.up("md")]: {
-              "--Header-height": "0px"
-            }
-          }
+              "--Header-height": "0px",
+            },
+          },
         })}
       />
-      <IconButton
-        onClick={() => toggleSidebar()}
-        color="neutral"
-        size="md"
-      >
+      <IconButton onClick={() => toggleSidebar()} color="neutral" size="md">
         <MenuIcon />
       </IconButton>
     </Sheet>

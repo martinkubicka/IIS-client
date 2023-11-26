@@ -1,9 +1,9 @@
-import axios, { AxiosError } from "axios";
 import API_BASE_URL from "@src/apiConfig";
-import { userService } from "./userService";
-import { UserProfileModel } from "@src/shared/models/UserProfileModel";
-import { authHeaderGenerator } from "./authHeaderGenerator";
 import { RequestData } from "@src/shared/models/RequestData";
+import { UserProfileModel } from "@src/shared/models/UserProfileModel";
+import axios from "axios";
+import { authHeaderGenerator } from "./authHeaderGenerator";
+import { userService } from "./userService";
 
 const instance = axios.create({
   baseURL: API_BASE_URL,
@@ -110,7 +110,9 @@ export const memberService = {
     const headers = authHeaderGenerator.getAuthHeader();
 
     try {
-      const response = await instance.post(`/Member/joinRequest`, requestData, { headers });
+      const response = await instance.post(`/Member/joinRequest`, requestData, {
+        headers,
+      });
       return response.data;
     } catch (error) {
       throw error;
@@ -124,7 +126,11 @@ export const memberService = {
     const headers = authHeaderGenerator.getAuthHeader();
 
     try {
-      const response = await instance.post(`/Member/moderatorRequest`, {handle, email} ,{ headers });
+      const response = await instance.post(
+        `/Member/moderatorRequest`,
+        { handle, email },
+        { headers }
+      );
       return response.data;
     } catch (error) {
       throw error;
@@ -135,7 +141,7 @@ export const memberService = {
     if (handle == undefined) {
       return;
     }
-    
+
     var params = `/Member/joinRequests?handle=${handle}`;
     const headers = authHeaderGenerator.getAuthHeader();
 
@@ -151,7 +157,7 @@ export const memberService = {
     if (handle == undefined) {
       return;
     }
-    
+
     var params = `/Member/moderatorRequests?handle=${handle}`;
     const headers = authHeaderGenerator.getAuthHeader();
     try {
@@ -166,7 +172,7 @@ export const memberService = {
     if (handle == undefined) {
       return;
     }
-    
+
     var params = `/Member/moderatorRequested?handle=${handle}&email=${email}`;
     const headers = authHeaderGenerator.getAuthHeader();
     try {
@@ -181,7 +187,7 @@ export const memberService = {
     if (handle == undefined) {
       return;
     }
-    
+
     var params = `/Member/joinRequested?handle=${handle}&email=${email}`;
     const headers = authHeaderGenerator.getAuthHeader();
 

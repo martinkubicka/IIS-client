@@ -1,19 +1,9 @@
-import {
-  Button,
-  Chip,
-  CircularProgress,
-  Divider,
-  Grid,
-  Stack,
-  Typography,
-} from "@mui/joy";
+import { Button, CircularProgress, Divider, Stack, Typography } from "@mui/joy";
 import { searchService } from "@src/services/searchService";
 import { Thread } from "@src/shared/components/Threads";
-import { GroupModel } from "@src/shared/models/GroupModel";
 import { ThreadModel } from "@src/shared/models/ThreadModel";
-import GroupComponent from "@src/views/dashboard/components/GroupComponent";
 import React from "react";
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 
 interface ResultsProps {
   searchTerm?: string;

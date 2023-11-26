@@ -1,19 +1,19 @@
 import { Avatar, Box, Divider, Stack } from "@mui/joy";
-import { PostHeader } from "./PostHeader";
-import { postStyle } from "./style";
-import { Icon } from "../Icon/Icon";
-import { PostFooter } from "./PostFooter";
-import { PostModel } from "@src/shared/models/PostModel";
-import { userService } from "@src/services/userService";
-import React from "react";
-import { UserProfileModel } from "@src/shared/models/UserProfileModel";
-import { postService } from "@src/services/postService";
-import { PostContent } from "./PostContent";
-import { useMutation, useQuery } from "react-query";
 import GroupRole from "@src/enums/GroupRole";
 import Role from "@src/enums/Role";
 import { loginService } from "@src/services/loginService";
 import { memberService } from "@src/services/memberService";
+import { postService } from "@src/services/postService";
+import { userService } from "@src/services/userService";
+import { PostModel } from "@src/shared/models/PostModel";
+import { UserProfileModel } from "@src/shared/models/UserProfileModel";
+import React from "react";
+import { useMutation, useQuery } from "react-query";
+import { Icon } from "../Icon/Icon";
+import { PostContent } from "./PostContent";
+import { PostFooter } from "./PostFooter";
+import { PostHeader } from "./PostHeader";
+import { postStyle } from "./style";
 
 interface PostProps extends PostModel {
   lastPost?: boolean;

@@ -1,16 +1,16 @@
-import Tabs from "@mui/joy/Tabs";
-import TabList from "@mui/joy/TabList";
 import Tab from "@mui/joy/Tab";
+import TabList from "@mui/joy/TabList";
 import TabPanel from "@mui/joy/TabPanel";
-import { GroupSettings } from "./GroupSettings";
-import { GroupModel } from "@src/shared/models/GroupModel";
-import { GroupThreads } from "./GroupThreads";
-import { GroupMembers } from "./GroupMembers";
-import { useEffect, useState } from "react";
-import { loginService } from "@src/services/loginService";
-import Role from "@src/enums/Role";
+import Tabs from "@mui/joy/Tabs";
 import GroupRole from "@src/enums/GroupRole";
+import Role from "@src/enums/Role";
+import { loginService } from "@src/services/loginService";
 import { memberService } from "@src/services/memberService";
+import { GroupModel } from "@src/shared/models/GroupModel";
+import { useEffect, useState } from "react";
+import { GroupMembers } from "./GroupMembers";
+import { GroupSettings } from "./GroupSettings";
+import { GroupThreads } from "./GroupThreads";
 
 interface TabMenuProps {
   groupData?: GroupModel;

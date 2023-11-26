@@ -1,23 +1,23 @@
-import { UserDetailModel } from "@src/shared/models/UserDetailModel";
-import { UserPrivacySettingsModel } from "@src/shared/models/UserPrivacySettingsModel";
-import React, { useState, useEffect } from "react";
 import {
-  FormControl,
-  FormHelperText,
+  Avatar,
   Box,
   Button,
-  Avatar,
-  Input,
   Checkbox,
+  FormControl,
+  FormHelperText,
+  Input,
 } from "@mui/joy";
-import Dialog from "../../../shared/components/Dialog/Dialog";
-import { useNavigate } from "react-router-dom";
-import { useSnackbar } from "notistack";
 import { ClickAwayListener, Popper } from "@mui/material";
+import { loginService } from "@src/services/loginService";
+import { userService } from "@src/services/userService";
 import { Icon } from "@src/shared/components/Icon/Icon";
 import { IconPicker } from "@src/shared/components/IconPicker/IconPicker";
-import { userService } from "@src/services/userService";
-import { loginService } from "@src/services/loginService";
+import { UserDetailModel } from "@src/shared/models/UserDetailModel";
+import { UserPrivacySettingsModel } from "@src/shared/models/UserPrivacySettingsModel";
+import { useSnackbar } from "notistack";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Dialog from "../../../shared/components/Dialog/Dialog";
 interface UserSettingsProps {
   userDetailData?: UserDetailModel;
   userPrivacySettingsData?: UserPrivacySettingsModel;

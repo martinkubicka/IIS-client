@@ -1,4 +1,4 @@
-import { Box, RadioGroup, Chip, Radio } from "@mui/joy";
+import { Box, Chip, Radio, RadioGroup } from "@mui/joy";
 import React from "react";
 
 interface FiltersProps {

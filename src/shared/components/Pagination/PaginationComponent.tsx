@@ -1,11 +1,11 @@
-import React from 'react';
+import { CssVarsProvider as JoyCssVarsProvider } from "@mui/joy/styles";
+import Pagination from "@mui/material/Pagination";
 import {
-  experimental_extendTheme as materialExtendTheme,
-  Experimental_CssVarsProvider as MaterialCssVarsProvider,
   THEME_ID as MATERIAL_THEME_ID,
-} from '@mui/material/styles';
-import { CssVarsProvider as JoyCssVarsProvider } from '@mui/joy/styles';
-import Pagination from '@mui/material/Pagination';
+  Experimental_CssVarsProvider as MaterialCssVarsProvider,
+  experimental_extendTheme as materialExtendTheme,
+} from "@mui/material/styles";
+import React from "react";
 
 interface PaginationComponentProps {
   currentPage: number;
@@ -20,7 +20,10 @@ const PaginationComponent: React.FC<PaginationComponentProps> = ({
   onPageChange,
   totalPages,
 }) => {
-  const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
     onPageChange(page);
   };
 
@@ -29,9 +32,15 @@ const PaginationComponent: React.FC<PaginationComponentProps> = ({
   }
 
   return (
-      <MaterialCssVarsProvider theme={{ [MATERIAL_THEME_ID]: materialTheme }}>
-        <JoyCssVarsProvider>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <MaterialCssVarsProvider theme={{ [MATERIAL_THEME_ID]: materialTheme }}>
+      <JoyCssVarsProvider>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Pagination
             size="large"
             count={totalPages}
@@ -39,9 +48,9 @@ const PaginationComponent: React.FC<PaginationComponentProps> = ({
             shape="rounded"
             onChange={handlePageChange}
           />
-          </div>
-        </JoyCssVarsProvider>
-      </MaterialCssVarsProvider>
+        </div>
+      </JoyCssVarsProvider>
+    </MaterialCssVarsProvider>
   );
 };
 

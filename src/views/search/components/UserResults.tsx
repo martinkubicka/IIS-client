@@ -7,11 +7,10 @@ import {
   Typography,
 } from "@mui/joy";
 import { searchService } from "@src/services/searchService";
-import { Thread } from "@src/shared/components/Threads";
 import User from "@src/shared/components/User/User";
 import { UserProfileModel } from "@src/shared/models/UserProfileModel";
 import React from "react";
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 
 interface ResultsProps {
   searchTerm?: string;
