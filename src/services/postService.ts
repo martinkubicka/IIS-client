@@ -118,7 +118,7 @@ export const postService = {
   async updateRating(postId: string, userEmail: string, ratingChange: number) {
     try {
       const response = await instance.post(
-        `http://localhost:5203/Rating/update?postId=${postId}&userEmail=${userEmail}&ratingChange=${ratingChange}`,
+        `/Rating/update?postId=${postId}&userEmail=${userEmail}&ratingChange=${ratingChange}`,
         null,
         { headers }
       );
