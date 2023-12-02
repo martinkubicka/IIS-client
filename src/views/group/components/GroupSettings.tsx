@@ -97,6 +97,8 @@ export const GroupSettings: React.FC<GroupSettingsProps> = ({
           fontFamily: "Arial",
         },
       });
+
+      setValuesChanged(true);
     } catch (error) {
       enqueueSnackbar("Error occured while updating the group.", {
         variant: "error",

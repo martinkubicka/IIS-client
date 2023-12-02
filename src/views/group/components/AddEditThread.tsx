@@ -26,6 +26,7 @@ export default function AddThread({
   const [description, setDescription] = useState<string>("");
   const [validName, setValidName] = useState<boolean>(true);
   const [validDescription, setValidDescription] = useState<boolean>(true);
+  const [activeUpdateButton, setActiveUpdateButton] = useState<boolean>(true);
 
   useEffect(() => {
     if (thread !== undefined && thread !== null) {
@@ -49,6 +50,14 @@ export default function AddThread({
       setValidDescription(false);
     } else {
       setValidDescription(true);
+    }
+
+    if (thread !== undefined && thread !== null) {
+      if (name !== thread.name || description !== thread.description) {
+        setActiveUpdateButton(true);
+      } else {
+        setActiveUpdateButton(false);
+      }
     }
   };
 
@@ -106,7 +115,7 @@ export default function AddThread({
               <Button
                 size="lg"
                 type="submit"
-                disabled={!validName || !validDescription}
+                disabled={!validName || !validDescription || !activeUpdateButton}
               >
                 {createUpdateText}
               </Button>
