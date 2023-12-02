@@ -1,3 +1,10 @@
+/**
+ * @file Login.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of login page base component
+ */
+
 import { Box, Tab, TabList, TabPanel, Tabs } from "@mui/joy";
 import { Page } from "@src/shared/components/Page";
 import { useState } from "react";

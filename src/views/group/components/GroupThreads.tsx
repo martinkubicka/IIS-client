@@ -1,5 +1,11 @@
-import Add from "@mui/icons-material/Add";
-import { Button, Divider } from "@mui/joy";
+/**
+ * @file GroupThreads.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of group threads component which shows all threads in group
+ */
+
+import { Divider } from "@mui/joy";
 import GroupRole from "@src/enums/GroupRole";
 import Role from "@src/enums/Role";
 import { loginService } from "@src/services/loginService";

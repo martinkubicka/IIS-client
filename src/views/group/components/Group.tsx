@@ -1,3 +1,10 @@
+/**
+ * @file Group.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of group page base component
+ */
+
 import Add from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import { Button, Typography } from "@mui/joy";

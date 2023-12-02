@@ -1,3 +1,10 @@
+/**
+ * @file Thread.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of Thread component
+ */
+
 import { DeleteForever, Edit } from "@mui/icons-material";
 import {
   Avatar,

@@ -1,3 +1,10 @@
+/**
+ * @file Dialog.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of Dialog component
+ */
+
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import {
   Button,

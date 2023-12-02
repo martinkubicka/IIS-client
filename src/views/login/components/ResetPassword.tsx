@@ -1,3 +1,10 @@
+/**
+ * @file ResetPassword.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of reset password component
+ */
+
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Box, Button, FormControl, FormHelperText } from "@mui/joy";
 import { CssVarsProvider as JoyCssVarsProvider } from "@mui/joy/styles";

@@ -1,3 +1,10 @@
+/**
+ * @file PageHeader.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of header component for pages
+ */
+
 import style from "./PageHeader.module.css";
 import React from "react";
 

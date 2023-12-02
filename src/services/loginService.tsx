@@ -1,3 +1,10 @@
+/**
+ * @file loginService.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of login service which calls login endpoints
+ */
+
 import API_BASE_URL from "@src/apiConfig";
 import { LoginModel } from "@src/shared/models/LoginModel";
 import { NewPasswordModel } from "@src/shared/models/NewPasswordModel";

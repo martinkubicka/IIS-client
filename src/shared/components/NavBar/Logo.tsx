@@ -1,3 +1,10 @@
+/**
+ * @file Logo.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of social network logo component
+ */
+
 import PublicIcon from "@mui/icons-material/Public";
 import AspectRatio, { AspectRatioProps } from "@mui/joy/AspectRatio";
 

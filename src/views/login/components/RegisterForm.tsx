@@ -1,3 +1,10 @@
+/**
+ * @file RegisterForm.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of register form component
+ */
+
 import { ClickAwayListener, Popper } from "@mui/base";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Avatar, Box, Button, FormControl, FormHelperText } from "@mui/joy";

@@ -1,3 +1,10 @@
+/**
+ * @file EditThread.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of edit thread dialog component
+ */
+
 import {
   Box,
   Button,

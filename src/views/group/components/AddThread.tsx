@@ -1,3 +1,10 @@
+/**
+ * @file AddThread.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of add thread dropdown component
+ */
+
 import AddIcon from "@mui/icons-material/Add";
 import { Button, FormControl, Input, Stack, Textarea, FormLabel } from "@mui/joy";
 import Accordion from "@mui/joy/Accordion";

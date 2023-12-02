@@ -1,3 +1,10 @@
+/**
+ * @file GroupMembers.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of group members component
+ */
+
 import { Divider } from "@mui/joy";
 import GroupRole from "@src/enums/GroupRole";
 import Role from "@src/enums/Role";

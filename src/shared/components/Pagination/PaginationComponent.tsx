@@ -1,3 +1,10 @@
+/**
+ * @file PaginationComponent.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of Pagination component
+ */
+
 import { CssVarsProvider as JoyCssVarsProvider } from "@mui/joy/styles";
 import Pagination from "@mui/material/Pagination";
 import {
@@ -39,6 +46,7 @@ const PaginationComponent: React.FC<PaginationComponentProps> = ({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            paddingTop: "20px",
           }}
         >
           <Pagination
