@@ -6,6 +6,7 @@ import {
   Divider,
   IconButton,
   Typography,
+  Tooltip
 } from "@mui/joy";
 import GroupRole from "@src/enums/GroupRole";
 import Role from "@src/enums/Role";
@@ -220,12 +221,17 @@ export const Thread: React.FC<ThreadProps> = ({ thread, onDelete }) => {
 
         {isVisible ? (
           <div style={{ display: "flex", alignItems: "center" }}>
-            <IconButton onClick={handleOpenUpdate}>
-              <Edit />
-            </IconButton>
-            <IconButton onClick={() => handleOpenModal()} variant="plain">
-              <DeleteForever />
-            </IconButton>
+            <Tooltip title="Edit thread">
+              <IconButton onClick={handleOpenUpdate}>
+                <Edit />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title="Delete thread">
+              <IconButton onClick={() => handleOpenModal()} variant="plain">
+                <DeleteForever />
+              </IconButton>
+            </Tooltip>
           </div>
         ) : null}
       </Card>
