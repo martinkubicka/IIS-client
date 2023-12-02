@@ -1,3 +1,10 @@
+/**
+ * @file groupService.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of group service which calls group endpoints
+ */
+
 import API_BASE_URL from "@src/apiConfig";
 import GroupMemberCompositeModel from "@src/shared/models/GroupMemberCompositeModel";
 import { GroupModel } from "@src/shared/models/GroupModel";

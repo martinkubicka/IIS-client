@@ -1,3 +1,10 @@
+/**
+ * @file NavBar.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of NavBar component
+ */
+
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";

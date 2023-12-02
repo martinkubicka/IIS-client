@@ -1,3 +1,10 @@
+/**
+ * @file GroupSettings.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Deifinition of group settings component
+ */
+
 import {
   Avatar,
   Box,
@@ -97,6 +104,8 @@ export const GroupSettings: React.FC<GroupSettingsProps> = ({
           fontFamily: "Arial",
         },
       });
+
+      setValuesChanged(true);
     } catch (error) {
       enqueueSnackbar("Error occured while updating the group.", {
         variant: "error",

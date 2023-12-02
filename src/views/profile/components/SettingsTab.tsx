@@ -150,7 +150,7 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
     if (userDetailData) {
       userDetailData.name = name;
       userDetailData.icon = icon;
-      userDetailData.password = password; //TODO password change functionality TEST
+      userDetailData.password = password;
     }
 
     if (userPrivacySettingsData) {

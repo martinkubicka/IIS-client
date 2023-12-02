@@ -1,3 +1,10 @@
+/**
+ * @file ThreadFilter.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of ThreadFilter component
+ */
+
 import AddIcon from "@mui/icons-material/Add";
 import { Button, Typography } from "@mui/joy";
 import Accordion from "@mui/joy/Accordion";

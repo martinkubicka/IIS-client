@@ -1,3 +1,10 @@
+/**
+ * @file ThreadModel.ts
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of ThreadModel interface
+ */
+
 export interface ThreadModel {
     id?: string | null;
     description?: string | null;

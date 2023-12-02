@@ -1,3 +1,10 @@
+/**
+ * @file Header.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of Header component which represent header of page
+ */
+
 import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton } from "@mui/joy";
 import GlobalStyles from "@mui/joy/GlobalStyles";

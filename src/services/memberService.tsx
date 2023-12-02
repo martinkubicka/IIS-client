@@ -1,3 +1,10 @@
+/**
+ * @file memberService.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of member service which calls member endpoints
+ */
+
 import API_BASE_URL from "@src/apiConfig";
 import { RequestData } from "@src/shared/models/RequestData";
 import { UserProfileModel } from "@src/shared/models/UserProfileModel";

@@ -1,3 +1,10 @@
+/**
+ * @file Routes.tsx
+ * @author { Martin Kubicka (xkubic45), Dominik Petrik (xpetri25), Matej Macek (xmacek27) }
+ * @date 17.12.2023
+ * @brief Definition of website routes
+ */
+
 import {
   Dashboard,
   Group,

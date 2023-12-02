@@ -1,3 +1,10 @@
+/**
+ * @file LoginForm.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of login form component
+ */
+
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Button,

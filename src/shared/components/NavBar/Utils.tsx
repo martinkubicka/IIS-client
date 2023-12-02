@@ -1,3 +1,10 @@
+/**
+ * @file Utils.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of utils for sidebar
+ */
+
 export const openSidebar = () => {
     if (typeof document !== 'undefined') {
       document.body.style.overflow = 'hidden';

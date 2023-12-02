@@ -1,3 +1,10 @@
+/**
+ * @file threadService.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of thread service which calls thread endpoints
+ */
+
 import API_BASE_URL from "@src/apiConfig";
 import { ThreadModel } from "@src/shared/models/ThreadModel";
 import axios from "axios";

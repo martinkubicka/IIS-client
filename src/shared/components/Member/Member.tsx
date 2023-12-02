@@ -1,3 +1,10 @@
+/**
+ * @file Member.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of member component
+ */
+
 import {
   Avatar,
   Box,

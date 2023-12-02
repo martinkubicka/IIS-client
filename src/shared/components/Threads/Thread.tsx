@@ -1,3 +1,10 @@
+/**
+ * @file Thread.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of Thread component
+ */
+
 import { DeleteForever, Edit } from "@mui/icons-material";
 import {
   Avatar,
@@ -6,6 +13,7 @@ import {
   Divider,
   IconButton,
   Typography,
+  Tooltip
 } from "@mui/joy";
 import GroupRole from "@src/enums/GroupRole";
 import Role from "@src/enums/Role";
@@ -13,7 +21,7 @@ import { loginService } from "@src/services/loginService";
 import { memberService } from "@src/services/memberService";
 import { threadService } from "@src/services/threadService";
 import { ThreadModel } from "@src/shared/models/ThreadModel";
-import AddEditThread from "@src/views/group/components/AddEditThread";
+import AddEditThread from "@src/views/group/components/EditThread";
 import { enqueueSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -220,12 +228,17 @@ export const Thread: React.FC<ThreadProps> = ({ thread, onDelete }) => {
 
         {isVisible ? (
           <div style={{ display: "flex", alignItems: "center" }}>
-            <IconButton onClick={handleOpenUpdate}>
-              <Edit />
-            </IconButton>
-            <IconButton onClick={() => handleOpenModal()} variant="plain">
-              <DeleteForever />
-            </IconButton>
+            <Tooltip title="Edit thread">
+              <IconButton onClick={handleOpenUpdate}>
+                <Edit />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title="Delete thread">
+              <IconButton onClick={() => handleOpenModal()} variant="plain">
+                <DeleteForever />
+              </IconButton>
+            </Tooltip>
           </div>
         ) : null}
       </Card>

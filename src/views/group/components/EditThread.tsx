@@ -1,3 +1,10 @@
+/**
+ * @file EditThread.tsx
+ * @author { Martin Kubicka (xkubic45) }
+ * @date 17.12.2023
+ * @brief Definition of edit thread dialog component
+ */
+
 import {
   Box,
   Button,
@@ -26,6 +33,7 @@ export default function AddThread({
   const [description, setDescription] = useState<string>("");
   const [validName, setValidName] = useState<boolean>(true);
   const [validDescription, setValidDescription] = useState<boolean>(true);
+  const [activeUpdateButton, setActiveUpdateButton] = useState<boolean>(true);
 
   useEffect(() => {
     if (thread !== undefined && thread !== null) {
@@ -49,6 +57,14 @@ export default function AddThread({
       setValidDescription(false);
     } else {
       setValidDescription(true);
+    }
+
+    if (thread !== undefined && thread !== null) {
+      if (name !== thread.name || description !== thread.description) {
+        setActiveUpdateButton(true);
+      } else {
+        setActiveUpdateButton(false);
+      }
     }
   };
 
@@ -106,7 +122,7 @@ export default function AddThread({
               <Button
                 size="lg"
                 type="submit"
-                disabled={!validName || !validDescription}
+                disabled={!validName || !validDescription || !activeUpdateButton}
               >
                 {createUpdateText}
               </Button>
