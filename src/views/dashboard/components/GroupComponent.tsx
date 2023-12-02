@@ -211,7 +211,7 @@ const GroupComponent: React.FC<CardProps> = ({
     <Card
       variant="outlined"
       sx={{
-        width: 250,
+        width: 200,
         height: 200,
         backgroundColor: "#EEF1FF",
         boxShadow: "0px 0px 8px 5px rgba(0,0,0,0.1)",
