@@ -12,7 +12,8 @@ import { GroupModel } from "@src/shared/models/GroupModel";
 import { ThreadModel } from "@src/shared/models/ThreadModel";
 import { enqueueSnackbar } from "notistack";
 import { useEffect, useState } from "react";
-import AddEditThread from "./AddEditThread";
+import AddEditThread from "./EditThread";
+import AddThreadDropDown from "./AddThread";
 
 interface GroupThreadsProps {
   groupData?: GroupModel;
@@ -126,7 +127,7 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({
   const handleSubmitCreate = async (formData: {
     name: string;
     description: string | null;
-  }) => {
+  }) : Promise<boolean>  => {
     const newThread = {
       email: loginService.getCookie("userEmail"),
       name: formData.name,
@@ -161,6 +162,8 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({
           fontFamily: "Arial",
         },
       });
+
+      return true
     } catch (error) {
       enqueueSnackbar("Error occured while adding the thread.", {
         variant: "error",
@@ -173,6 +176,8 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({
           fontFamily: "Arial",
         },
       });
+
+      return false;
     }
 
     setOpenCreate(false);
@@ -233,17 +238,10 @@ export const GroupThreads: React.FC<GroupThreadsProps> = ({
   return (
     <div>
       {isVisible ? (
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button
-            variant="outlined"
-            color="neutral"
-            startDecorator={<Add />}
-            sx={{ marginBottom: "20px" }}
-            onClick={handleOpenCreate}
-          >
-            New thread
-          </Button>
-        </div>
+          <AddThreadDropDown 
+          onSubmit={handleSubmitCreate}
+          thread={null}
+          />
       ) : null}
       <ThreadFilter onFilterChange={handleFilterChange} />
       <Divider />

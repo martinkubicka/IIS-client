@@ -14,7 +14,7 @@ import { loginService } from "@src/services/loginService";
 import { memberService } from "@src/services/memberService";
 import { threadService } from "@src/services/threadService";
 import { ThreadModel } from "@src/shared/models/ThreadModel";
-import AddEditThread from "@src/views/group/components/AddEditThread";
+import AddEditThread from "@src/views/group/components/EditThread";
 import { enqueueSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
