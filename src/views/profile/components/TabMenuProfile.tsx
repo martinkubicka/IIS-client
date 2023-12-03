@@ -1,3 +1,10 @@
+/**
+ * @file TabMenuProfile.tsx
+ * @author { Matěj Macek (xmacek27) }
+ * @date 17.12.2023
+ * @brief Definition of Component for displaying user's profile tabs depending on the user's role
+ */
+
 import { Tab, TabList, TabPanel, Tabs } from "@mui/joy";
 import { UserDetailModel } from "@src/shared/models/UserDetailModel";
 import { UserPrivacySettingsModel } from "@src/shared/models/UserPrivacySettingsModel";

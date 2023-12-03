@@ -1,3 +1,10 @@
+/**
+ * @file PermissionDenied.tsx
+ * @author { Matěj Macek (xmacek27) }
+ * @date 17.12.2023
+ * @brief Definition of Component for displaying permission denied page
+ */
+
 import { Button } from "@mui/joy";
 import { Page } from "@src/shared/components/Page";
 import React from "react";

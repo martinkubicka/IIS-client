@@ -1,3 +1,9 @@
+/**
+ * @file NewGroup.tsx
+ * @author { Matěj Macek (xmacek27) }
+ * @date 17.12.2023
+ * @brief Definition of Component for creating new group
+ */
 import {
   Avatar,
   Box,

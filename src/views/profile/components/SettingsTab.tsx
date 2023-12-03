@@ -1,3 +1,10 @@
+/**
+ * @file SettingsTab.tsx
+ * @author { Matěj Macek (xmacek27) }
+ * @date 17.12.2023
+ * @brief Definition of Component for displaying user's settings
+ */
+
 import {
   Avatar,
   Box,
