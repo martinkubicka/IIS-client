@@ -13,7 +13,7 @@ import {
   Divider,
   IconButton,
   Typography,
-  Tooltip
+  Tooltip,
 } from "@mui/joy";
 import GroupRole from "@src/enums/GroupRole";
 import Role from "@src/enums/Role";
@@ -106,6 +106,7 @@ export const Thread: React.FC<ThreadProps> = ({ thread, onDelete }) => {
         },
       });
 
+      newThread.email = loginService.getCookie("userEmail");
       await threadService.updateThread(thread?.id, newThread);
       await onDelete();
 
