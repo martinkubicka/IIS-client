@@ -1,3 +1,9 @@
+/**
+ * @file PostsTab.tsx
+ * @author { Matěj Macek (xmacek27) }
+ * @date 17.12.2023
+ * @brief Definition of Component for displaying user's posts
+ */
 import { Divider, Stack, Typography } from "@mui/joy";
 import { postService } from "@src/services/postService";
 import { Post } from "@src/shared/components/Post/Post";

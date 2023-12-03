@@ -1,3 +1,9 @@
+/**
+ * @file GroupsTab.tsx
+ * @author { Matěj Macek (xmacek27) }
+ * @date 17.12.2023
+ * @brief Definition of Component for displaying user's groups
+ */
 import { TabPanel } from "@mui/joy";
 import { groupService } from "@src/services/groupService";
 import { loginService } from "@src/services/loginService";

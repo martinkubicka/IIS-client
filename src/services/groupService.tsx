@@ -1,6 +1,6 @@
 /**
  * @file groupService.tsx
- * @author { Martin Kubicka (xkubic45) }
+ * @author { Martin Kubicka (xkubic45) , Matěj Macek (xmacek27)}
  * @date 17.12.2023
  * @brief Definition of group service which calls group endpoints
  */
