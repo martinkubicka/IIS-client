@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import {
   Avatar,
@@ -15,12 +15,15 @@ import {
   Modal,
   ModalDialog,
   Typography,
+  IconButton,
 } from "@mui/joy";
 import { loginService } from "@src/services/loginService";
 import { memberService } from "@src/services/memberService";
 import { Icon } from "@src/shared/components/Icon/Icon";
 import { useSnackbar } from "notistack";
 import { Link } from "react-router-dom";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { groupService } from "@src/services/groupService";
 
 interface CardProps {
   handle: string;
@@ -47,8 +50,25 @@ const GroupComponent: React.FC<CardProps> = ({
   const { enqueueSnackbar } = useSnackbar();
   const [currentButtonText, setCurrentButtonText] =
     useState<string>(buttonText);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [openDeleteGroup, setOpenDeleteGroup] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const checkIfAdmin = async () => {
+      try {
+        const role = await memberService.getMemberRole(
+          loginService.getCookie("userEmail"),
+          handle
+        );
+        if (role === 0) {
+          setIsAdmin(true);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
     const fetchData = async () => {
       if (currentButtonText === "Join") {
         try {
@@ -66,8 +86,54 @@ const GroupComponent: React.FC<CardProps> = ({
       }
     };
 
+    checkIfAdmin();
     fetchData();
-  });
+  }, [handle, openDeleteGroup]);
+
+  const handleDeleteGroup = async () => {
+    try {
+      enqueueSnackbar("Loading...", {
+        variant: "info",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "center",
+        },
+        autoHideDuration: 2000,
+        style: {
+          fontFamily: "Arial",
+        },
+      });
+
+      await groupService.deleteGroup(handle);
+      onAction();
+
+      enqueueSnackbar("Delete Group request successfull .", {
+        variant: "success",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "center",
+        },
+        autoHideDuration: 2000,
+        style: {
+          fontFamily: "Arial",
+        },
+      });
+    } catch (error) {
+      enqueueSnackbar("Error occured while deleting the group.", {
+        variant: "error",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "center",
+        },
+        autoHideDuration: 2000,
+        style: {
+          fontFamily: "Arial",
+        },
+      });
+    }
+
+    setOpenDeleteGroup(false);
+  };
 
   const handleClick = () => {
     if (currentButtonText === "Join") {
@@ -211,7 +277,7 @@ const GroupComponent: React.FC<CardProps> = ({
     <Card
       variant="outlined"
       sx={{
-        width: 250,
+        width: 200,
         height: 200,
         backgroundColor: "#EEF1FF",
         boxShadow: "0px 0px 8px 5px rgba(0,0,0,0.1)",
@@ -233,6 +299,18 @@ const GroupComponent: React.FC<CardProps> = ({
           <Icon iconName={imageSrc} />
         </Avatar>
       </Box>
+      {isAdmin === true && (
+        <IconButton
+          onClick={() => setOpenDeleteGroup(true)}
+          variant="plain"
+          color="neutral"
+          size="sm"
+          sx={{ position: "absolute", top: "0.875rem", right: "0.5rem" }}
+        >
+          <DeleteForeverIcon />
+        </IconButton>
+      )}
+
       <CardContent>
         <Typography level="title-lg">{title}</Typography>
         <Typography level="body-sm">
@@ -277,6 +355,35 @@ const GroupComponent: React.FC<CardProps> = ({
                 variant="plain"
                 color="neutral"
                 onClick={() => setOpen(false)}
+              >
+                Cancel
+              </Button>
+            </DialogActions>
+          </ModalDialog>
+        </Modal>
+
+        <Modal open={openDeleteGroup} onClose={() => setOpenDeleteGroup(false)}>
+          <ModalDialog variant="outlined" role="alertdialog">
+            <DialogTitle>
+              <WarningRoundedIcon />
+              Confirmation
+            </DialogTitle>
+            <Divider />
+            <DialogContent>
+              Are you sure you want to Delete Group?
+            </DialogContent>
+            <DialogActions>
+              <Button
+                variant="solid"
+                color="danger"
+                onClick={handleDeleteGroup}
+              >
+                Delete Group
+              </Button>
+              <Button
+                variant="plain"
+                color="neutral"
+                onClick={() => setOpenDeleteGroup(false)}
               >
                 Cancel
               </Button>

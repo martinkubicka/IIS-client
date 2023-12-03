@@ -12,23 +12,31 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import GroupComponent from "./GroupComponent";
 import NewGroup from "./NewGroup";
-
+import CreateNewPost from "./CreateNewPost";
+import Posts from "./Posts";
 export const Dashboard = () => {
   const [userGroups, setUserGroups] = useState<GroupModel[]>([]);
   const [recommendedGroups, setRecommendedGroups] = useState<GroupModel[]>([]);
   const [threads, setThreads] = useState<ThreadModel[] | null>(null);
   const userEmail = loginService.getCookie("userEmail") ?? "";
   const name = loginService.getCookie("userHandle") ?? "";
+  const [sidePanelWidth, setSidePanelWidth] = useState<number>(
+    window.innerWidth >= 900 ? 150 : 0
+  );
 
   // groups scroll
-  const sidePanelWidth = 150;
+  // const sidePanelWidth = 150;
   const availableWidth = "100%";
   const contentAreaWidth = `calc(${availableWidth} - ${sidePanelWidth}px)`;
   const groupContainerRef = useRef<HTMLDivElement>(null);
-  const gapBetweenCards = 30; // Gap between each group card
+  const gapBetweenCards = 25; // Gap between each group card
 
   // recommended groups scroll
   const recommendedGroupsContainerRef = useRef<HTMLDivElement>(null);
+
+  const [isSmallScreen, setIsSmallScreen] = useState<boolean>(
+    window.innerWidth < 900
+  );
 
   const handleScroll = (scrollOffset: number) => {
     if (groupContainerRef.current) {
@@ -55,16 +63,35 @@ export const Dashboard = () => {
   };
 
   const onDelete = async () => {
-    setThreads(null);
+    await fetchUserGroupsAndThreads();
+  };
+
+  const handleResize = () => {
+    setIsSmallScreen(window.innerWidth < 900);
+
+    if (window.innerWidth < 900) {
+      setSidePanelWidth(0);
+    } else {
+      setSidePanelWidth(150);
+    }
   };
 
   useEffect(() => {
     fetchUserGroupsAndThreads();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, [userEmail, name]);
 
   // Define the onAction callback function to update groups
-  const onAction = () => {
-    fetchUserGroupsAndThreads(); // Update userGroups and recommendedGroups
+  const onAction = async () => {
+    setUserGroups([]);
+    await fetchUserGroupsAndThreads(); // Update userGroups and recommendedGroups
+  };
+
+  const onAddPost = async () => {
+    await fetchUserThreads(); // Update userGroups and recommendedGroups
   };
 
   const fetchUserGroupsAndThreads = async () => {
@@ -84,6 +111,22 @@ export const Dashboard = () => {
         );
         setRecommendedGroups(recommendedGroups);
 
+        // Fetch all threads the user is in
+        const allThreads = await threadService.getAllThreadsUserIsIn(userEmail);
+        setThreads(allThreads); // Set the threads in the state}
+      } else {
+        // User is not logged in
+        const recommendedGroups = await groupService.getAllGroups();
+        setRecommendedGroups(recommendedGroups);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const fetchUserThreads = async () => {
+    try {
+      if (userEmail !== "") {
         // Fetch all threads the user is in
         const allThreads = await threadService.getAllThreadsUserIsIn(userEmail);
         setThreads(allThreads); // Set the threads in the state}
@@ -151,93 +194,179 @@ export const Dashboard = () => {
                 <Button
                   endDecorator={<KeyboardArrowRight />}
                   color="neutral"
-                  sx={{ right: "60px" }}
+                  sx={{ right: "20px" }}
                 >
-                  Show All My Groups
+                  My Groups
                 </Button>
               </Link>
             </div>
-            <Stack
-              direction="row"
-              gap="20px"
-              marginBottom="20px"
-              height="300px"
-              sx={{ alignItems: "center" }}
-            >
-              <NewGroup onGroupCreated={onGroupCreated} />
+            {isSmallScreen ? (
+              <div>
+                <NewGroup onGroupCreated={onGroupCreated} />
+                <Stack
+                  direction="row"
+                  gap="20px"
+                  marginBottom="20px"
+                  height="300px"
+                  sx={{ alignItems: "center" }}
+                >
+                  <IconButton
+                    size="lg"
+                    variant="plain"
+                    onClick={() => handleScroll(-1)}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "#000")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "#fff")}
+                    style={{
+                      left: "15px",
+                      zIndex: 1,
+                      color: "#fff",
+                    }}
+                  >
+                    <Box sx={{ fontSize: 32 }}>
+                      <KeyboardArrowLeft />
+                    </Box>
+                  </IconButton>
+                  <div
+                    style={{
+                      position: "relative",
+                      width: "100%",
+                      height: "300px",
+                      overflow: "hidden",
+                      maxWidth: "100%",
+                    }}
+                  >
+                    <div
+                      ref={groupContainerRef}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: `${gapBetweenCards}px`,
+                        height: "100%",
+                        overflowX: "hidden", // Hide horizontal scrollbar
+                        overflowY: "hidden", // Hide vertical scrollbar
+                        scrollBehavior: "smooth",
+                        scrollSnapType: "x mandatory",
+                      }}
+                    >
+                      <div style={{ width: "100px" }}></div>
 
-              <IconButton
-                size="lg"
-                variant="plain"
-                onClick={() => handleScroll(-1)}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#000")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "#fff")}
-                style={{
-                  left: "15px",
-                  zIndex: 1,
-                  color: "#fff",
-                }}
+                      {userGroups.map((group, index) => (
+                        <GroupComponent
+                          key={index}
+                          UserEmail={userEmail}
+                          handle={group.handle}
+                          title={group.name ?? ""}
+                          description={group.description ?? ""}
+                          buttonText="Leave"
+                          imageSrc={group.icon as string}
+                          name=""
+                          onAction={onAction} // Pass the onAction callback
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <IconButton
+                    size="lg"
+                    variant="plain"
+                    onClick={() => handleScroll(1)}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "#000")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "#fff")}
+                    style={{
+                      right: "10px",
+                      zIndex: 1,
+                      color: "#fff",
+                    }}
+                  >
+                    <Box sx={{ fontSize: 32 }}>
+                      <KeyboardArrowRight />
+                    </Box>
+                  </IconButton>
+                </Stack>
+              </div>
+            ) : (
+              <Stack
+                direction="row"
+                gap="20px"
+                marginBottom="20px"
+                height="300px"
+                sx={{ alignItems: "center" }}
               >
-                <Box sx={{ fontSize: 32 }}>
-                  <KeyboardArrowLeft />
-                </Box>
-              </IconButton>
-              <div
-                style={{
-                  position: "relative",
-                  width: "100%",
-                  height: "300px",
-                  overflow: "hidden",
-                  maxWidth: "100%",
-                }}
-              >
-                <div
-                  ref={groupContainerRef}
+                <NewGroup onGroupCreated={onGroupCreated} />
+
+                <IconButton
+                  size="lg"
+                  variant="plain"
+                  onClick={() => handleScroll(-1)}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#000")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#fff")}
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: `${gapBetweenCards}px`,
-                    height: "100%",
-                    overflowX: "hidden", // Hide horizontal scrollbar
-                    overflowY: "hidden", // Hide vertical scrollbar
-                    scrollBehavior: "smooth",
-                    scrollSnapType: "x mandatory",
+                    left: "15px",
+                    zIndex: 1,
+                    color: "#fff",
                   }}
                 >
-                  <div style={{ width: "100px" }}></div>
+                  <Box sx={{ fontSize: 32 }}>
+                    <KeyboardArrowLeft />
+                  </Box>
+                </IconButton>
+                <div
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                    height: "300px",
+                    overflow: "hidden",
+                    maxWidth: "100%",
+                  }}
+                >
+                  <div
+                    ref={groupContainerRef}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: `${gapBetweenCards}px`,
+                      height: "100%",
+                      overflowX: "hidden", // Hide horizontal scrollbar
+                      overflowY: "hidden", // Hide vertical scrollbar
+                      scrollBehavior: "smooth",
+                      scrollSnapType: "x mandatory",
+                    }}
+                  >
+                    <div style={{ width: "100px" }}></div>
 
-                  {userGroups.map((group, index) => (
-                    <GroupComponent
-                      key={index}
-                      UserEmail={userEmail}
-                      handle={group.handle}
-                      title={group.name ?? ""}
-                      description={group.description ?? ""}
-                      buttonText="Leave"
-                      imageSrc={group.icon as string}
-                      name=""
-                      onAction={onAction} // Pass the onAction callback
-                    />
-                  ))}
+                    {userGroups.map((group, index) => (
+                      <GroupComponent
+                        key={index}
+                        UserEmail={userEmail}
+                        handle={group.handle}
+                        title={group.name ?? ""}
+                        description={group.description ?? ""}
+                        buttonText="Leave"
+                        imageSrc={group.icon as string}
+                        name=""
+                        onAction={onAction} // Pass the onAction callback
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <IconButton
-                size="lg"
-                variant="plain"
-                onClick={() => handleScroll(1)}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "#000")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "#fff")}
-                style={{
-                  right: "10px",
-                  zIndex: 1,
-                  color: "#fff",
-                }}
-              >
-                <Box sx={{ fontSize: 32 }}>
-                  <KeyboardArrowRight />
-                </Box>
-              </IconButton>
-            </Stack>
+                <IconButton
+                  size="lg"
+                  variant="plain"
+                  onClick={() => handleScroll(1)}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#000")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#fff")}
+                  style={{
+                    right: "10px",
+                    zIndex: 1,
+                    color: "#fff",
+                  }}
+                >
+                  <Box sx={{ fontSize: 32 }}>
+                    <KeyboardArrowRight />
+                  </Box>
+                </IconButton>
+              </Stack>
+            )}
+
             <div style={{ marginTop: "50px", marginBottom: "30px" }}>
               <Divider />
             </div>
@@ -336,9 +465,15 @@ export const Dashboard = () => {
                 <Typography level="h1" fontSize="x2" marginBottom="10px">
                   Threads
                 </Typography>
-                {threads.map((thread, index) => (
-                  <Thread key={index} thread={thread} onDelete={onDelete} />
-                ))}
+                {threads === null
+                  ? "Loading threads..."
+                  : threads.length === 0
+                  ? "No threads found"
+                  : threads.map((thread) => (
+                      <Thread thread={thread} onDelete={onDelete} />
+                    ))}
+
+                <Posts threads={threads ?? []} userGroups={userGroups} />
               </div>
             )}
           </Page>
