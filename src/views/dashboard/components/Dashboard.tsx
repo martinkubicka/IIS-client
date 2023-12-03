@@ -1,3 +1,10 @@
+/**
+ * @file Dashboard.tsx
+ * @author { Matěj Macek (xmacek27) }
+ * @date 17.12.2023
+ * @brief Definition of Dashboard component
+ */
+
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { Button, Divider, IconButton, Stack, Typography } from "@mui/joy";
 import { Box } from "@mui/material";
@@ -12,7 +19,6 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import GroupComponent from "./GroupComponent";
 import NewGroup from "./NewGroup";
-import CreateNewPost from "./CreateNewPost";
 import Posts from "./Posts";
 export const Dashboard = () => {
   const [userGroups, setUserGroups] = useState<GroupModel[]>([]);
@@ -25,7 +31,6 @@ export const Dashboard = () => {
   );
 
   // groups scroll
-  // const sidePanelWidth = 150;
   const availableWidth = "100%";
   const contentAreaWidth = `calc(${availableWidth} - ${sidePanelWidth}px)`;
   const groupContainerRef = useRef<HTMLDivElement>(null);
@@ -63,7 +68,7 @@ export const Dashboard = () => {
   };
 
   const onDelete = async () => {
-    await fetchUserGroupsAndThreads();
+    await fetchUserThreads();
   };
 
   const handleResize = () => {
@@ -90,10 +95,6 @@ export const Dashboard = () => {
     await fetchUserGroupsAndThreads(); // Update userGroups and recommendedGroups
   };
 
-  const onAddPost = async () => {
-    await fetchUserThreads(); // Update userGroups and recommendedGroups
-  };
-
   const fetchUserGroupsAndThreads = async () => {
     try {
       if (userEmail !== "") {
@@ -113,7 +114,7 @@ export const Dashboard = () => {
 
         // Fetch all threads the user is in
         const allThreads = await threadService.getAllThreadsUserIsIn(userEmail);
-        setThreads(allThreads); // Set the threads in the state}
+        setThreads(allThreads);
       } else {
         // User is not logged in
         const recommendedGroups = await groupService.getAllGroups();
@@ -129,7 +130,7 @@ export const Dashboard = () => {
       if (userEmail !== "") {
         // Fetch all threads the user is in
         const allThreads = await threadService.getAllThreadsUserIsIn(userEmail);
-        setThreads(allThreads); // Set the threads in the state}
+        setThreads(allThreads);
       } else {
         // User is not logged in
         const recommendedGroups = await groupService.getAllGroups();
@@ -242,8 +243,8 @@ export const Dashboard = () => {
                         alignItems: "center",
                         gap: `${gapBetweenCards}px`,
                         height: "100%",
-                        overflowX: "hidden", // Hide horizontal scrollbar
-                        overflowY: "hidden", // Hide vertical scrollbar
+                        overflowX: "hidden",
+                        overflowY: "hidden",
                         scrollBehavior: "smooth",
                         scrollSnapType: "x mandatory",
                       }}
@@ -325,8 +326,8 @@ export const Dashboard = () => {
                       alignItems: "center",
                       gap: `${gapBetweenCards}px`,
                       height: "100%",
-                      overflowX: "hidden", // Hide horizontal scrollbar
-                      overflowY: "hidden", // Hide vertical scrollbar
+                      overflowX: "hidden",
+                      overflowY: "hidden",
                       scrollBehavior: "smooth",
                       scrollSnapType: "x mandatory",
                     }}

@@ -1,3 +1,10 @@
+/**
+ * @file CreateNewPost.tsx
+ * @author { Matěj Macek (xmacek27) }
+ * @date 17.12.2023
+ * @brief Definition of Component for creating new post
+ */
+
 import React, { useState, useEffect } from "react";
 import { GroupModel } from "@src/shared/models/GroupModel";
 import { ThreadModel } from "@src/shared/models/ThreadModel";
@@ -14,8 +21,8 @@ import {
   Typography,
 } from "@mui/joy";
 import { SendRounded } from "@mui/icons-material";
-import { SxProps } from "@mui/joy/styles/types";
 import { postService } from "@src/services/postService";
+import { containerStyle, newPostStyle, newPostTextAreaStyle } from "./NewPost";
 
 interface CreateNewPostProps {
   userGroups: GroupModel[]; // Array of user groups
@@ -78,20 +85,6 @@ const CreateNewPost: React.FC<CreateNewPostProps> = ({
     console.log(threads);
   };
 
-  const newPostStyle: SxProps = {
-    width: "100%",
-    height: "150px",
-  };
-
-  const newPostTextAreaStyle: SxProps = {
-    width: "100%",
-    height: "100px",
-  };
-
-  const containerStyle: SxProps = {
-    display: "flex",
-    alignItems: "center",
-  };
   return (
     <div>
       <Stack direction={"row"} spacing={"10px"} sx={{ marginTop: "30px" }}>

@@ -1,5 +1,10 @@
+/**
+ * @file GroupComponent.tsx
+ * @author { Matěj Macek (xmacek27) }
+ * @date 17.12.2023
+ * @brief Definition of Component for displaying group card
+ */
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import WarningRoundedIcon from "@mui/icons-material/WarningRounded";
 import {
   Avatar,
@@ -52,7 +57,6 @@ const GroupComponent: React.FC<CardProps> = ({
     useState<string>(buttonText);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [openDeleteGroup, setOpenDeleteGroup] = useState<boolean>(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const checkIfAdmin = async () => {

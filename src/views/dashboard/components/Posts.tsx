@@ -1,3 +1,9 @@
+/**
+ * @file Posts.tsx
+ * @author { Matěj Macek (xmacek27) }
+ * @date 17.12.2023
+ * @brief Definition of Component for displaying posts and creating new posts
+ */
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom"; // Assuming you're using React Router
 import { Divider, Stack, Typography } from "@mui/joy";
@@ -5,7 +11,6 @@ import { ThreadModel } from "@src/shared/models/ThreadModel";
 import { postService } from "@src/services/postService";
 import { Post } from "@src/shared/components/Post/Post";
 import { PostModel } from "@src/shared/models/PostModel";
-import { loginService } from "@src/services/loginService";
 import CreateNewPost from "@src/views/dashboard/components/CreateNewPost";
 import { GroupModel } from "@src/shared/models/GroupModel";
 interface Props {
@@ -15,7 +20,6 @@ interface Props {
 
 const Posts: React.FC<Props> = ({ threads, userGroups }) => {
   const [allPosts, setAllPosts] = useState<PostModel[]>([]);
-  const userHandle = loginService.getCookie("userHandle") || "";
 
   useEffect(() => {
     fetchData();

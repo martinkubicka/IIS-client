@@ -1,4 +1,9 @@
-// Profile.tsx
+/**
+ * @file Profile.tsx
+ * @author { Matěj Macek (xmacek27) }
+ * @date 17.12.2023
+ * @brief Definition of Component for displaying user's profile page
+ */
 import { Avatar, Skeleton } from "@mui/joy";
 import { groupService } from "@src/services/groupService";
 import { loginService } from "@src/services/loginService";
@@ -127,7 +132,7 @@ export const Profile = () => {
           setUserPrivacyData(userPrivacyDataResponse);
         }
 
-        // wait 2 sec and then set isLoading to false becouse we dont want to show user without permission to see profile
+        // wait 0.5 sec and then set isLoading to false becouse we dont want to show user without permission to see profile
         const timer = setTimeout(() => {
           setIsLoading(false);
         }, 500);
