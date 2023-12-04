@@ -6,7 +6,7 @@
  */
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom"; // Assuming you're using React Router
-import { Divider, Stack, Typography } from "@mui/joy";
+import { Divider, Typography } from "@mui/joy";
 import { ThreadModel } from "@src/shared/models/ThreadModel";
 import { postService } from "@src/services/postService";
 import { Post } from "@src/shared/components/Post/Post";
@@ -66,7 +66,11 @@ const Posts: React.FC<Props> = ({
       >
         Posts
       </Typography>
-      <CreateNewPost userGroups={userGroups ?? []} onAddPost={onAddPost} isSmallerScreen={isSmallerScreen}/>
+      <CreateNewPost
+        userGroups={userGroups ?? []}
+        onAddPost={onAddPost}
+        isSmallerScreen={isSmallerScreen}
+      />
       {allPosts.map((post) => (
         <div key={post.id}>
           <Typography marginLeft={marginLeft}>

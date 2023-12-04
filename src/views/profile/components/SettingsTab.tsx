@@ -187,7 +187,6 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
         await userService.updateUser(userDetailData, userPrivacySettingsData);
       }
       await onSettingsSaved();
-      //setValuesChanged(true);
 
       enqueueSnackbar("User settings updated successfully.", {
         variant: "success",
