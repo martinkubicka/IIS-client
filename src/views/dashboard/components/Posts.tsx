@@ -16,11 +16,16 @@ import { GroupModel } from "@src/shared/models/GroupModel";
 interface Props {
   threads: ThreadModel[];
   userGroups: GroupModel[];
+  isSmallerScreen?: boolean;
 }
 
-const Posts: React.FC<Props> = ({ threads, userGroups }) => {
+const Posts: React.FC<Props> = ({
+  threads,
+  userGroups,
+  isSmallerScreen = false,
+}) => {
   const [allPosts, setAllPosts] = useState<PostModel[]>([]);
-
+  const marginLeft = isSmallerScreen ? "20px" : "0px";
   useEffect(() => {
     fetchData();
   }, [threads]);
@@ -52,13 +57,19 @@ const Posts: React.FC<Props> = ({ threads, userGroups }) => {
 
   return (
     <>
-      <Typography level="h1" fontSize="x2" marginBottom="10px" marginTop="50px">
+      <Typography
+        level="h1"
+        fontSize="x2"
+        marginBottom="10px"
+        marginTop="50px"
+        marginLeft={marginLeft}
+      >
         Posts
       </Typography>
-      <CreateNewPost userGroups={userGroups ?? []} onAddPost={onAddPost} />
+      <CreateNewPost userGroups={userGroups ?? []} onAddPost={onAddPost} isSmallerScreen={isSmallerScreen}/>
       {allPosts.map((post) => (
         <div key={post.id}>
-          <Typography>
+          <Typography marginLeft={marginLeft}>
             Posted to{" "}
             <Link to={`/thread/${post.threadId}`}>
               {threads.find((thread) => thread.id === post.threadId)?.name ||
