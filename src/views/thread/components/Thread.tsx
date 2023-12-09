@@ -18,7 +18,7 @@ import { Link, useParams } from "react-router-dom";
 import { NewPost } from "./NewPost";
 import { Posts } from "./Posts";
 import { ThreadHeader } from "./ThreadHeader";
-import { threadStyle } from "./styles/style";
+import { loginAlert, newPostStyle, threadStyle } from "./styles/style";
 
 export const Thread = () => {
   const { threadId } = useParams<{ threadId: string }>();
@@ -127,20 +127,20 @@ export const Thread = () => {
       );
     } else {
       newPost = (
-        <Alert startDecorator={<InfoRounded />} color="primary">
+        <Alert sx={loginAlert} startDecorator={<InfoRounded />} color="primary">
           <Link to={"/dashboard"}>Join group</Link>to write a new post
         </Alert>
       );
     }
   } else {
     newPost = (
-      <Alert startDecorator={<InfoRounded />} color="primary">
+      <Alert sx={loginAlert} startDecorator={<InfoRounded />} color="primary">
         <Link to={"/login"}>Log in</Link>to write a new post
       </Alert>
     );
   }
   return (
-    <Page>
+    <Page isPadded={false}>
       <Stack spacing={2} direction={"column"} sx={threadStyle}>
         <ThreadHeader
           name={threadData?.name as string}

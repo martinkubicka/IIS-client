@@ -9,9 +9,14 @@ interface PageProps {
   children?: React.ReactNode;
   backgroundColor?: string;
   showNav?: boolean;
+  isPadded?: boolean;
 }
 
-export const Page = ({ children, backgroundColor }: PageProps) => {
+export const Page = ({
+  children,
+  backgroundColor,
+  isPadded = true,
+}: PageProps) => {
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
@@ -50,7 +55,7 @@ export const Page = ({ children, backgroundColor }: PageProps) => {
           margin: 0,
           width: "100%",
           minHeight: "100vh",
-          padding: { md: "30px", xs: "0px" },
+          padding: isPadded ? { md: "30px", xs: "0px" } : 0,
           marginTop: { xs: 7, md: 0 },
         }}
       >
