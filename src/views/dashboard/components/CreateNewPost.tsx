@@ -23,21 +23,26 @@ import {
 import { SendRounded } from "@mui/icons-material";
 import { postService } from "@src/services/postService";
 import { containerStyle, newPostStyle, newPostTextAreaStyle } from "./NewPost";
+import { useSnackbar } from "notistack";
 
 interface CreateNewPostProps {
   userGroups: GroupModel[]; // Array of user groups
   onAddPost: () => void; // Callback function to trigger action in parent component
+  isSmallerScreen?: boolean; // Optional boolean to determine if the screen is smaller
 }
 
 const CreateNewPost: React.FC<CreateNewPostProps> = ({
   userGroups,
   onAddPost,
+  isSmallerScreen = false,
 }) => {
   const [threads, setThreads] = useState<ThreadModel[] | null>(null);
   const [selectedGroup, setSelectedGroup] = useState<string>("");
   const [value, setValue] = React.useState("");
   const userHandle = loginService.getCookie("userHandle") || "";
   const [selectedThread, setSelectedThread] = useState<string>("");
+  const { enqueueSnackbar } = useSnackbar();
+  const marginLeft = isSmallerScreen ? "20px" : "0px";
 
   useEffect(() => {
     if (selectedGroup) {
@@ -53,17 +58,48 @@ const CreateNewPost: React.FC<CreateNewPostProps> = ({
   };
 
   const handleSend = async () => {
-    if (value != "") {
-      let post: PostModel = {
-        text: value,
-        userHandle,
-        threadId: selectedThread,
-      };
+    try {
+      if (value != "") {
+        let post: PostModel = {
+          text: value,
+          handle: userHandle,
+          threadId: selectedThread,
+        };
 
-      await postService.addPost(post);
+        await postService.addPost(post);
 
-      onAddPost();
+        enqueueSnackbar("Add Post successfull.", {
+          variant: "success",
+          anchorOrigin: {
+            vertical: "bottom",
+            horizontal: "center",
+          },
+          autoHideDuration: 2000,
+          style: {
+            fontFamily: "Arial",
+          },
+        });
+        onAddPost();
+      }
+    } catch (error) {
+      enqueueSnackbar(
+        "Error occured while posting the post. Please Check you select Group and Thread for new Post.",
+        {
+          variant: "error",
+          anchorOrigin: {
+            vertical: "bottom",
+            horizontal: "center",
+          },
+          autoHideDuration: 3000,
+          style: {
+            fontFamily: "Arial",
+          },
+        }
+      );
+
+      console.error("Error adding post:", error);
     }
+
     setValue("");
   };
 
@@ -87,7 +123,12 @@ const CreateNewPost: React.FC<CreateNewPostProps> = ({
 
   return (
     <div>
-      <Stack direction={"row"} spacing={"10px"} sx={{ marginTop: "30px" }}>
+      <Stack
+        direction={isSmallerScreen ? "column" : "row"}
+        spacing={"10px"}
+        sx={{ marginTop: "30px" }}
+        marginLeft={marginLeft}
+      >
         <Typography sx={containerStyle}> Group: </Typography>
         <Select
           color="primary"
@@ -128,7 +169,13 @@ const CreateNewPost: React.FC<CreateNewPostProps> = ({
         )}
       </Stack>
 
-      <Box sx={newPostStyle}>
+      <Box
+        sx={{
+          ...newPostStyle,
+          width: isSmallerScreen ? "90%" : "100%",
+          marginLeft: marginLeft,
+        }}
+      >
         <Textarea
           placeholder="Write something..."
           sx={newPostTextAreaStyle}

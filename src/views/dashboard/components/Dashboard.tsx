@@ -155,7 +155,7 @@ export const Dashboard = () => {
           style={{
             display: "flex",
             flexWrap: "wrap",
-            justifyContent: "flex-start",
+            justifyContent: "center",
             gap: "20px",
           }}
         >
@@ -188,7 +188,12 @@ export const Dashboard = () => {
                 maxWidth: "100%",
               }}
             >
-              <Typography level="h1" fontSize="x2" marginBottom="10px">
+              <Typography
+                level="h1"
+                fontSize="x2"
+                marginBottom="10px"
+                marginLeft="20px"
+              >
                 My Groups
               </Typography>
               <Link to="/profile">
@@ -203,7 +208,16 @@ export const Dashboard = () => {
             </div>
             {isSmallScreen ? (
               <div>
-                <NewGroup onGroupCreated={onGroupCreated} />
+                <div
+                  className="content-container"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <NewGroup onGroupCreated={onGroupCreated} />
+                </div>
                 <Stack
                   direction="row"
                   gap="20px"
@@ -371,7 +385,12 @@ export const Dashboard = () => {
             <div style={{ marginTop: "50px", marginBottom: "30px" }}>
               <Divider />
             </div>
-            <Typography level="h1" fontSize="x2" marginBottom="10px">
+            <Typography
+              level="h1"
+              fontSize="x2"
+              marginBottom="10px"
+              marginLeft={isSmallScreen ? "20px" : "0px"}
+            >
               Suggested
             </Typography>
             <Stack
@@ -463,7 +482,12 @@ export const Dashboard = () => {
               "No threads found"
             ) : (
               <div>
-                <Typography level="h1" fontSize="x2" marginBottom="10px">
+                <Typography
+                  level="h1"
+                  fontSize="x2"
+                  marginBottom="10px"
+                  marginLeft={isSmallScreen ? "20px" : "0px"}
+                >
                   Threads
                 </Typography>
                 {threads === null
@@ -474,7 +498,11 @@ export const Dashboard = () => {
                       <Thread thread={thread} onDelete={onDelete} />
                     ))}
 
-                <Posts threads={threads ?? []} userGroups={userGroups} />
+                <Posts
+                  threads={threads ?? []}
+                  userGroups={userGroups}
+                  isSmallerScreen={isSmallScreen}
+                />
               </div>
             )}
           </Page>

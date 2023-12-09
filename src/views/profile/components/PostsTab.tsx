@@ -1,6 +1,6 @@
 /**
  * @file PostsTab.tsx
- * @author { Matěj Macek (xmacek27) }
+ * @author { Matěj Macek (xmacek27)  Dominik Petřík (xpetri25)}
  * @date 17.12.2023
  * @brief Definition of Component for displaying user's posts
  */

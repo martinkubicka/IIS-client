@@ -7,10 +7,9 @@ const instance = axios.create({
   baseURL: API_BASE_URL,
 });
 
-const headers = authHeaderGenerator.getAuthHeader();
-
 export const postService = {
   async getPost(postId: string) {
+    const headers = authHeaderGenerator.getAuthHeader();
     try {
       const response = await instance.get(`/Post/getPost/${postId}`, {
         headers,
@@ -22,6 +21,7 @@ export const postService = {
   },
 
   async addPost(post: PostModel) {
+    const headers = authHeaderGenerator.getAuthHeader();
     try {
       const response = await instance.post(`/Post/add`, post, { headers });
       return response.data;
@@ -31,6 +31,7 @@ export const postService = {
   },
 
   async deletePost(id: string) {
+    const headers = authHeaderGenerator.getAuthHeader();
     try {
       const response = await instance.delete(`/Post/delete/${id}`, { headers });
       return response.data;
@@ -40,6 +41,7 @@ export const postService = {
   },
 
   async updatePost(id: string, text: string) {
+    const headers = authHeaderGenerator.getAuthHeader();
     try {
       const response = await instance.put(
         `/Post/updateText?postId=${id}&text=${text}`,
@@ -53,6 +55,7 @@ export const postService = {
   },
 
   async getPostsByThread(threadId: string, limit: number, offset: number) {
+    const headers = authHeaderGenerator.getAuthHeader();
     try {
       const response = await instance.get(
         `/Post/getPostsByThread/${threadId}?limit=${limit}&offset=${offset}`,
@@ -69,6 +72,7 @@ export const postService = {
     threadsLimit: number,
     postsPerThreadLimit: number
   ) {
+    const headers = authHeaderGenerator.getAuthHeader();
     try {
       const response = await instance.get(
         `/Post/getPostsGroupedByThread/${userHandle}?threadLimit=${threadsLimit}&postsPerThreadLimit=${postsPerThreadLimit}`,
@@ -81,6 +85,7 @@ export const postService = {
   },
 
   async getGroupHandleByPostId(postId: string) {
+    const headers = authHeaderGenerator.getAuthHeader();
     try {
       const response = await instance.get(
         `/Post/getGroupHandleByPostId/${postId}`,
@@ -93,6 +98,7 @@ export const postService = {
   },
 
   async calculateRating(postId: string) {
+    const headers = authHeaderGenerator.getAuthHeader();
     try {
       const response = await instance.get(`/Post/calculateRating/${postId}`, {
         headers,
@@ -104,6 +110,7 @@ export const postService = {
   },
 
   async getRatingByPostAndUser(postId: string, userEmail: string) {
+    const headers = authHeaderGenerator.getAuthHeader();
     try {
       const response = await instance.get(
         `/Rating/getRatingByPostAndUser/${postId}/${userEmail}`,
@@ -116,6 +123,7 @@ export const postService = {
   },
 
   async updateRating(postId: string, userEmail: string, ratingChange: number) {
+    const headers = authHeaderGenerator.getAuthHeader();
     try {
       const response = await instance.post(
         `/Rating/update?postId=${postId}&userEmail=${userEmail}&ratingChange=${ratingChange}`,
