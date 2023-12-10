@@ -18,7 +18,7 @@ import { Link, useParams } from "react-router-dom";
 import { NewPost } from "./NewPost";
 import { Posts } from "./Posts";
 import { ThreadHeader } from "./ThreadHeader";
-import { loginAlert, newPostStyle, threadStyle } from "./styles/style";
+import { loginAlert, threadStyle } from "./styles/style";
 
 export const Thread = () => {
   const { threadId } = useParams<{ threadId: string }>();
@@ -94,7 +94,9 @@ export const Thread = () => {
           .build();
 
         connection.on("NewPost", async (postId) => {
-          const newPost = await postService.getPost(postId as string);
+          const newPost: PostModel = await postService.getPost(
+            postId as string
+          );
           setPosts((prev) => [newPost, ...prev]);
         });
 

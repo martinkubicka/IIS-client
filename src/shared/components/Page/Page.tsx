@@ -42,16 +42,11 @@ export const Page = ({
   }, []);
 
   return (
-    <Stack
-      style={{ backgroundColor: backgroundColor, margin: 0, width: "100%" }}
-      className={style.page}
-      direction={"row"}
-    >
+    <Stack style={{ margin: 0, width: "100%" }} direction={"row"}>
       <Header />
       <NavBar />
       <Box
         sx={{
-          backgroundColor: backgroundColor,
           margin: 0,
           width: "100%",
           minHeight: "100vh",

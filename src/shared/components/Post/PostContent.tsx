@@ -6,6 +6,7 @@ interface PostContentProps {
   text: string;
   onPostUpdate?: (newValue: string) => void;
   onEditCancel?: () => void;
+  onImageLoad?: () => void;
   updateLoading?: boolean;
 }
 
@@ -13,12 +14,24 @@ export const PostContent = ({
   editing = false,
   onPostUpdate = () => {},
   onEditCancel = () => {},
+  onImageLoad = () => {},
   text,
   updateLoading = false,
 }: PostContentProps) => {
-  const [editValue, setEditValue] = React.useState(text);
+  const [textValue, setTextValue] = React.useState(text);
+  const [editValue, setEditValue] = React.useState(textValue);
+  const [isPreprocessed, setIsPreprocessed] = React.useState(false);
+  const [type, setType] = React.useState("text");
 
   const ref = useRef<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    setTextValue(text);
+  }, [text]);
+
+  React.useEffect(() => {
+    preProccessText();
+  }, [textValue]);
 
   const handleCancelEditing = () => {
     setEditValue(text);
@@ -35,11 +48,40 @@ export const PostContent = ({
     setEditValue(event.currentTarget.value);
   };
 
+  const preProccessText = () => {
+    const regex = /^<https:\/\/media.tenor.com\/.+\/.+.gif>$/g;
+    const matches = textValue.match(regex);
+    if (matches) {
+      matches.forEach((match) => {
+        setType("gif");
+      });
+    }
+    setIsPreprocessed(true);
+  };
+
   useEffect(() => {
     if (editing && ref.current) {
       ref.current.focus();
     }
   }, [editing]);
+  let display;
+  if (type == "text") {
+    display = (
+      <Typography sx={{ whiteSpace: "pre-line" }} level={"body-md"}>
+        {textValue}
+      </Typography>
+    );
+  } else {
+    display = (
+      <img
+        height={200}
+        width={200}
+        style={{ borderRadius: "10px" }}
+        src={textValue.substring(1, textValue.length - 1)}
+        onLoad={onImageLoad}
+      />
+    );
+  }
 
   return (
     <Box>
@@ -66,9 +108,7 @@ export const PostContent = ({
           </Stack>
         </>
       ) : (
-        <Typography sx={{ whiteSpace: "pre-line" }} level={"body-md"}>
-          {text}
-        </Typography>
+        isPreprocessed && display
       )}
     </Box>
   );

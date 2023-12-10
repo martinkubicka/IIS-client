@@ -10,19 +10,23 @@ export const threadStyle: SxProps = {
 
 export const newPostStyle: SxProps = {
   width: "100%",
-  position: "absolute",
+  position: { xs: "fixed", md: "absolute" },
   left: { xs: 0, md: "10px" },
-  bottom: "5px",
-  height: "150px",
+  bottom: { xs: "2px", md: "5px" },
+  height: { xs: "80px", md: "150px" },
+  bgcolor: "#F0F4F8",
+  flexDirection: { xs: "column", md: "row" },
 };
 
 export const newPostTextAreaStyle: SxProps = {
   height: "100%",
+  width: "100%",
+  bgcolor: "inherit",
 };
 
 export const threadHeaderStyle: SxProps = {
   width: "100%",
-  height: "100px",
+  height: { xs: "25px", sm: "100px" },
 };
 
 export const loginAlert: SxProps = {
@@ -40,6 +44,6 @@ export const postsContainerStyle: SxProps = {
   width: "100%",
   position: "absolute",
   top: "100px",
-  bottom: "170px",
+  bottom: { xs: "100px", sm: "170px" },
   overflow: "auto",
 };

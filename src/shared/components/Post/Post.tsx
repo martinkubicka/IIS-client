@@ -21,6 +21,7 @@ interface PostProps extends PostModel {
   deletable?: boolean;
   editable?: boolean;
   onDelete?: (id?: string) => void;
+  onImageLoad?: (id: string) => void;
 }
 
 export const Post = ({
@@ -34,6 +35,7 @@ export const Post = ({
   showIcon = false,
   lastPost = false,
   onDelete = () => {},
+  onImageLoad = () => {},
 }: PostProps) => {
   const [user, setUser] = React.useState<UserProfileModel>();
   const [editing, setEditing] = React.useState(false);
@@ -70,8 +72,10 @@ export const Post = ({
         currentLoginRole === Role.admin ||
         (handle != null && currentLoginHandle === handle)
     );
-
-    setCanEdit(handle != null && currentLoginHandle === handle);
+    const urlRegex = /^<https:\/\/media.tenor.com\/.+\/.+.gif>$/g;
+    setCanEdit(
+      handle != null && currentLoginHandle === handle && !text?.match(urlRegex)
+    );
 
     setRatingDisabled(currentMemberRole === undefined);
   }, [handle, currentLoginHandle, currentLoginRole, currentMemberRole]);
@@ -99,6 +103,13 @@ export const Post = ({
   const handleUpdatePost = (text: string) => {
     if (id) {
       updatePostMutation({ id, text });
+    }
+  };
+
+  const handleImageLoad = () => {
+    if (id) {
+      console.log(id);
+      onImageLoad(id);
     }
   };
 
@@ -148,6 +159,7 @@ export const Post = ({
           onPostUpdate={handleUpdatePost}
           onEditCancel={handleCancelEditing}
           updateLoading={updateLoading}
+          onImageLoad={handleImageLoad}
         />
         <PostFooter ratingDisabled={ratingDisabled} postId={id as string} />
       </Stack>

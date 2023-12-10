@@ -56,6 +56,13 @@ export const Posts = ({
     }
   }, []);
 
+  const handleLastImageLoad = (id: string) => {
+    const element = ref.current;
+    if (element && posts && id == posts[0].id) {
+      element.scrollTop = element.scrollHeight;
+    }
+  };
+
   return (
     <Box ref={ref} sx={postsContainerStyle}>
       <Stack direction={"column-reverse"} sx={postsStyle}>
@@ -65,6 +72,7 @@ export const Posts = ({
             onDelete={onDeletePost}
             lastPost={index == 0}
             key={post.id}
+            onImageLoad={handleLastImageLoad}
             {...post}
           />
         ))}
