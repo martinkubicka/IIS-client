@@ -11,8 +11,10 @@ export const ThreadHeader = ({ name, description = "" }: ThreadHeaderProps) => {
     <Box sx={threadHeaderStyle}>
       <Stack direction={"row"} justifyContent={"space-between"}>
         <Box padding={2}>
-          <Typography level="h1">{`#${name}`}</Typography>
-          <Typography level="body-lg">{description}</Typography>
+          {name && <Typography level="h1">{`#${name}`}</Typography>}
+          {description && (
+            <Typography level="body-lg">{description}</Typography>
+          )}
         </Box>
       </Stack>
 

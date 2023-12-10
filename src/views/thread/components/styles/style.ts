@@ -1,7 +1,7 @@
 import { SxProps } from "@mui/joy/styles/types";
 
 export const threadStyle: SxProps = {
-  width: { md: "90%", xs: "100%" },
+  width: { md: "98%", xs: "100%" },
   borderRadius: "5px",
   height: "100%",
   position: "relative",

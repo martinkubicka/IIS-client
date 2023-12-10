@@ -66,7 +66,6 @@ export const Posts = ({
   return (
     <Box ref={ref} sx={postsContainerStyle}>
       <Stack direction={"column-reverse"} sx={postsStyle}>
-        {loading && <LoadingOverlay />}
         {posts?.map((post, index) => (
           <Post
             onDelete={onDeletePost}

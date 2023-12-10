@@ -39,13 +39,23 @@ export const PostContent = ({
   };
 
   const handleUpdate = () => {
-    if (editValue != "") {
-      onPostUpdate(editValue);
+    const value = editValue.trim();
+    if (value != "") {
+      onPostUpdate(value);
     }
   };
 
   const handleChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
     setEditValue(event.currentTarget.value);
+  };
+
+  const handleKeyDownWhenEditing = (
+    event: React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if (event.key == "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      handleUpdate();
+    }
   };
 
   const preProccessText = () => {
@@ -87,7 +97,13 @@ export const PostContent = ({
     <Box>
       {editing ? (
         <>
-          <Textarea ref={ref} onChange={handleChange} value={editValue} />
+          <Textarea
+            autoFocus
+            ref={ref}
+            onChange={handleChange}
+            value={editValue}
+            onKeyDown={handleKeyDownWhenEditing}
+          />
 
           <Stack direction={"row"} width={"100%"} justifyContent={"flex-end"}>
             <Button

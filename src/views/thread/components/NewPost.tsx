@@ -13,6 +13,7 @@ import { Popper, ClickAwayListener } from "@mui/base";
 import { IconPicker } from "@src/shared/components/IconPicker/IconPicker";
 import { emojisMap } from "@src/assets/emojis";
 import GifPicker, { TenorImage } from "gif-picker-react";
+import { TENOR_API_KEY } from "@src/apiConfig";
 
 interface NewPostProps {
   handle: string;
@@ -31,15 +32,16 @@ export const NewPost = ({ handle, threadId }: NewPostProps) => {
   const gifRef = React.useRef<HTMLAnchorElement>(null);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key == "Enter") {
+    if (event.key == "Enter" && !event.shiftKey) {
       event.preventDefault();
       handleSend(value);
     }
   };
 
   const handleSend = (valueToSend: string) => {
-    if (valueToSend != "") {
-      mutate(valueToSend);
+    const trimmedValue = valueToSend.trim();
+    if (trimmedValue != "") {
+      mutate(trimmedValue);
     }
     setValue("");
   };
@@ -87,7 +89,7 @@ export const NewPost = ({ handle, threadId }: NewPostProps) => {
         height={"100%"}
         justifyContent={"flex-end"}
         direction={"row"}
-        alignItems={"center"}
+        alignItems={"end"}
       >
         <IconButton onClick={handleGifPickerClick} ref={gifRef}>
           <GifBoxOutlined />
@@ -95,7 +97,7 @@ export const NewPost = ({ handle, threadId }: NewPostProps) => {
         <Popper anchorEl={gifRef.current} open={gifOpen}>
           <ClickAwayListener onClickAway={handleGifClickAway}>
             <GifPicker
-              tenorApiKey={"AIzaSyCoA1c1rVZb3qHX3HORc9DpCV0NGvXtaIM"}
+              tenorApiKey={TENOR_API_KEY}
               onGifClick={handleGifSelect}
             />
           </ClickAwayListener>

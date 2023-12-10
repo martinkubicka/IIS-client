@@ -53,8 +53,10 @@ export const PostUser = ({
       )}
 
       <Stack spacing={-0.5} direction={"column"}>
-        <Typography level="title-sm">{username}</Typography>
-        <Link onClick={handleClick} fontSize={14}>{`@${handle}`}</Link>
+        {username && <Typography level="title-sm">{username}</Typography>}
+        {handle && (
+          <Link onClick={handleClick} fontSize={14}>{`@${handle}`}</Link>
+        )}
       </Stack>
     </Stack>
   );
