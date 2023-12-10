@@ -94,12 +94,10 @@ export const NewPost = ({ handle, threadId }: NewPostProps) => {
         </IconButton>
         <Popper anchorEl={gifRef.current} open={gifOpen}>
           <ClickAwayListener onClickAway={handleGifClickAway}>
-            <Box width={"300px"} height={"300px"}>
-              <GifPicker
-                tenorApiKey={"AIzaSyCoA1c1rVZb3qHX3HORc9DpCV0NGvXtaIM"}
-                onGifClick={handleGifSelect}
-              />
-            </Box>
+            <GifPicker
+              tenorApiKey={"AIzaSyCoA1c1rVZb3qHX3HORc9DpCV0NGvXtaIM"}
+              onGifClick={handleGifSelect}
+            />
           </ClickAwayListener>
         </Popper>
         <IconButton onClick={handleEmojiPickerClick} ref={emojiRef}>

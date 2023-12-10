@@ -3,7 +3,6 @@ import Header from "@src/shared/components/NavBar/Header";
 import NavBar from "@src/shared/components/NavBar/NavBar";
 import { useSnackbar } from "notistack";
 import { useEffect } from "react";
-import style from "./Page.module.css";
 
 interface PageProps {
   children?: React.ReactNode;
@@ -42,17 +41,24 @@ export const Page = ({
   }, []);
 
   return (
-    <Stack style={{ margin: 0, width: "100%" }} direction={"row"}>
+    <Stack
+      style={{ margin: 0, padding: 0, width: "100%" }}
+      sx={(theme) => ({
+        bgcolor: theme.vars.palette.background.level1,
+      })}
+      direction={"row"}
+    >
       <Header />
       <NavBar />
       <Box
-        sx={{
+        sx={(theme) => ({
           margin: 0,
           width: "100%",
           minHeight: "100vh",
           padding: isPadded ? { md: "30px", xs: "0px" } : 0,
           marginTop: { xs: 7, md: 0 },
-        }}
+          bgcolor: theme.vars.palette.background.level1,
+        })}
       >
         {children}
       </Box>

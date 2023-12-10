@@ -283,7 +283,6 @@ const GroupComponent: React.FC<CardProps> = ({
       sx={{
         width: 200,
         height: 200,
-        backgroundColor: "#EEF1FF",
         boxShadow: "0px 0px 8px 5px rgba(0,0,0,0.1)",
         transition: "transform 0.3s ease-in-out", // Add transition for smooth animation
         "&:hover": {

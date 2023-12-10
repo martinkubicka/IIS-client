@@ -6,8 +6,6 @@ import { SnackbarProvider } from "notistack";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <SnackbarProvider>
-    <CssVarsProvider defaultMode="light">
-      <App />
-    </CssVarsProvider>
+    <App />
   </SnackbarProvider>
 );

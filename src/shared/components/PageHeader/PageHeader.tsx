@@ -5,6 +5,7 @@
  * @brief Definition of header component for pages
  */
 
+import { Typography } from "@mui/joy";
 import style from "./PageHeader.module.css";
 import React from "react";
 
@@ -15,7 +16,9 @@ interface PageHeaderProps {
 export const PageHeader: React.FC<PageHeaderProps> = ({ text }) => {
   return (
     <div>
-      <h1 className={style.PageHeader}>{text}</h1>
+      <Typography level="h1" className={style.PageHeader}>
+        {text}
+      </Typography>
     </div>
   );
 };

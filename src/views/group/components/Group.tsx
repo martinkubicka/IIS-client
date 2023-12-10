@@ -439,8 +439,7 @@ export const Group = () => {
 
           <Typography
             className="groupDescription"
-            variant="subtitle1"
-            color="textSecondary"
+            level="body-md"
             style={{
               whiteSpace: "normal",
               overflowWrap: "break-word",

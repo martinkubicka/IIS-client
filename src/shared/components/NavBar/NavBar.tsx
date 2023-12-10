@@ -23,6 +23,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import { closeSidebar } from "./Utils";
+import { ModeToggle } from "../ThemeToggle/ThemeToggle";
 
 export const NavBar: React.FC = () => {
   const navigate = useNavigate();
@@ -181,6 +182,7 @@ export const NavBar: React.FC = () => {
             </ListItemButton>
           </ListItem>
         </List>
+        <ModeToggle />
         <div
           style={{ marginBottom: onMobile ? "115px" : "0px" }}
           onClick={willCloseSideBar()}

@@ -8,20 +8,22 @@ export const threadStyle: SxProps = {
   margin: 0,
 };
 
-export const newPostStyle: SxProps = {
+export const newPostStyle: SxProps = (theme) => ({
   width: "100%",
   position: { xs: "fixed", md: "absolute" },
+  bgcolor: theme.vars.palette.background.level2,
   left: { xs: 0, md: "10px" },
   bottom: { xs: "2px", md: "5px" },
   height: { xs: "80px", md: "150px" },
-  bgcolor: "#F0F4F8",
   flexDirection: { xs: "column", md: "row" },
-};
+  borderRadius: "10px",
+});
 
 export const newPostTextAreaStyle: SxProps = {
   height: "100%",
   width: "100%",
-  bgcolor: "inherit",
+  backgroundColor: "inherit",
+  boxShadow: "none",
 };
 
 export const threadHeaderStyle: SxProps = {
