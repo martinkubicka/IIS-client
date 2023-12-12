@@ -19,12 +19,21 @@ import {
   Stack,
   Button,
   Typography,
+  IconButton,
 } from "@mui/joy";
-import { SendRounded } from "@mui/icons-material";
+import {
+  GifBoxOutlined,
+  InsertEmoticon,
+  SendRounded,
+} from "@mui/icons-material";
 import { postService } from "@src/services/postService";
 import { containerStyle, newPostStyle, newPostTextAreaStyle } from "./NewPost";
 import { useSnackbar } from "notistack";
-
+import { ClickAwayListener, Popper } from "@mui/material";
+import { IconPicker } from "@src/shared/components/IconPicker/IconPicker";
+import { emojisMap } from "@src/assets/emojis";
+import GifPicker, { TenorImage } from "gif-picker-react";
+import { TENOR_API_KEY } from "@src/apiConfig";
 interface CreateNewPostProps {
   userGroups: GroupModel[]; // Array of user groups
   onAddPost: () => void; // Callback function to trigger action in parent component
@@ -38,11 +47,15 @@ const CreateNewPost: React.FC<CreateNewPostProps> = ({
 }) => {
   const [threads, setThreads] = useState<ThreadModel[] | null>(null);
   const [selectedGroup, setSelectedGroup] = useState<string>("");
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = useState<string>("");
   const userHandle = loginService.getCookie("userHandle") || "";
   const [selectedThread, setSelectedThread] = useState<string>("");
   const { enqueueSnackbar } = useSnackbar();
   const marginLeft = isSmallerScreen ? "20px" : "0px";
+  const [emojiOpen, setEmojiOpen] = React.useState(false);
+  const [gifOpen, setGifOpen] = React.useState(false);
+  const emojiRef = React.useRef<HTMLAnchorElement>(null);
+  const gifRef = React.useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     if (selectedGroup) {
@@ -57,11 +70,11 @@ const CreateNewPost: React.FC<CreateNewPostProps> = ({
     }
   };
 
-  const handleSend = async () => {
+  const handleSend = async (gif?: string) => {
     try {
-      if (value != "") {
+      if (value != "" || gif != "") {
         let post: PostModel = {
-          text: value,
+          text: gif ? gif : value,
           handle: userHandle,
           threadId: selectedThread,
         };
@@ -107,6 +120,31 @@ const CreateNewPost: React.FC<CreateNewPostProps> = ({
     setValue(event.currentTarget.value);
   };
 
+  const handleEmojiClickAway = () => {
+    setEmojiOpen(false);
+  };
+
+  const handleEmojiPickerClick = () => {
+    setEmojiOpen((prev) => !prev);
+  };
+
+  const handleEmojiSelect = (emoji: string) => {
+    setValue((prev) => prev.concat(emojisMap.get(emoji) as string));
+  };
+
+  const handleGifClickAway = () => {
+    setGifOpen(false);
+  };
+
+  const handleGifPickerClick = () => {
+    setGifOpen((prev) => !prev);
+  };
+
+  const handleGifSelect = (gif: TenorImage) => {
+    handleSend(`<${gif.url}>`);
+    setGifOpen(false);
+  };
+
   const fetchData = async (groupHandle: string) => {
     try {
       const groupThreads = await threadService.getGroupThreads(
@@ -118,7 +156,6 @@ const CreateNewPost: React.FC<CreateNewPostProps> = ({
     } catch (error) {
       console.error("Error fetching posts:", error);
     }
-    console.log(threads);
   };
 
   return (
@@ -169,13 +206,7 @@ const CreateNewPost: React.FC<CreateNewPostProps> = ({
         )}
       </Stack>
 
-      <Box
-        sx={{
-          ...newPostStyle,
-          width: isSmallerScreen ? "90%" : "100%",
-          marginLeft: marginLeft,
-        }}
-      >
+      <Stack sx={newPostStyle}>
         <Textarea
           placeholder="Write something..."
           sx={newPostTextAreaStyle}
@@ -183,20 +214,43 @@ const CreateNewPost: React.FC<CreateNewPostProps> = ({
           onChange={handleChange}
           value={value}
           onKeyDown={handleKeyDown}
-          endDecorator={
-            <Stack width={"100%"} height={"30px"} justifyContent={"flex-end"}>
-              <Button
-                onClick={handleSend}
-                variant="plain"
-                startDecorator={<SendRounded />}
-                sx={{ ml: "auto" }}
-              >
-                Send
-              </Button>
-            </Stack>
-          }
         ></Textarea>
-      </Box>
+        <Stack
+          height={"100%"}
+          justifyContent={"flex-end"}
+          direction={"row"}
+          alignItems={"end"}
+        >
+          <IconButton onClick={handleGifPickerClick} ref={gifRef}>
+            <GifBoxOutlined />
+          </IconButton>
+          <Popper anchorEl={gifRef.current} open={gifOpen}>
+            <ClickAwayListener onClickAway={handleGifClickAway}>
+              <GifPicker
+                tenorApiKey={TENOR_API_KEY}
+                onGifClick={handleGifSelect}
+              />
+            </ClickAwayListener>
+          </Popper>
+          <IconButton onClick={handleEmojiPickerClick} ref={emojiRef}>
+            <InsertEmoticon />
+          </IconButton>
+          <Popper anchorEl={emojiRef.current} open={emojiOpen}>
+            <ClickAwayListener onClickAway={handleEmojiClickAway}>
+              <Box width={"300px"} height={"300px"}>
+                <IconPicker onSelect={handleEmojiSelect} />
+              </Box>
+            </ClickAwayListener>
+          </Popper>
+          <Button
+            onClick={() => handleSend()}
+            variant="plain"
+            startDecorator={<SendRounded />}
+          >
+            Send
+          </Button>
+        </Stack>
+      </Stack>
     </div>
   );
 };
