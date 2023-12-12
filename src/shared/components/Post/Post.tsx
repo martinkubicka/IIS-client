@@ -1,3 +1,10 @@
+/**
+ * @file Post.tsx
+ * @author { Dominik Petrik (xpetri25) }
+ * @date 17.12.2023
+ * @brief Definition of Post component
+ */
+
 import { Avatar, Box, Divider, Stack } from "@mui/joy";
 import GroupRole from "@src/enums/GroupRole";
 import Role from "@src/enums/Role";

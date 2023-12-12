@@ -1,3 +1,10 @@
+/**
+ * @file userIsOnScreen.ts
+ * @author { Dominik Petrik (xpetri25) }
+ * @date 17.12.2023
+ * @brief Definition of userIsOnScreen hook
+ */
+
 import { RefObject, useEffect, useRef, useState } from "react";
 
 export default function useOnScreen(ref: RefObject<HTMLElement>) {

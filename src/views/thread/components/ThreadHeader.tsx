@@ -1,3 +1,10 @@
+/**
+ * @file ThreadHeader.tsx
+ * @author { Dominik Petrik (xpetri25) }
+ * @date 17.12.2023
+ * @brief Definition of ThreadHeader component
+ */
+
 import { Box, Divider, Stack, Typography } from "@mui/joy";
 import { threadHeaderStyle } from "./styles/style";
 

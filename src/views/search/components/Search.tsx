@@ -1,3 +1,10 @@
+/**
+ * @file Component.tsx
+ * @author { Dominik Petrik (xpetri25) }
+ * @date 17.12.2023
+ * @brief Definition of Component component
+ */
+
 import { Stack } from "@mui/joy";
 import { Page } from "@src/shared/components/Page";
 import React from "react";

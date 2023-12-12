@@ -1,3 +1,10 @@
+/**
+ * @file PostFooter.tsx
+ * @author { Dominik Petrik (xpetri25) }
+ * @date 17.12.2023
+ * @brief Definition of PostFooter component
+ */
+
 import { Box, Stack } from "@mui/joy";
 import { Rating } from "./Rating";
 import { footerStyle } from "./style";

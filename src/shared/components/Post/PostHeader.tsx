@@ -1,3 +1,10 @@
+/**
+ * @file PostHeader.tsx
+ * @author { Dominik Petrik (xpetri25) }
+ * @date 17.12.2023
+ * @brief Definition of PostHeader component
+ */
+
 import { DeleteForever, Edit } from "@mui/icons-material";
 import { Box, IconButton, Stack } from "@mui/joy";
 import GroupRole from "@src/enums/GroupRole";
