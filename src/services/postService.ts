@@ -1,3 +1,10 @@
+/**
+ * @file postService.tsx
+ * @author { Dominik Petrik (xpetri25) }
+ * @date 17.12.2023
+ * @brief Definition of post service which calls post endpoints
+ */
+
 import API_BASE_URL from "@src/apiConfig";
 import { PostModel } from "@src/shared/models/PostModel";
 import axios from "axios";
