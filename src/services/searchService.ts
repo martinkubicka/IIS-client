@@ -1,3 +1,10 @@
+/**
+ * @file serachService.tsx
+ * @author { Dominik Petrik (xpetri25) }
+ * @date 17.12.2023
+ * @brief Definition of search service which calls search endpoints
+ */
+
 import API_BASE_URL from "@src/apiConfig";
 import axios from "axios";
 
