@@ -1,3 +1,10 @@
+/**
+ * @file NewPost.tsx
+ * @author { Dominik Petrik (xpetri25) }
+ * @date 17.12.2023
+ * @brief Definition of Newpost component
+ */
+
 import {
   GifBox,
   GifBoxOutlined,

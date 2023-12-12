@@ -1,3 +1,10 @@
+/**
+ * @file Rating.tsx
+ * @author { Dominik Petrik (xpetri25) }
+ * @date 17.12.2023
+ * @brief Definition of Rating component
+ */
+
 import {
   KeyboardArrowDownRounded,
   KeyboardArrowUpRounded,

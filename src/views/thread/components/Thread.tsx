@@ -1,3 +1,10 @@
+/**
+ * @file Thread.tsx
+ * @author { Dominik Petrik (xpetri25) }
+ * @date 17.12.2023
+ * @brief Definition of Thread component
+ */
+
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { InfoRounded } from "@mui/icons-material";
 import { Alert, Stack } from "@mui/joy";

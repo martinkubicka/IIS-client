@@ -1,3 +1,10 @@
+/**
+ * @file PostContent.tsx
+ * @author { Dominik Petrik (xpetri25) }
+ * @date 17.12.2023
+ * @brief Definition of PostContent component
+ */
+
 import { Box, Button, Stack, Textarea, Typography } from "@mui/joy";
 import React, { useEffect, useRef } from "react";
 

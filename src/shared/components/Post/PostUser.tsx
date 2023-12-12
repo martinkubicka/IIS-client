@@ -1,3 +1,10 @@
+/**
+ * @file PostUser.tsx
+ * @author { Dominik Petrik (xpetri25) }
+ * @date 17.12.2023
+ * @brief Definition of PostUser component
+ */
+
 import { Avatar, Link, Stack, Typography, VariantProp } from "@mui/joy";
 import React from "react";
 import { useNavigate } from "react-router-dom";

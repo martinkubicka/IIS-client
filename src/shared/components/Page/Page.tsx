@@ -1,3 +1,10 @@
+/**
+ * @file Page.tsx
+ * @author { Dominik Petrik (xpetri25) }
+ * @date 17.12.2023
+ * @brief Definition of Page component
+ */
+
 import { Box, Stack } from "@mui/joy";
 import Header from "@src/shared/components/NavBar/Header";
 import NavBar from "@src/shared/components/NavBar/NavBar";

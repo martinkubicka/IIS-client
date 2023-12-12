@@ -1,3 +1,10 @@
+/**
+ * @file UserResults.tsx
+ * @author { Dominik Petrik (xpetri25) }
+ * @date 17.12.2023
+ * @brief Definition of UserResults component
+ */
+
 import {
   Button,
   CircularProgress,

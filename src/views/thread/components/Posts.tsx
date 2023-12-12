@@ -1,3 +1,10 @@
+/**
+ * @file Posts.tsx
+ * @author { Dominik Petrik (xpetri25) }
+ * @date 17.12.2023
+ * @brief Definition of Posts component
+ */
+
 import { Box, Stack } from "@mui/joy";
 import { LoadingOverlay } from "@src/shared/components/LoadingOverlay/LoadingOverlay";
 import { Post } from "@src/shared/components/Post/Post";

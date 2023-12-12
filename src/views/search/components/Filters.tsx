@@ -1,3 +1,10 @@
+/**
+ * @file Filters.tsx
+ * @author { Dominik Petrik (xpetri25) }
+ * @date 17.12.2023
+ * @brief Definition of Filters component
+ */
+
 import { Box, Chip, Radio, RadioGroup } from "@mui/joy";
 import React from "react";
 

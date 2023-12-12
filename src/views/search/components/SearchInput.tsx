@@ -1,3 +1,10 @@
+/**
+ * @file SearchInput.tsx
+ * @author { Dominik Petrik (xpetri25) }
+ * @date 17.12.2023
+ * @brief Definition of SearchInput component
+ */
+
 import { SearchRounded } from "@mui/icons-material";
 import { Input } from "@mui/joy";
 import React from "react";

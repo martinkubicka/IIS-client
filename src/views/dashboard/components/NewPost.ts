@@ -7,15 +7,17 @@
 
 import { SxProps } from "@mui/joy/styles/types";
 
-export const newPostStyle: SxProps = {
+export const newPostStyle: SxProps = (theme) => ({
   width: "100%",
-  height: "150px",
-};
+  bgcolor: theme.vars.palette.background.level2,
+});
 
-export const newPostTextAreaStyle: SxProps = {
+export const newPostTextAreaStyle: SxProps = (theme) => ({
   width: "100%",
   height: "100px",
-};
+  bgcolor: theme.vars.palette.background.level2,
+  boxShadow: "none",
+});
 
 export const containerStyle: SxProps = {
   display: "flex",

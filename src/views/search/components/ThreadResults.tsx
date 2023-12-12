@@ -1,3 +1,10 @@
+/**
+ * @file ThreadResults.tsx
+ * @author { Dominik Petrik (xpetri25) }
+ * @date 17.12.2023
+ * @brief Definition of ThreadResults component
+ */
+
 import { Button, CircularProgress, Divider, Stack, Typography } from "@mui/joy";
 import { searchService } from "@src/services/searchService";
 import { Thread } from "@src/shared/components/Threads";
