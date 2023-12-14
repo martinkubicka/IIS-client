@@ -235,7 +235,10 @@ const NewGroup: React.FC<CardProps> = ({ onGroupCreated }) => {
                     autoFocus
                     required
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => {
+                      e.target.value = e.target.value.slice(0, 20);
+                      setName(e.target.value);
+                    }}
                     error={!validName}
                     sx={{ minWidth: "320px" }}
                   />
